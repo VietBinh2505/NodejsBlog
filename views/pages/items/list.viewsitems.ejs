@@ -1,0 +1,250 @@
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				Search & Filter
+				<a href="admin/item">
+					<span id="icon-reload" class="glyphicon glyphicon-refresh"></span>
+				</a>
+			</div>
+
+			<div class="panel-body">
+				<div class="row">
+					<div class="status-list col-sm-6 pl0">
+
+						<a class="btn m-b-sm btn-success btn-sm" href="admin/item/all">
+							ALL (4)
+						</a>
+
+						<a class="btn m-b-sm btn-default btn-sm" href="admin/item/active">
+							ACTIVE (4)
+						</a>
+
+						<a class="btn m-b-sm btn-default btn-sm" href="admin/item/inactive">
+							INACTIVE (0)
+						</a>
+
+					</div>
+					<div class="col-sm-6">
+						<form action="admin/item/all" method="GET">
+							<div class="input-group">
+								<input type="text" class="form-control" name="search" placeholder="Search for..."
+									value="">
+								<input type="hidden" value="all">
+
+								<span class="input-group-btn">
+									<button class="btn btn-info" type="submit">Search</button>
+								</span>
+								<span class="input-group-btn">
+									<button class="btn btn-success" type="button"><a
+											href="admin/group/all">Clear</a></button>
+								</span>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				List Items
+			</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">
+				<form role="form" class="form-inline zt-form" id="zt-form" action="" method="post">
+					<div class="zcontrols">
+						<select name="action" class="form-control slbAction">
+							<option value="">Bulk Action</option>
+							<option value="admin/item/change-status/active">
+								Active
+							</option>
+							<option value="admin/item/change-status/inactive">
+								InActive
+							</option>
+							<option value="admin/item/save-ordering/">
+								Change Ordering
+							</option>
+							<option value="admin/item/delete/">
+								Delete
+							</option>
+						</select>
+						<button class="btn btn-info btnAction" type="button" id="btn-action" value="btnAction"
+							disabled>Apply</button>
+						<div class="pull-right">
+							<a href="/<%= prefixadmin %>/item/add" class="btn btn-warning btn-addNew">Add New
+							</a>
+						</div>
+					</div>
+
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>
+										<input type="checkbox" class="cbAll" />
+									</th>
+									<th>#</th>
+									<th>Name</th>
+									<th>Status</th>
+									<!-- <th width="30%">Content</th> -->
+									<th>Ordering</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<input type="checkbox" name="cid" value="5a9e5a96da67bc078421d7d6" />
+									</td>
+									<td>
+										1
+									</td>
+									<td>
+										Super Admin
+									</td>
+									<td>
+										<a href="admin/item/change-status/5a9e5a96da67bc078421d7d6/active">
+											<span class="label label-success">active</span>
+										</a>
+									</td>
+									<td>
+										<input type="number" value="2" class="text-center ordering">
+									</td>
+									<td>
+										<a href="/admin/item/add/5a9e5a96da67bc078421d7d6" type="button"
+											class="btn btn-warning btn-sm">Edit</a>
+										<a href="admin/item/delete/5a9e5a96da67bc078421d7d6" type="button"
+											class="btn btn-danger btn-sm btn-delete">Delete</a>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<input type="checkbox" name="cid" value="5abdc9aa598c600b6c7fd56b" />
+									</td>
+									<td>
+										2
+									</td>
+									<td>
+										Editor
+									</td>
+									<td>
+
+										<a href="admin/item/change-status/5abdc9aa598c600b6c7fd56b/active">
+
+											<span class="label label-success">active</span>
+
+										</a>
+
+									</td>
+									<td>
+										<input type="number" value="3" class="text-center ordering">
+									</td>
+									<td>
+										<a href="/admin/item/add/5abdc9aa598c600b6c7fd56b" type="button"
+											class="btn btn-warning btn-sm">Edit</a>
+										<a href="admin/item/delete/5abdc9aa598c600b6c7fd56b" type="button"
+											class="btn btn-danger btn-sm btn-delete">Delete</a>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<input type="checkbox" name="cid" value="5af7d6a306b3d71a08df04b1" />
+									</td>
+									<td>
+										3
+									</td>
+									<td>
+										Manager
+									</td>
+									<td>
+
+										<a href="admin/item/change-status/5af7d6a306b3d71a08df04b1/active">
+
+											<span class="label label-success">active</span>
+
+										</a>
+
+									</td>
+									<td>
+										<input type="number" value="3" class="text-center ordering">
+									</td>
+									<td>
+										<a href="/admin/item/add/5af7d6a306b3d71a08df04b1" type="button"
+											class="btn btn-warning btn-sm">Edit</a>
+										<a href="admin/item/delete/5af7d6a306b3d71a08df04b1" type="button"
+											class="btn btn-danger btn-sm btn-delete">Delete</a>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<input type="checkbox" name="cid" value="5af7d6d506b3d71a08df04b2" />
+									</td>
+									<td>
+										4
+									</td>
+									<td>
+										Manager
+									</td>
+									<td>
+
+										<a href="admin/item/change-status/5af7d6d506b3d71a08df04b2/active">
+
+											<span class="label label-success">active</span>
+
+										</a>
+
+									</td>
+									<td>
+										<input type="number" value="3" class="text-center ordering">
+									</td>
+									<td>
+										<a href="/admin/item/add/5af7d6d506b3d71a08df04b2" type="button"
+											class="btn btn-warning btn-sm">Edit</a>
+										<a href="admin/item/delete/5af7d6d506b3d71a08df04b2" type="button"
+											class="btn btn-danger btn-sm btn-delete">Delete</a>
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-12">
+		<div class="panel panel-info" id="pagination">
+			<div class="panel-heading">
+				Pagination
+				<span>^</span>
+				<span class="label label-warning">Total pages: 0</span>
+				<span class="label label-danger">Total entries: 0</span>
+			</div>
+			<div class="panel-body">
+				<div class="infor-pagination">
+					<p>Number of elements on the page: <span>0</span></p>
+
+					<p>Showing <span> 0 </span> to <span>0</span> of <span>0</span> entries</p>
+				</div>
+				<div class="ad-pagination">
+					<ul class="pagination text-center">
+						<li class="disabled"><a>«</a></li>
+						<li><a href="admin/item/page=1">1</a></li>
+						<li class="active"><a>2</a></li>
+						<li><a href="admin/item/page=3">3</a></li>
+						<li><a href="admin/item/page=4">4</a></li>
+						<li><a href="admin/item/page=5">5</a></li>
+						<li><a href="admin/item/page=0">»</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

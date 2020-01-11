@@ -1,0 +1,26 @@
+{
+  "name": "nodejslv1",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start1": "babel-node ./bin/www",
+    "start": "nodemon ./bin/www --exec babel-node"
+  },
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "express-ejs-layouts": "^2.5.0",
+    "http-errors": "~1.6.3",
+    "mongoose": "^5.8.7",
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1"
+  }
+}
