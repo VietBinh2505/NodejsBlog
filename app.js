@@ -7,7 +7,6 @@ import indexFERouter from "./routes/FrontEnd/index.Route";
 import expressLayouts from "express-ejs-layouts";
 import systemConfig from "./config/system.config";
 import connectDB from "./config/connectDB";
-import mongoose, { mongo } from "mongoose";
 var app = express();
 
 // view engine setup
@@ -21,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.locals.prefixadmin = systemConfig.prefixadmin;
-app.use(`/${systemConfig.prefixadmin}`, indexBERouter);
+app.use(`/${systemConfig.prefixadmin}`, indexBERouter); //admin
 app.use("/", indexFERouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

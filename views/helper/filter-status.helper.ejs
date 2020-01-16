@@ -1,0 +1,7 @@
+<% FilterStatusHelper = (statusFiter) =>{%>
+   <% statusFiter.forEach((item)=>{%>
+      <a class="btn m-b-sm btn-<%= item.class %> btn-sm" href="<%= prefixadmin %>/item/<%= item.link %>">
+         <%= item.name.toUpperCase() %>(<%= item.count %>)  %> 
+      </a>
+   <% }) %>
+<% }; %>
