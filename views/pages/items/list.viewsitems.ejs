@@ -12,7 +12,7 @@
 				<div class="row">
 					<div class="status-list col-sm-6 pl0">
 						<% include ./../../helper/filter-status.helper.ejs %>
-						<% FilterStatusHelper(statusFiter, keyword) %>
+						<%- FilterStatusHelper(statusFiter, keyword) %>
 					</div>
 					<div class="col-sm-6">
 						<form action="<%= prefixadmin %>/item/<%= currStatus %>" method="GET">
@@ -87,7 +87,7 @@
 										<td><%= index + 1 %></td>
 										<td><%= item.username %></td>
 										<td>
-											<% statusHelper(item.status, "#"); %>
+											<%- statusHelper(item.status, "#"); %>
 										</td>
 										<td><input type="number" value="<%= item.ordering %>" class="text-center ordering"></td>
 										<td>
@@ -111,31 +111,7 @@
 	</div>
 
 	<div class="col-lg-12">
-		<div class="panel panel-info" id="pagination">
-			<div class="panel-heading">
-				Pagination
-				<span>^</span>
-				<span class="label label-warning">Total pages: 0</span>
-				<span class="label label-danger">Total entries: 0</span>
-			</div>
-			<div class="panel-body">
-				<div class="infor-pagination">
-					<p>Number of elements on the page: <span>0</span></p>
-
-					<p>Showing <span> 0 </span> to <span>0</span> of <span>0</span> entries</p>
-				</div>
-				<div class="ad-pagination">
-					<ul class="pagination text-center">
-						<li class="disabled"><a>«</a></li>
-						<li><a href="admin/item/page=1">1</a></li>
-						<li class="active"><a>2</a></li>
-						<li><a href="admin/item/page=3">3</a></li>
-						<li><a href="admin/item/page=4">4</a></li>
-						<li><a href="admin/item/page=5">5</a></li>
-						<li><a href="admin/item/page=0">»</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+		<% include ./../../helper/pagination.helper.ejs %>
+		<%- pagination(paginations, "item" , currStatus, keyword) %>
 	</div>
 </div>

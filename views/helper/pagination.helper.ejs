@@ -1,0 +1,63 @@
+<%
+   pagination = (paginations, type, currStatus, keyword) => {
+		let tongsophantu = paginations.tongsophantu; 
+		let pageCrr = +paginations.pageCrr;
+		let Totalpages = Math.ceil(tongsophantu / paginations.sophantutren1trang);
+		let to =  paginations.sophantutren1trang * pageCrr;
+		let from = to - paginations.sophantutren1trang + 1;
+		let xhtmlPagi = "";
+		if(to > tongsophantu){
+			to = tongsophantu;
+		}
+		if(Totalpages > 1){
+			let xhtmlStart = "", xhtmlPre = "", xhtmlPage = "", xhtmlNext = "", xhtmlEnd = "";
+			let xhtmlLink = prefixadmin + "/" + type + "/" + currStatus;
+			if(keyword !== ""){
+				xhtmlLink +=  "?search=" + keyword + "&page=";
+			}else{
+				xhtmlLink += "?page=";
+			}
+			if(pageCrr > 1){
+				xhtmlStart = `<li><a href="${xhtmlLink}1">Start</a></li>`;
+				xhtmlPre = `<li><a href="${xhtmlLink}${pageCrr-1}">Previos</a></li>`;
+			}
+			if(pageCrr < Totalpages){
+				xhtmlNext = `<li><a href="${xhtmlLink}${pageCrr+1}">Next</a></li>`
+				xhtmlEnd = `<li><a href="${xhtmlLink}${Totalpages}">End</a></li>`;
+			}
+			let middle = Math.ceil(paginations.pageRanges/2);
+			let min = +pageCrr-middle+1, max = +min + paginations.pageRanges - 1;
+			if(min <=1 ){
+				min = 1;
+				max = paginations.pageRanges;
+			}
+			if(max >= tongsophantu){
+				max = tongsophantu;
+				min = (max - paginations.pageRanges + 1) >= 1 ? (max - paginations.pageRanges + 1) : 1;
+			}
+			for(let i = min; i <= max; i++){
+				if(i == pageCrr){
+					xhtmlPage += `<li class="active"><a>${i}</a></li>`;
+				}else{
+					xhtmlPage += `<li><a href="${xhtmlLink}${i}">${i}</a></li>`;
+				}
+			}
+			xhtmlPagi ='<ul class="pagination text-center">' +  xhtmlStart + xhtmlPre + xhtmlPage + xhtmlNext + xhtmlEnd +'</ul>';
+		}
+		return `<div class="panel panel-info" id="pagination">
+			<div class="panel-heading">
+				Pagination
+				<span class="label label-warning">Total pages: ${Totalpages}</span>
+				<span class="label label-danger">Total entries:${tongsophantu}</span>
+			</div>
+			<div class="panel-body">
+				<div class="infor-pagination">
+					<p>Number of entries on the page: <span>${Totalpages}</span></p>
+					<p>Showing <span> ${from} </span> to <span>${to}</span> of <span>${tongsophantu} </span></p>
+				</div>
+				<div class="ad-pagination">
+					${xhtmlPagi}
+				</div>
+			</div>
+	</div>`;
+}; %>

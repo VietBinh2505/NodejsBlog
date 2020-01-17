@@ -1,17 +1,7 @@
 import itemSchema from "../schemas/item.Schema";
-const showItemService = (currStatus, keyword) =>{
+const showItemService = (currStatus, keyword, skip, limit) =>{
    return new Promise(async(resolve, reject)=>{
-      let item = await itemSchema.findItem(currStatus, keyword);
-      if(item){
-         return resolve(item);
-      }else{
-         return
-      }
-   });
-};
-const countItemStt = () =>{
-   return new Promise(async(resolve, reject)=>{
-      let item = await itemSchema.findItem();
+      let item = await itemSchema.findItem(currStatus, keyword, skip, limit);
       if(item){
          return resolve(item);
       }else{
@@ -29,20 +19,18 @@ const countFilter = (value) =>{
       }
    });
 };
-const itemSeached = (keyword) =>{
+const countTotal = (currStatus, keyword) =>{
    return new Promise(async(resolve, reject)=>{
-      let itemSeached = await itemSchema.itemSeached(keyword);
+      let resultCount = await itemSchema.countTotal(currStatus, keyword);
       if(resultCount){
-         return resolve(itemSeached);
+         return resolve(resultCount);
       }else{
          return
       }
    });
 };
-
 module.exports = {
    showItemService,
-   countItemStt,
    countFilter,
-   itemSeached,
+   countTotal
 };

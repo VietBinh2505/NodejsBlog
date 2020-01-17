@@ -1,13 +1,17 @@
+
 <%
-FilterStatusHelper = (statusFiter, keyword) =>{
-   statusFiter.forEach((item)=>{
-      let link = prefixadmin + "/item/" + item.value;
-      if(keyword !== "" && keyword !== undefined){
-         link += "?search="+ keyword;
-      }
+   FilterStatusHelper = (statusFiter, keyword) =>{
+      let xhtml = "";
+      statusFiter.forEach((item)=>{
+         let link = prefixadmin + "/item/" + item.value;
+         if(keyword !== "" && keyword !== undefined){
+            link += "?search="+ keyword;
+         }
+         xhtml += `<a class="btn m-b-sm btn-${item.class} btn-sm" href="${link}">
+            ${item.name.toUpperCase() + "(" + item.count + ")"}
+         </a> `;
+      })
+      return xhtml;
+   }
 %>
-      <a class="btn m-b-sm btn-<%= item.class %> btn-sm" href="<%= link %>">
-         <%= item.name.toUpperCase() %>(<%= item.count %>)  %> 
-      </a>
-<% });
-}; %>
+
