@@ -7,7 +7,7 @@ const ItemSchema = new Schema({
    ordering: Number
 });
 ItemSchema.statics = {
-   findItem(currStatus, keyword){
+   findItem(currStatus, keyword, skip, limit){
       let objStt = {};
       if(currStatus === "all"){
 			if(keyword !== undefined){
@@ -16,13 +16,21 @@ ItemSchema.statics = {
       }else{
          objStt = {"status": currStatus, "username": new RegExp(keyword, "i")};
       }
-      return this.find(objStt).exec();
+      return this.find(objStt).sort({"ordering": "asc"}).skip(skip).limit(limit).exec();
    },
    countFilter(value){
       return this.countDocuments(value).exec();
    },
-   itemSeached(keyword){
-      return this.find({}).exec();
-   },
+   countTotal(currStatus, keyword){
+      let objStt = {};
+      if(currStatus === "all"){
+			if(keyword !== undefined){
+            objStt = {"username": new RegExp(keyword, "i")};
+         }
+      }else{
+         objStt = {"status": currStatus, "username": new RegExp(keyword, "i")};
+      }
+      return this.countDocuments(objStt).exec();
+   }
 };
 module.exports = mongoose.model("item", ItemSchema);

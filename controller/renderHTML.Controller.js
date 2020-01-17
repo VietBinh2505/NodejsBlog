@@ -10,22 +10,28 @@ const listItem =  async(req, res) => {
 		let currStatus = await getParams.Param(req.params, "status", "all"); // lấy trạng thái trên url (all, active, inactive)
 		let keyword = await getParams.Param(req.query, "search", "");
 		let statusFiter = await filterStt.createFilterStt(currStatus); // tạo ra bộ lọc
-		let items = await itemService.showItemService(currStatus, keyword); // lấy ra các items
-		
+		let paginations = {
+			tongsophantu: 1,
+			sophantutren1trang : 1,
+			pageCrr : 1,
+			pageRanges: 3, // số lượng hiển thị ở phân trang
+		};
+		paginations.tongsophantu = await itemService.countTotal(currStatus, keyword);
+		paginations.pageCrr =  await getParams.Param(req.query, "page", 1); // lấy được trang hiện tại và cập nhập lên cho pagination
+		let skip = ((paginations.pageCrr - 1) * paginations.sophantutren1trang); // lấy được số phần tử bỏ qua
+		let limit = paginations.sophantutren1trang; // lấy được số phần tử cần lấy
+		let items = await itemService.showItemService(currStatus, keyword, skip, limit); // lấy ra các items
 		return res.render("pages/items/list.viewsitems.ejs", {
 			titlepage: "Hello List Item",
 			items,
 			statusFiter,
 			currStatus,
 			keyword,
-			//itemSeached
+			paginations,
 		});
 	} catch (error) {
 		console.log(error);
 		console.log("error---listItem");
-		return res.render("pages/items/list.viewsitems.ejs", {
-			titlepage: "Hello List Item"
-		});
 	}
 }; 
 const dashboardItem = (req, res) => {
