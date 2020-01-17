@@ -1,7 +1,7 @@
-import itemSchema from "./../Schemas/item.Schema";
-const itemService = () =>{
+import itemSchema from "../schemas/item.Schema";
+const showItemService = (currStatus, keyword) =>{
    return new Promise(async(resolve, reject)=>{
-      let item = await itemSchema.findItem();
+      let item = await itemSchema.findItem(currStatus, keyword);
       if(item){
          return resolve(item);
       }else{
@@ -29,8 +29,20 @@ const countFilter = (value) =>{
       }
    });
 };
+const itemSeached = (keyword) =>{
+   return new Promise(async(resolve, reject)=>{
+      let itemSeached = await itemSchema.itemSeached(keyword);
+      if(resultCount){
+         return resolve(itemSeached);
+      }else{
+         return
+      }
+   });
+};
+
 module.exports = {
-   itemService,
+   showItemService,
    countItemStt,
    countFilter,
+   itemSeached,
 };
