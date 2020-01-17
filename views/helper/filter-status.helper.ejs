@@ -1,7 +1,13 @@
-<% FilterStatusHelper = (statusFiter) =>{%>
-   <% statusFiter.forEach((item)=>{%>
-      <a class="btn m-b-sm btn-<%= item.class %> btn-sm" href="<%= prefixadmin %>/item/<%= item.link %>">
+<%
+FilterStatusHelper = (statusFiter, keyword) =>{
+   statusFiter.forEach((item)=>{
+      let link = prefixadmin + "/item/" + item.value;
+      if(keyword !== "" && keyword !== undefined){
+         link += "?search="+ keyword;
+      }
+%>
+      <a class="btn m-b-sm btn-<%= item.class %> btn-sm" href="<%= link %>">
          <%= item.name.toUpperCase() %>(<%= item.count %>)  %> 
       </a>
-   <% }) %>
-<% }; %>
+<% });
+}; %>

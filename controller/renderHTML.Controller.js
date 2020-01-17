@@ -1,5 +1,5 @@
 import {itemService} from "./../service/index.service";
-import filterStt from "./../utils/FilterStt.utils";
+import {filterStt, getParams} from "./../utils/index.utils";
 const indexItem = (req, res) => {
    return res.render("pages/items/list.viewsitems.ejs", {
       titlepage: "Hello List Item"
@@ -7,13 +7,18 @@ const indexItem = (req, res) => {
 };
 const listItem =  async(req, res) => {	
 	try {
-		let currStatus = req.params.status; // lấy trạng thái trên url (all, active, inactive)
-		let statusFiter = await filterStt.createFilterStt(currStatus);
-		let items = await itemService.itemService();
+		let currStatus = await getParams.Param(req.params, "status", "all"); // lấy trạng thái trên url (all, active, inactive)
+		let keyword = await getParams.Param(req.query, "search", "");
+		let statusFiter = await filterStt.createFilterStt(currStatus); // tạo ra bộ lọc
+		let items = await itemService.showItemService(currStatus, keyword); // lấy ra các items
+		
 		return res.render("pages/items/list.viewsitems.ejs", {
 			titlepage: "Hello List Item",
 			items,
 			statusFiter,
+			currStatus,
+			keyword,
+			//itemSeached
 		});
 	} catch (error) {
 		console.log(error);

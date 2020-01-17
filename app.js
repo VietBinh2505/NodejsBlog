@@ -1,6 +1,7 @@
 import createError from "http-errors";
 import express from "express";
 import path from "path";
+import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import indexBERouter from "./routes/BackEnd/index.Route";
 import indexFERouter from "./routes/FrontEnd/index.Route";
@@ -11,6 +12,8 @@ var app = express();
 
 // view engine setup
 connectDB();
+bodyParser.json();
+bodyParser.urlencoded({ extended: false });
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(expressLayouts);
