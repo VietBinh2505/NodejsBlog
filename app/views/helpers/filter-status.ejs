@@ -1,0 +1,20 @@
+<% 
+    filterStatusHelper = (collection, statusFilter,  keyword) => { 
+        let xhtmlResult = "";
+        statusFilter.forEach((item)=> {
+            let link = systemConfig.prefixAdmin + "/" + collection + "/" + item.value;
+            if(keyword !== "" && keyword !== undefined) link += "?keyword=" + keyword;
+
+            xhtmlResult += `<a class="btn m-b-sm btn-${item.class} btn-sm" href="${link}">
+                    ${item.name.toUpperCase() + " (" + item.count +")" }
+                </a> `;
+        })
+        return xhtmlResult;
+    } 
+%>
+
+
+
+
+
+

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ./elements/header %>
+</head>
+
+<body>
+    <div id="wrapper">
+        <% include ./elements/navbar %>
+        
+        <div id="page-wrapper">
+            <% include ./elements/title-page %>
+            <%- body %>
+        </div>
+    </div>
+    <% include ./elements/scripts %>
+</body>
+
+</html>
