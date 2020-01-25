@@ -16,15 +16,19 @@ $(document).ready(function () {
     //check all
     ckbAll.click(function () {
         $('input:checkbox').not(this).prop('checked', this.checked);
-        $(".ordering").attr("name", "ordering");
+        if ($(this).is(':checked')) {
+            $(".ordering").attr("name", "ordering");
+        }else{
+           
+            $(".ordering").removeAttr("name");
+        }
+        
     });
     // hiden notify
     hiddenNotify(".close-btn");
 
-    setTimeout(function(){ 
-        $(".close-btn").parent().css({'display':'none'})
-    }, 7000);
-    //click checkbox
+
+
     $("input[name=cid]").click(function () {
         if ($(this).is(':checked')) {
             $(this).parents("tr").find('.ordering').attr("name", "ordering");
@@ -32,10 +36,10 @@ $(document).ready(function () {
             $(this).parents("tr").find('.ordering').removeAttr("name");
         }
     });
-
+    
     // CONFIRM DELETE
     $('a.btn-delete').on('click', () => {
-        if (!confirm("Bạn muốn xóa không?")) return false;
+        if (!confirm("Are you sure you want to delete this item?")) return false;
     });
 
     //active menu function
@@ -69,7 +73,8 @@ $(document).ready(function () {
 
         $(slb_selector).on("change", function () {
             optValue = $(this).val();
-            optValue.test
+            
+            
             if(optValue !== "") {
                 $(id_btn_action).removeAttr('disabled');
             } else {
@@ -94,6 +99,7 @@ $(document).ready(function () {
             } else {
                 var flag = false;
                 var str = $(slb_selector + " option:selected").attr('data-comfirm');
+               
                 if (str != undefined) {
 
                     //Kiểm tra giá trị trả về khi user nhấn nút trên popup

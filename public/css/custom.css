@@ -28,6 +28,7 @@ li.active > a:first-child{
     margin-right: 10px;
     line-height: 15px;
 }
+
 .infor-pagination span{
     color: blue;
     font-weight: bold;
@@ -38,7 +39,7 @@ li.active > a:first-child{
 .ad-pagination{
     float: right;
 }
-.err-img {
-    width: 50%;
-    height: 50%;
-};
+
+img.error-page-img {
+    width: 800px;
+}

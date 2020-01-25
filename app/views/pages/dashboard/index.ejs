@@ -1,0 +1,44 @@
+<h3><%- courseName %></h3>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Search &amp; Filter
+                <a href="admin123/item">
+                <span id="icon-reload" class="glyphicon glyphicon-refresh"></span>
+                </a>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="status-list col-sm-6 pl0">
+                        <a class="btn m-b-sm btn-success btn-sm" href="admin123/item/all">
+                        ALL (4)
+                        </a>
+                        <a class="btn m-b-sm btn-default btn-sm" href="admin123/item/active">
+                        ACTIVE (4)
+                        </a>
+                        <a class="btn m-b-sm btn-default btn-sm" href="admin123/item/inactive">
+                        INACTIVE (0)
+                        </a>
+                    </div>
+                    <div class="col-sm-6">
+                        <form action="admin123/item/all" method="GET">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="search" placeholder="Search for..." value="">
+                                <input type="hidden" value="all">
+                                <span class="input-group-btn">
+                                <button class="btn btn-info" type="submit">Search</button>
+                                </span>
+                                <span class="input-group-btn">
+                                <button class="btn btn-success" type="button">
+                                <a href="admin123/group/all">Clear</a>
+                                </button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

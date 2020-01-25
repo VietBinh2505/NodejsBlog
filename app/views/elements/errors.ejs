@@ -1,0 +1,15 @@
+<% if (errors) { %>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                <% errors.forEach((error)=> { %>
+                    <li><b><%= error.param.charAt(0).toUpperCase() + error.param.slice(1) %></b>: <%= error.msg %></li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+</div>
+<% } %>
+
+
