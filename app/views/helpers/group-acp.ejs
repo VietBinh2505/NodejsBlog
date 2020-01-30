@@ -1,0 +1,10 @@
+<% 
+    groupACPHelper = (linkPrefix, group_acp, id) => {
+        let classGroupAcp = (group_acp == 'yes') ? 'fa-check-square-o' : 'fa-square-o';
+        let link       = linkPrefix + 'change-group-acp/' + id + '/' + group_acp ;
+        return `<a href="${link}" class="fa ${classGroupAcp} fa-lg"></a>`;
+    }
+%>
+
+
+

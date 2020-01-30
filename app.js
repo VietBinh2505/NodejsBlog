@@ -1,13 +1,12 @@
 import createError from "http-errors";
 import express from "express";
 import path from "path";
-import bodyParser 		from "body-parser";
-import cookieParser 		from "cookie-parser";
-import validator 			from "express-validator";
-import expressLayouts 	from "express-ejs-layouts";
-import flash 				from "express-flash-notification";
-import connectDB 			from "./app/configs/connectDB";
-import ConfigSession 	from "./app/configs/session.Config";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import validator from "express-validator";
+import expressLayouts from "express-ejs-layouts";
+import flash from "express-flash-notification";
+import moment from "moment";
 const pathConfig = require('./path');
 // Define Path
 global.__base           = __dirname + '/';
@@ -20,9 +19,10 @@ global.__path_schemas   = __path_app + pathConfig.folder_schemas + '/';
 global.__path_validates = __path_app + pathConfig.folder_validates + '/';
 global.__path_views     = __path_app + pathConfig.folder_views + '/';
 
-
-const systemConfig = require(__path_configs + 'system.Config');
-const databaseConfig = require(__path_configs + 'database.Config');
+const ConfigSession =	require(__path_configs + "session.Config");
+const connectDB = require(__path_configs + "connectDB");
+const systemConfig = require(__path_configs + "system.Config");
+const databaseConfig = require(__path_configs + "database.Config");
 
 var app = express();
 connectDB();
@@ -54,7 +54,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Local variable
 app.locals.systemConfig = systemConfig;
-
+app.locals.moment = moment;
 // Setup router
 app.use(`/${systemConfig.prefixAdmin}`, require(__path_routers + 'backend/index'));
 app.use('/', require(__path_routers + 'frontend/index'));

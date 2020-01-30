@@ -1,16 +1,16 @@
 var express = require('express');
 var router 	= express.Router();
-import { render} from "../../controller/index.Controller";
+import { itemsCTL} from "../../controller/index.Controller";
 // admin/item/...
-router.get("/", render.listItem);
-router.get("/form(/:id)?", render.formItem);
-router.post("/save", render.saveItem);
+router.get("/", itemsCTL.listItem);
+router.get("/form(/:id)?", itemsCTL.formItem);
+router.post("/save", itemsCTL.saveItem);
 
-router.get("/delete/:id", render.deleteItem);
-router.post("/delete", render.deleteMulti);
-router.get("(/:status)?", render.listItem); // tìm kiếm
-router.get("/change-status/:id/:status", render.changeStatus);
-router.post("/change-status/:status", render.changeStatusMulti);
-
-router.post("/change-ordering", render.changeOrdering);
+router.get("/delete/:id", itemsCTL.deleteItem);
+router.post("/delete", itemsCTL.deleteMulti);
+router.get("(/:status)?", itemsCTL.listItem); // tìm kiếm
+router.get("/change-status/:id/:status", itemsCTL.changeStatus);
+router.post("/change-status/:status", itemsCTL.changeStatusMulti);
+router.get("/sort/:sortField/:sortType", itemsCTL.sort);
+router.post("/change-ordering", itemsCTL.changeOrdering);
 module.exports = router;

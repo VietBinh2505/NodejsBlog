@@ -1,2 +1,4 @@
-import item_service from "./item.Service";
-export const itemService = item_service;
+import items_service from "./items.Service";
+import groups_service from "./groups.Service";
+export const itemsService = items_service;
+export const groupsService = groups_service;
