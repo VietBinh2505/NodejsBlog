@@ -1,5 +1,5 @@
 <%
-    paginationHelper = (paginationObj, type, currentStatus, keyword) => {
+    paginationHelper = (paginationObj, linkPrefix, currentStatus, keyword) => {
         let totalItems          = paginationObj.totalItems;
         let totalItemsPerPage   = paginationObj.totalItemsPerPage;
         let totalPages          = Math.ceil(totalItems/totalItemsPerPage);
@@ -12,7 +12,7 @@
 
         if(totalPages > 1) {
             let xhtmlStart = "", xhtmlPrevious = "", xhtmlPages = "", xhtmlNext = "" , xhtmlEnd = "";
-            let link       = systemConfig.prefixAdmin + '/' + type + '/' + currentStatus ;
+            let link       = linkPrefix + currentStatus ;
             if(keyword !== "") link += "?keyword=" + keyword + "&page=";
             else link += "?page=";
 

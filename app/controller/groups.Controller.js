@@ -82,6 +82,7 @@ const saveGroups = async(req, res) => {
 		ordering: req.body.ordering,
 		status: req.body.status,
 		content: req.body.content,
+		group_acp: req.body.group_acp,
 	};
 	try {
 		if(typeof item !== "undefined" && item.id !== "" ){	// edit
@@ -212,6 +213,27 @@ const sort = async (req, res) =>{
 	req.session.sort_Type = await getParams.getParam(req.params, "sortType", "asc");
 	return res.redirect(linkIndex);
 };
+const changeGroupACP = async(req, res) => {
+	let idItem = await getParams.getParam(req.params, "id", "");
+	let CRRGroupACP = await getParams.getParam(req.params, "GroupACP", "no");
+	let GroupACP = (CRRGroupACP === "no") ? "yes" : "no";
+	let data = {
+		group_acp: GroupACP,
+		modified: {
+			user_id: 1,
+			name: "admin",
+			time: Date.now(),
+		}
+	}
+	try {
+		await groupsService.changeGroupACP(idItem, data);
+		req.flash("success", notify.CHANGE_GRACP_SUCCESS, false);
+	} catch (error) {
+		console.log(error);
+		console.log("error---changeOrdering");
+	}
+	return res.redirect(linkIndex);
+};
 export default {
 	listGroups,
 	formGroups,
@@ -222,4 +244,5 @@ export default {
 	changeStatus,
 	changeOrdering,
 	sort,
+	changeGroupACP,
 };

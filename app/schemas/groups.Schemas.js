@@ -6,6 +6,7 @@ var ItemSchema = new Schema({
    username: String, 
    status: { type: String, default: "inactive" },
    ordering: Number,
+   group_acp: String,
    content: String,
    created: {
       name: String,
@@ -39,7 +40,7 @@ ItemSchema.statics = {
       }else{
          objStt = {"status": currStatus, "username": new RegExp(keyword, "i")};
       }
-      return this.find(objStt).sort(sort).skip(skip).limit(limit).exec();
+      return this.find(objStt).select("username status ordering created modified group_acp").sort(sort).skip(skip).limit(limit).exec();
    },
    showInfoGroupsEdit(id){
       return this.find({"_id": id}).exec();
@@ -80,5 +81,8 @@ ItemSchema.statics = {
          return this.updateOne({"_id": idItems}, {"ordering": parseInt(newOrdering)}).exec();
       }
    },
+   changeGroupACP(id, data){
+      return this.findOneAndUpdate({"_id": id}, data).exec();
+   }
 };
 module.exports = mongoose.model(databaseConfig.col_groups, ItemSchema);
