@@ -1,24 +1,48 @@
 <div class="navbar-default navbar-static-side" role="navigation">
 	<div class="sidebar-collapse">
-		
 		<ul class="nav" id="side-menu">
-
 			<li>
 				<a href="<%= systemConfig.prefixAdmin %>/dashboard">
 					<i class="fa fa-dashboard fa-fw"></i> Dashboard
 				</a>
 			</li>
-
-
 			<li>
 				<a href="<%= systemConfig.prefixAdmin %>/items">
 					<i class="fa fa-dashboard fa-fw"></i> CRUD
 				</a>
 			</li>
-
-
+			<!-- <li>
+				<a href="#">
+					<i class="fa fa-group fa-file-text fa-fw"></i> Manage Items
+					<span class="fa arrow"></span>
+				</a>
+				<ul class="nav nav-second-level collapse on" aria-expanded="true" >
+					<li>
+						<a href="/<%= systemConfig.prefixAdmin %>/category"><i class="fa fa-angle-double-right fa-fw"></i> Category</a>
+					</li>
+					<li>
+						<a href="/<%= systemConfig.prefixAdmin %>/article"><i class="fa fa-angle-double-right fa-fw"></i> Article</a>
+					</li>
+					<li>
+						<a href="/<%= systemConfig.prefixAdmin %>/items"><i class="fa fa-angle-double-right fa-fw"></i>Items</a>
+					</li>
+				</ul>
+			</li> -->
+			<li>
+				<a href="#">
+					<i class="fa fa-group fa-fw"></i> Manage User
+					<span class="fa arrow"></span>
+				</a>
+				<ul class="nav nav-second-level collapse on" aria-expanded="true" >
+					<li>
+						<a href="<%= systemConfig.prefixAdmin %>/groups"><i class="fa fa-angle-double-right fa-fw"></i> Group</a>
+					</li>
+					<li>
+						<a href="<%= systemConfig.prefixAdmin %>/users"><i class="fa fa-angle-double-right fa-fw"></i>User</a>
+					</li>
+				</ul>
+			</li>
 		</ul>
-		<!-- /#side-menu -->
+		
 	</div>
-	<!-- /.sidebar-collapse -->
 </div>

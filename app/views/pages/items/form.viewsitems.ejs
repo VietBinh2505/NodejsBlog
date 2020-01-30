@@ -27,7 +27,12 @@
 									<option value="inactive" <%= (item.status == "inactive") ? 'selected="selected"' : '' %> >Inactive</option>
 								</select>
 							</div>
-							
+							<div class="form-group">
+								<label>Content</label>
+								<textarea class="form-control" name="content" rows="2" id="content_ckeditor">
+									<%= item.content %>
+								</textarea>
+							</div>
 							<div class="form-group">
 								<input class="form-control" name="id" value="<%= item.id %>" type="hidden" >
 								<button type="submit" class="btn btn-primary">Submit </button>
@@ -40,3 +45,6 @@
 		</div>
 	</div>
 </div>
+<script>
+	CKEDITOR.replace("content_ckeditor");
+</script>
