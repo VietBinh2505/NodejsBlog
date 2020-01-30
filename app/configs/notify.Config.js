@@ -11,4 +11,6 @@ module.exports = {
     ERROR_ORDERING: "Phải là số nguyên lớn hơn %d và bé hơn %d",
     ERROR_STATUS: "Phải là một giá trị khác rỗng",
     ERROR_CONTENT: "Chiều dài từ %d đến %d ký tự",
+    ERROR_GROUPACP: "Hãy trọn Yes hoặc No",
+    CHANGE_GRACP_SUCCESS: "Thay đổi group ACP thành công",
 };

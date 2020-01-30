@@ -22,7 +22,6 @@ global.__path_views     = __path_app + pathConfig.folder_views + '/';
 const ConfigSession =	require(__path_configs + "session.Config");
 const connectDB = require(__path_configs + "connectDB");
 const systemConfig = require(__path_configs + "system.Config");
-const databaseConfig = require(__path_configs + "database.Config");
 
 var app = express();
 connectDB();

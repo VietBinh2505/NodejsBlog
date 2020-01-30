@@ -13,4 +13,5 @@ router.get("/change-status/:id/:status", GroupsCTL.changeStatus);
 router.post("/change-status/:status", GroupsCTL.changeStatusMulti);
 router.get("/sort/:sortField/:sortType", GroupsCTL.sort);
 router.post("/change-ordering", GroupsCTL.changeOrdering);
+router.get("/change-group-acp/:id/:GroupACP", GroupsCTL.changeGroupACP);
 module.exports = router;

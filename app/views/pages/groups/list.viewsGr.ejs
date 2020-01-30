@@ -4,6 +4,7 @@
 <% include ./../../helpers/status %>
 <% include ./../../helpers/source-by %>
 <% include ./../../helpers/sort %>
+<% include ./../../helpers/group-acp.ejs %>
 <% 
 	const collection = "groups";
 	const linkPrefix = systemConfig.prefixAdmin + `/${collection}/`; //admin/item
@@ -22,7 +23,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="status-list col-sm-6 pl0">
-						<%- filterStatusHelper(collection, statusFilter, keyword) %>	 
+						<%- filterStatusHelper(linkPrefix, statusFilter, keyword) %>	 
 					</div>
 					<div class="col-sm-6">
 						<form action="<%= linkPrefix %><%= currentStatus %>" method="GET">
@@ -47,7 +48,7 @@
 			<div class="panel-heading">List Items</div>
 			<div class="panel-body">
 				<form role="form" class="form-inline zt-form" id="zt-form" action="" method="post">
-					<%- actionHelper(collection) %>
+					<%- actionHelper(linkPrefix) %>
 					<div class="table-responsive">
 						<table class="table table-striped">
 							<thead>
@@ -57,6 +58,7 @@
 									<%-sortHelper(linkPrefix,  "Name", "username", sortFiled, sortType, "width: 10%") %>
 									<%-sortHelper(linkPrefix,  "Status", "status", sortFiled, sortType) %>
 									<%-sortHelper(linkPrefix,  "Ordering", "ordering", sortFiled, sortType) %>
+									<%-sortHelper(linkPrefix,  "Group ACP", "group_acp", sortFiled, sortType) %>
 									<th>Created</th>
 									<th>Modify</th>
 									<th>Action</th>
@@ -68,8 +70,9 @@
 										<td><input type="checkbox" name="cid" value="<%= item.id %>" /></td>
 										<td><%= index+1 %></td>
 										<td><%= item.username %></td>
-										<td><%- statusHelper(collection, item.status, item.id) %></td>
+										<td><%- statusHelper(linkPrefix, item.status, item.id) %></td>
 										<td><input type="number" value="<%= item.ordering %>" class="text-center ordering"></td>
+										<td><%- groupACPHelper(linkPrefix, item.group_acp, item.id) %></td>
 										<td><%- sourceByHelper(item.created.name, item.created.time) %></td>
 										<td><%- sourceByHelper(item.modified.name, item.modified.time) %>	</td>
 										<td>
@@ -87,6 +90,6 @@
 	</div> 
 
 	<div class="col-lg-12">
-		<%- paginationHelper(pagination, collection, currentStatus, keyword) %>
+		<%- paginationHelper(pagination, linkPrefix, currentStatus, keyword) %>
 	</div>
 </div>

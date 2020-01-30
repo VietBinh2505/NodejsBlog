@@ -1,4 +1,4 @@
-import groupSchema from "../schemas/groups.Schemas";
+const groupSchema = require(__path_schemas+ "groups.Schemas")
 const countTotal = (currStatus, keyword) =>{
    return new Promise(async(resolve, reject)=>{
       let resultCount = await groupSchema.countTotal(currStatus, keyword);
@@ -99,6 +99,16 @@ const countDocument = (condition) =>{
       }
    });
 };
+const changeGroupACP = (id, data) =>{
+   return new Promise(async(resolve, reject)=>{
+      let items = await groupSchema.changeGroupACP(id, data);
+      if(items){
+         return resolve(items);
+      }else{
+         return reject();
+      }
+   });
+};
 export default {
    countTotal,
    showGroupsService,
@@ -109,5 +119,6 @@ export default {
    changeStatus,
    changeStatusMulti,
    changeOrdering,
-   countDocument
+   countDocument,
+   changeGroupACP,
 }; 
