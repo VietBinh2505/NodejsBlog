@@ -1,146 +1,159 @@
 import {getParams, filterStt} from "../helpers/index.helper";
 import util from "util";
-const {groupsService, userService} = require(__path_services + "index.Service");
+const {userService, groupsService} = require(__path_services + "index.Service");
 const systemConfig = require(__path_configs + "system.Config");
-const {ValidateGroups} = require(__path_validates + "index.Validate");
+const {ValidateUsers} = require(__path_validates + "index.Validate");
 const notify = require(__path_configs + "notify.Config");
 
-const folderView	 = __path_views + "pages/groups/";
-const pageTitleIndex = "Group Management"; 
+const folderView	 = __path_views + "pages/users/";
+const pageTitleIndex = "User Management"; 
 const pageTitleAdd   = pageTitleIndex + " - Add";
 const pageTitleEdit  = pageTitleIndex + " - Edit";
 
-const linkIndex = "/" + systemConfig.prefixAdmin + "/groups/";
-const listGroups = async(req, res) => {
+const linkIndex = "/" + systemConfig.prefixAdmin + "/users/";
+
+const listUser =  async(req, res) => {	
 	try {
 		let currentStatus = await getParams.getParam(req.params, "status", "all"); // lấy trạng thái trên url (all, active, inactive)
 		let keyword = await getParams.getParam(req.query, "keyword", "");
-		let statusFilter = await filterStt.createFilterStatus(currentStatus, "groups.Service"); // tạo ra bộ lọc
+		let statusFilter = await filterStt.createFilterStatus(currentStatus, "users.Service"); // tạo ra bộ lọc
 		let pagination = {
 			totalItems: 1,
 			totalItemsPerPage : 4,
 			currentPage : parseInt(getParams.getParam(req.query, "page", 1)),
 			pageRanges: 3, // số lượng hiển thị ở phân trang
 		}; 
+		let itemsGr = await groupsService.showAllGropItem();
+		itemsGr.unshift({"_id": "allvalue", "username": "All Value"}); //thêm phần tử vào vị trí đầu tiên trong mảng
+	
 		let sortType = getParams.getParam(req.session, "sort_Type", "asc"); // lấy trạng thái trên url (all, active, inactive)
 		let sortFiled = getParams.getParam(req.session, "sort_Field", "ordering"); // lấy trạng thái trên url (all, active, inactive)
-		pagination.totalItems = await groupsService.countTotal(currentStatus, keyword);
+		let filterGroupId = getParams.getParam(req.session, "filter_groupId", "");
+		pagination.totalItems = await userService.countTotal(currentStatus, keyword);
+
 		pagination.currentPage =  await getParams.getParam(req.query, "page", 1); // lấy được trang hiện tại và cập nhập lên cho pagination
 		let skip = ((pagination.currentPage - 1) * pagination.totalItemsPerPage); // lấy được số phần tử bỏ qua
 		let sort = {};
 		sort[sortFiled] = sortType;
 		let limit = pagination.totalItemsPerPage; // lấy được số phần tử cần lấy
-		let items = await groupsService.showGroupsService(currentStatus, keyword, skip, limit, sort); // lấy ra các items
-		
-		return res.render(`${folderView}list.viewsGr.ejs`, {
+		let items = await userService.showItemService(currentStatus, keyword, skip, limit, sort, filterGroupId); // lấy ra các items
+		return res.render(`${folderView}list.viewsusers.ejs`, {
 			pageTitle: pageTitleIndex,
 			statusFilter,
 			items,
-			currentStatus, 
+			currentStatus,
 			keyword,
 			pagination,
 			sortType,
 			sortFiled,
+			itemsGr,
+			filterGroupId
 		});
 	} catch (error) {
 		console.log(error);
-		console.log("error---listGroups");
+		console.log("error---listItem");
 	}
 }; 
-const formGroups = async (req, res) => {
+const formUser = async (req, res) => {
 	let id = await getParams.getParam(req.params, "id", "");
 	let item = {id: id, username: "", ordering: 0, status: "novalue"};
 	let errors   = null;
-
+	let itemsGr = await groupsService.showAllGropItem();
+	itemsGr.unshift({"_id": "novalue", "username": "Choose Group"}); //thêm phần tử vào vị trí đầu tiên trong mảng
+	
 	if(id){
 		try {
-			item = await groupsService.showInfoGroupsEdit(id); // lấy ra các items
-			return res.render(`${folderView}form.viewsGr.ejs`, {
+			item = await userService.showInfoItemEdit(id); // lấy ra các items
+			item.group_id = item.group.id;
+			item.group_name = item.group.name;
+			return res.render(`${folderView}form.viewsusers.ejs`, {
 				pageTitle: pageTitleEdit,
 				item,
 				errors,
+				itemsGr,
 			});
 		} catch (error) {
 			console.log(error);
-			console.log("error---formGroups");
+			console.log("error---formItem");
 		}
 	}else{
-		return res.render(`${folderView}form.viewsGr.ejs`, {
+		return res.render(`${folderView}form.viewsusers.ejs`, {
 			pageTitle: pageTitleAdd,
 			item,
-			errors
+			errors,
+			itemsGr,
 		});
 	}
 };
-const saveGroups = async(req, res) => {
+const saveUser = async(req, res) => {
 	req.body = JSON.parse(JSON.stringify(req.body));
-	ValidateGroups.validator(req);
+	ValidateUsers.validator(req);
 	let item = Object.assign(req.body);
 	let errors = req.validationErrors();
+	let itemsGr = await groupsService.showAllGropItem();
+	itemsGr.unshift({"_id": "novalue", "username": "Choose Group"}); //thêm phần tử vào vị trí đầu tiên trong mảng
 	let itemNew = {
 		username: req.body.username,
 		ordering: req.body.ordering,
 		status: req.body.status,
 		content: req.body.content,
-		group_acp: req.body.group_acp,
 	};
 	try {
 		if(typeof item !== "undefined" && item.id !== "" ){	// edit
 			if(errors) { 
-				return res.render(`${folderView}form.viewsGr.ejs`, { pageTitle: pageTitleEdit, item, errors});
+				return res.render(`${folderView}form.viewsusers.ejs`, { pageTitle: pageTitleEdit, item, errors, itemsGr});
 			}else {
 				itemNew.modified = {
 					user_id: 1,
 					name: "admin",
 					time: Date.now(),
 				};
-				let group = {
-					name: item.username,
+				itemNew.group = {
+					id: item.group,
+					name: item.group_name,
 				};
-				await groupsService.saveGroups(item.id, itemNew);
-				await userService.saveItem(item.id, group.name);
+				await userService.saveItem(item.id, itemNew);
 				req.flash("success", notify.EDIT_SUCCESS, false);
 			}
 		}else{ //add
 			if(errors) { 
-				return res.render(`${folderView}form.viewsGr.ejs`, { pageTitle: pageTitleAdd, item, errors});
+				return res.render(`${folderView}form.viewsusers.ejs`, { pageTitle: pageTitleAdd, item, errors, itemsGr});
 			}else {
 				itemNew.created = {
 					name: "admin",
 					user_id: 1,
 					time: Date.now(),
 				};
-				await groupsService.saveGroups(item.id, itemNew);
+				itemNew.group = {
+					id: item.group,
+					name: item.group_name,
+				};
+				await userService.saveItem(item.id, itemNew);
 				req.flash("success", notify.ADD_SUCCESS, false);
 			}
 		}
 	} catch (error) {
 		console.log(error);
-		console.log("error-saveGroups");
+		console.log("error-saveItem");
 	}
 	return res.redirect(linkIndex);
 };
-const deleteGroups = async(req, res) =>{
+const deleteUser = async(req, res) =>{
 	let itemId = await getParams.getParam(req.params, "id", "");
-	let group = {
-		name: "Đã xóa",
-	};
 	try {
-		await groupsService.deleteGroups(itemId);
-		await userService.saveItem(itemId, group.name);
+		await userService.deleteItem(itemId);
+		req.flash("success", notify.DELETE_SUCCESS, false);
 	} catch (error) {
 		console.log(error);
-		console.log("error---deleteGroups");
+		console.log("error---deleteItem");
 	}
-	req.flash("success", notify.DELETE_SUCCESS, false);
 	return res.redirect(linkIndex);
 };
 const deleteMulti = async(req, res) =>{
 	let idItem = req.body.cid;
 	let length = idItem.length;
 	try {
-		await groupsService.deleteMulti(idItem);
-		await userService.saveItem(item.id, group.name);
+		await userService.deleteMulti(idItem);
 		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length), false);
 	} catch (error) {
 		console.log(error);
@@ -161,7 +174,7 @@ const changeStatus = async(req, res) =>{
 		}
 	};
 	try {
-		await groupsService.changeStatus(id, data);
+		await userService.changeStatus(id, data);
 		req.flash("success", notify.CHANGE_STATUS_SUCCESS, false);
 	} catch (error) {
 		console.log(error);
@@ -183,7 +196,7 @@ const changeStatusMulti = async(req, res) =>{
 				time: Date.now(),
 			}
 		};
-		await groupsService.changeStatusMulti(idItem, data);
+		await userService.changeStatusMulti(idItem, data);
 		req.flash("success", util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, length), false);
 	} catch (error) {
 		console.log(error);
@@ -204,10 +217,10 @@ const changeOrdering = async(req, res) => {
 	let newOrdering = req.body.ordering;
 	try {
 		if(length == 1){
-			await groupsService.changeOrdering(idItems, newOrdering, "");
+			await userService.changeOrdering(idItems, newOrdering, "");
 		}else if(length > 1){
 			idItems.forEach(async(idItem, index)=>{
-				await groupsService.changeOrdering(idItem, newOrdering, index);
+				await userService.changeOrdering(idItem, newOrdering, index);
 			});
 		}
 		req.flash("success", util.format(notify.CHANGE_ORDERING_SUCCESS, length), false);
@@ -222,36 +235,19 @@ const sort = async (req, res) =>{
 	req.session.sort_Type = await getParams.getParam(req.params, "sortType", "asc");
 	return res.redirect(linkIndex);
 };
-const changeGroupACP = async(req, res) => {
-	let idItem = await getParams.getParam(req.params, "id", "");
-	let CRRGroupACP = await getParams.getParam(req.params, "GroupACP", "no");
-	let GroupACP = (CRRGroupACP === "no") ? "yes" : "no";
-	let data = {
-		group_acp: GroupACP,
-		modified: {
-			user_id: 1,
-			name: "admin",
-			time: Date.now(),
-		}
-	}
-	try {
-		await groupsService.changeGroupACP(idItem, data);
-		req.flash("success", notify.CHANGE_GRACP_SUCCESS, false);
-	} catch (error) {
-		console.log(error);
-		console.log("error---changeOrdering");
-	}
+const filter_group = async (req, res) =>{
+	req.session.filter_groupId = await getParams.getParam(req.params, "id", "");
 	return res.redirect(linkIndex);
 };
 export default {
-	listGroups,
-	formGroups,
-	saveGroups,
-	deleteGroups,
+	listUser,
+	formUser,
+	saveUser,
+	deleteUser,
 	deleteMulti,
 	changeStatusMulti,
 	changeStatus,
 	changeOrdering,
 	sort,
-	changeGroupACP,
+	filter_group,
 };

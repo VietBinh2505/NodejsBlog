@@ -15,7 +15,7 @@ let createFilterStatus =  async (CRRStatus, collection) => {
 			statusFilter[index].count = data;
 		} catch (error) {
 			console.log(error);
-			console.log("createFilterStatus");
+			console.log("createFilterStatus loi tai");
 		}
 	}
    return statusFilter;

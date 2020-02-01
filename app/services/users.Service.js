@@ -1,7 +1,8 @@
-const groupSchema = require(__path_schemas+ "groups.Schemas")
+import userSchema from "./../schemas/users.Schemas";
+
 const countTotal = (currStatus, keyword) =>{
    return new Promise(async(resolve, reject)=>{
-      let resultCount = await groupSchema.countTotal(currStatus, keyword);
+      let resultCount = await userSchema.countTotal(currStatus, keyword);
       if(resultCount){
          return resolve(resultCount);
       }else{
@@ -9,9 +10,10 @@ const countTotal = (currStatus, keyword) =>{
       }
    }); 
 };
-const showGroupsService = (currStatus, keyword, skip, limit, sort) =>{
+
+const showItemService = (currStatus, keyword, skip, limit, sort, filterGroupId) =>{
    return new Promise(async(resolve, reject)=>{
-      let item = await groupSchema.findGroups(currStatus, keyword, skip, limit, sort);
+      let item = await userSchema.findItem(currStatus, keyword, skip, limit, sort, filterGroupId);
       if(item){
          return resolve(item);
       }else{
@@ -19,9 +21,9 @@ const showGroupsService = (currStatus, keyword, skip, limit, sort) =>{
       }
    });
 };
-const showInfoGroupsEdit = (id) =>{
+const showInfoItemEdit = (id) =>{
    return new Promise(async(resolve, reject)=>{
-      let item = await groupSchema.showInfoGroupsEdit(id);
+      let item = await userSchema.showInfoItemEdit(id);
       if(item){
          return resolve(item[0]);
       }else{
@@ -29,9 +31,9 @@ const showInfoGroupsEdit = (id) =>{
       }
    });
 };
-const saveGroups = (itemId, item) =>{
+const saveItem = (itemId, item) =>{
    return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.saveGroups(itemId, item);
+      let items = await userSchema.saveItem(itemId, item);
       if(items){
          return resolve(items);
       }else{
@@ -39,9 +41,10 @@ const saveGroups = (itemId, item) =>{
       }
    });
 };
-const deleteGroups = (itemId) =>{
+
+const deleteItem = (itemId) =>{
    return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.deleteGroups(itemId);
+      let items = await userSchema.deleteItem(itemId);
       if(items){
          return resolve(items);
       }else{
@@ -51,7 +54,7 @@ const deleteGroups = (itemId) =>{
 };
 const deleteMulti = (idItem, statusNew) =>{
    return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.deleteMulti(idItem, statusNew);
+      let items = await userSchema.deleteMulti(idItem, statusNew);
       if(items){
          return resolve(items);
       }else{
@@ -61,7 +64,7 @@ const deleteMulti = (idItem, statusNew) =>{
 };
 const changeStatus = (id, data) =>{
    return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.changeStatus(id, data);
+      let items = await userSchema.changeStatus(id, data);
       if(items){
          return resolve(items);
       }else{
@@ -71,7 +74,7 @@ const changeStatus = (id, data) =>{
 };
 const changeStatusMulti = (idItem, data) =>{
    return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.changeStatusMulti(idItem, data);
+      let items = await userSchema.changeStatusMulti(idItem, data);
       if(items){
          return resolve(items);
       }else{
@@ -81,7 +84,7 @@ const changeStatusMulti = (idItem, data) =>{
 };
 const changeOrdering = (idItem, newOrdering, index) =>{
    return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.changeOrdering(idItem, newOrdering, index);
+      let items = await userSchema.changeOrdering(idItem, newOrdering, index);
       if(items){
          return resolve(items);
       }else{
@@ -91,27 +94,7 @@ const changeOrdering = (idItem, newOrdering, index) =>{
 };
 const countDocument = (condition) =>{
    return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.countDocument(condition);
-      if(items){
-         return resolve(items);
-      }else{
-         return reject();
-      }
-   });
-};
-const changeGroupACP = (id, data) =>{
-   return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.changeGroupACP(id, data);
-      if(items){
-         return resolve(items);
-      }else{
-         return reject();
-      }
-   });
-};
-const showAllGropItem = () =>{
-   return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.showAllGropItem();
+      let items = await userSchema.countDocument(condition);
       if(items){
          return resolve(items);
       }else{
@@ -121,15 +104,13 @@ const showAllGropItem = () =>{
 };
 export default {
    countTotal,
-   showGroupsService,
-   showInfoGroupsEdit,
-   saveGroups,
-   deleteGroups,
+   showItemService,
+   showInfoItemEdit,
+   saveItem,
+   deleteItem,
    deleteMulti,
    changeStatus,
    changeStatusMulti,
    changeOrdering,
    countDocument,
-   changeGroupACP,
-   showAllGropItem,
-}; 
+};

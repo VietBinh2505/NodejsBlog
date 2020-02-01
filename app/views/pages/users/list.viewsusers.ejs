@@ -5,11 +5,13 @@
 <% include ./../../helpers/source-by %>
 <% include ./../../helpers/sort %>
 <% 
-	const collection = "items";
-	const linkPrefix = systemConfig.prefixAdmin + `/${collection}/`; //admin/item
+	const collection = "users";
+	const linkPrefix = systemConfig.prefixAdmin + `/${collection}/`; //admin/users
 %>
+
+<% include ./../../helpers/selectbox %>
 <%- locals.flash %>
-<div class="row">
+<div class="row"> 
 	<div class="col-lg-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -24,7 +26,10 @@
 					<div class="status-list col-sm-6 pl0">
 						<%- filterStatusHelper(linkPrefix, statusFilter, keyword) %>	 
 					</div>
-					<div class="col-sm-6">
+					<div class="col-sm-2">
+						<%- selectboxHelper("filter_group", itemsGr, filterGroupId) %>
+					</div>
+					<div class="col-sm-4">
 						<form action="<%= linkPrefix %><%= currentStatus %>" method="GET">
 							<div class="input-group">
 								<input type="text" class="form-control" name="keyword" placeholder="Search for..." value="<%= keyword %>">
@@ -44,7 +49,7 @@
 
 	<div class="col-lg-12">
 		<div class="panel panel-info">
-			<div class="panel-heading">List Items</div>
+			<div class="panel-heading">User Items</div>
 			<div class="panel-body">
 				<form role="form" class="form-inline zt-form" id="zt-form" action="" method="post">
 					<%- actionHelper(linkPrefix) %>
@@ -57,6 +62,7 @@
 									<%-sortHelper(linkPrefix,  "Name", "username", sortFiled, sortType, "width: 10%") %>
 									<%-sortHelper(linkPrefix,  "Status", "status", sortFiled, sortType) %>
 									<%-sortHelper(linkPrefix,  "Ordering", "ordering", sortFiled, sortType) %>
+									<%-sortHelper(linkPrefix,  "Group", "group", sortFiled, sortType) %>
 									<th>Created</th>
 									<th>Modify</th>
 									<th>Action</th>
@@ -71,6 +77,7 @@
 											<td><%= item.username %></td>
 											<td><%- statusHelper(linkPrefix, item.status, item.id) %></td>
 											<td><input type="number" value="<%= item.ordering %>" class="text-center ordering"></td>
+											<td><%= item.group.name %></td>
 											<td><%- sourceByHelper(item.created.name, item.created.time) %></td>
 											<td><%- sourceByHelper(item.modified.name, item.modified.time) %>	</td>
 											<td>

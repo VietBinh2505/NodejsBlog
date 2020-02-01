@@ -15,7 +15,7 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				Search & Filter
-				<a href="<%= linkPrefix %>all">
+				<a href="<%= linkPrefix %>">
 					<span id="icon-reload" class="glyphicon glyphicon-refresh"></span>
 				</a>
 			</div>
@@ -25,6 +25,7 @@
 					<div class="status-list col-sm-6 pl0">
 						<%- filterStatusHelper(linkPrefix, statusFilter, keyword) %>	 
 					</div>
+					
 					<div class="col-sm-6">
 						<form action="<%= linkPrefix %><%= currentStatus %>" method="GET">
 							<div class="input-group">
@@ -65,22 +66,26 @@
 								</tr>
 							</thead>
 							<tbody>
-								<% items.forEach( (item, index) => { %>
-									<tr>
-										<td><input type="checkbox" name="cid" value="<%= item.id %>" /></td>
-										<td><%= index+1 %></td>
-										<td><%= item.username %></td>
-										<td><%- statusHelper(linkPrefix, item.status, item.id) %></td>
-										<td><input type="number" value="<%= item.ordering %>" class="text-center ordering"></td>
-										<td><%- groupACPHelper(linkPrefix, item.group_acp, item.id) %></td>
-										<td><%- sourceByHelper(item.created.name, item.created.time) %></td>
-										<td><%- sourceByHelper(item.modified.name, item.modified.time) %>	</td>
-										<td>
-											<a href="<%= linkPrefix %>form/<%= item.id %>" type="button" class="btn btn-warning btn-sm">Edit</a>
-											<a href="<%= linkPrefix %>delete/<%= item.id %>" type="button" class="btn btn-danger btn-sm btn-delete">Delete</a>
-										</td>
-									</tr>
-								<% }) %>
+								<% if(items.length > 0){%>
+									<% items.forEach( (item, index) => { %>
+										<tr>
+											<td><input type="checkbox" name="cid" value="<%= item.id %>" /></td>
+											<td><%= index+1 %></td>
+											<td><%= item.username %></td>
+											<td><%- statusHelper(linkPrefix, item.status, item.id) %></td>
+											<td><input type="number" value="<%= item.ordering %>" class="text-center ordering"></td>
+											<td><%- groupACPHelper(linkPrefix, item.group_acp, item.id) %></td>
+											<td><%- sourceByHelper(item.created.name, item.created.time) %></td>
+											<td><%- sourceByHelper(item.modified.name, item.modified.time) %>	</td>
+											<td>
+												<a href="<%= linkPrefix %>form/<%= item.id %>" type="button" class="btn btn-warning btn-sm">Edit</a>
+												<a href="<%= linkPrefix %>delete/<%= item.id %>" type="button" class="btn btn-danger btn-sm btn-delete">Delete</a>
+											</td>
+										</tr>
+									<% }) %>
+								<% }else{ %>
+									<tr><td colspan="9"><h3>Không chưa có dữ liệu hãy thêm  <a href="<%= linkPrefix %>form">tại đây</a></h3></td></tr>
+								<% } %>
 							</tbody>
 						</table>
 					</div>
