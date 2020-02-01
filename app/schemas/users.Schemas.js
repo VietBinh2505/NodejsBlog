@@ -6,8 +6,11 @@ var ItemSchema = new Schema({
    username: String, 
    status: { type: String, default: "inactive" },
    ordering: Number,
-   group_acp: String,
    content: String,
+   group: {
+      id: String,
+      name: String,
+   },
    created: {
       name: String,
       user_id: Number,
@@ -31,31 +34,45 @@ ItemSchema.statics = {
       }
       return this.countDocuments(objStt).exec();
    },
-   findGroups(currStatus, keyword, skip, limit, sort){
+   findItem(currStatus, keyword, skip, limit, sort, filterGroupId){
       let objStt = {};
+
       if(currStatus === "all"){
 			if(keyword !== undefined){
             objStt = {"username": new RegExp(keyword, "i")};
          }
-      }else{
+      }
+      if(keyword !== ""){
          objStt = {"status": currStatus, "username": new RegExp(keyword, "i")};
       }
-      return this.find(objStt).select("username status ordering created modified group_acp").sort(sort).skip(skip).limit(limit).exec();
+      if(filterGroupId !== "allvalue"){
+         objStt = {"group.id": filterGroupId};
+      }else if(filterGroupId === "allvalue"){
+         objStt = {};
+      }
+      return this.find(objStt).select("username status ordering created modified group.name").sort(sort).skip(skip).limit(limit).exec();
    },
-   showInfoGroupsEdit(id){
+   showInfoItemEdit(id){
       return this.find({"_id": id}).exec();
    },
-   saveGroups(itemId, item){
+   saveItem(itemId, item){
       if(itemId == ""){ //add
          return this.create(item);
       }else{ //edit
-         return this.findOneAndUpdate({"_id": itemId}, item).exec();
+         if(item.username){
+            return this.findOneAndUpdate({"_id": itemId}, item).exec();
+         }else if(!item.username){
+            return this.findOneAndUpdate({"group.id": itemId}, {"group.name": item}).exec();
+         }
       }
    },
    deleteMulti(itemId){
       return this.deleteMany({ "_id": { $in: itemId }}).exec();
    },
-   deleteGroups(itemId){
+   countDocument(condition){
+      return this.countDocuments(condition).exec();
+   },
+   deleteItem(itemId){
       return this.deleteOne({"_id": itemId}).exec();
    },
    changeOrdering(idItems, newOrdering, index){
@@ -71,9 +88,6 @@ ItemSchema.statics = {
    changeStatusMulti(id, data){
       return this.updateMany({"_id": id}, data).exec();
    },
-   countDocument(condition){
-      return this.countDocuments(condition).exec();
-   },
    changeOrdering(idItems, newOrdering, index){
       if(index !== ""){
          return this.updateOne({"_id": idItems}, {"ordering": parseInt(newOrdering[index])}).exec();
@@ -81,12 +95,8 @@ ItemSchema.statics = {
          return this.updateOne({"_id": idItems}, {"ordering": parseInt(newOrdering)}).exec();
       }
    },
-   changeGroupACP(id, data){
-      return this.findOneAndUpdate({"_id": id}, data).exec();
+   countDocument(condition){
+      return this.countDocuments(condition).exec();
    },
-   showAllGropItem(){
-      return this.find({}, {"_id": 1, "username": 1}).exec();
-   },
-
 };
-module.exports = mongoose.model(databaseConfig.col_groups, ItemSchema);
+module.exports = mongoose.model(databaseConfig.col_user, ItemSchema);

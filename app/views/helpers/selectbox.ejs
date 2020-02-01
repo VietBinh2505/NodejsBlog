@@ -1,10 +1,10 @@
 <% 
-    selectboxHelper = (name, items, optionSelected = '') => {
-        let xhtml = '';
+    selectboxHelper = (name, items, optionSelected = "") => {
+        let xhtml = "";
         items.forEach((item) =>{
-            let selected = (item.id == optionSelected) ? `selected="selected"` : '';
-            let id       = (item.id == undefined) ? 'allvalue' : item.id;
-            xhtml += `<option value="${id}" ${selected} >${item.name}</option>`;
+            let selected = (item._id == optionSelected) ? `selected="selected"` : '';
+            let id       = (item._id == undefined) ? "allvalue" : item._id;
+            xhtml += `<option value="${id}" ${selected} >${item.username}</option>`;
         });
 
         return `<select name="${name}" class="form-control" >${xhtml}</select>`;

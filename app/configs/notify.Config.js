@@ -13,4 +13,5 @@ module.exports = {
     ERROR_CONTENT: "Chiều dài từ %d đến %d ký tự",
     ERROR_GROUPACP: "Hãy trọn Yes hoặc No",
     CHANGE_GRACP_SUCCESS: "Thay đổi group ACP thành công",
+    ERROR_GROUP: "Phải là một giá trị khác rỗng",
 };
