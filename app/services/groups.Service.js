@@ -1,5 +1,7 @@
 const groupSchema = require(__path_schemas+ "groups.Schemas")
-const countTotal = (currStatus, keyword) =>{
+const countTotal = (params) =>{
+   let currStatus = params.currentStatus;
+   let keyword = params.keyword;
    return new Promise(async(resolve, reject)=>{
       let resultCount = await groupSchema.countTotal(currStatus, keyword);
       if(resultCount){
@@ -9,7 +11,14 @@ const countTotal = (currStatus, keyword) =>{
       }
    }); 
 };
-const showGroupsService = (currStatus, keyword, skip, limit, sort) =>{
+const showGroupsService = (params) =>{
+   let skip = ((params.pagination.currentPage - 1) * params.pagination.totalItemsPerPage); //lấy được số phần tử bỏ qua
+   let sort = {};
+   sort[params.sortFiled] = params.sortType;
+   let limit = params.pagination.totalItemsPerPage; //lấy được số phần tử cần lấy
+   let currStatus = params.currentStatus;
+   let keyword = params.keyword;
+
    return new Promise(async(resolve, reject)=>{
       let item = await groupSchema.findGroups(currStatus, keyword, skip, limit, sort);
       if(item){
@@ -29,49 +38,65 @@ const showInfoGroupsEdit = (id) =>{
       }
    });
 };
-const saveGroups = (itemId, item) =>{
+const saveGroups = (itemId, item, option = null) =>{
+   let items = null;
    return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.saveGroups(itemId, item);
-      if(items){
+      if(option == "edit"){
+         item.modified = {
+            user_id: 1,
+            name: "admin",
+            time: Date.now(),
+         };
+         items = await groupSchema.saveGroups(itemId, item, "edit");
+      }else if(option == "add"){
+         item.created = {
+            name: "admin",
+            user_id: 1,
+            time: Date.now(),
+         };
+         items = await groupSchema.saveGroups(itemId, item, "add");
+      }
+      if(items !== null){
          return resolve(items);
       }else{
          return reject();
       }
    });
 };
-const deleteGroups = (itemId) =>{
+const deleteGroups = (itemId, option = null) =>{
    return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.deleteGroups(itemId);
-      if(items){
+      let items = null;
+      if(option == "one"){
+         items = await groupSchema.deleteGroups(itemId, "one");
+      }else if(option == "multi"){
+         items = await groupSchema.deleteGroups(itemId, "multi");
+      }
+      if(items !== null){
          return resolve(items);
       }else{
-         return reject();
+         return reject(error);
       }
    });
 };
-const deleteMulti = (idItem, statusNew) =>{
+const changeStatus = (idItem, currStatus, option = null) =>{
+   let status = (currStatus === "active") ? "inactive" : "active"; // thay dổi 1
+   
+   let data = {
+		modified: {
+			user_id: 1,
+			name: "admin",
+			time: Date.now(),
+		}
+   };
+   let items;
    return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.deleteMulti(idItem, statusNew);
-      if(items){
-         return resolve(items);
-      }else{
-         return reject();
+      if(option == "one"){
+         data.status = status;
+         items = await groupSchema.changeStatus(idItem, data,"one");
+      }else if(option == "multi"){
+         data.status = currStatus;
+         items = await groupSchema.changeStatus(idItem, data,"multi");
       }
-   });
-};
-const changeStatus = (id, data) =>{
-   return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.changeStatus(id, data);
-      if(items){
-         return resolve(items);
-      }else{
-         return reject();
-      }
-   });
-};
-const changeStatusMulti = (idItem, data) =>{
-   return new Promise(async(resolve, reject)=>{
-      let items = await groupSchema.changeStatusMulti(idItem, data);
       if(items){
          return resolve(items);
       }else{
@@ -109,7 +134,7 @@ const changeGroupACP = (id, data) =>{
       }
    });
 };
-const showAllGropItem = () =>{
+const showAllGropItem = () =>{ // đổ ra ở 
    return new Promise(async(resolve, reject)=>{
       let items = await groupSchema.showAllGropItem();
       if(items){
@@ -125,9 +150,7 @@ export default {
    showInfoGroupsEdit,
    saveGroups,
    deleteGroups,
-   deleteMulti,
    changeStatus,
-   changeStatusMulti,
    changeOrdering,
    countDocument,
    changeGroupACP,

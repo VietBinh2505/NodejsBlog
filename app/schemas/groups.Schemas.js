@@ -45,18 +45,19 @@ ItemSchema.statics = {
    showInfoGroupsEdit(id){
       return this.find({"_id": id}).exec();
    },
-   saveGroups(itemId, item){
-      if(itemId == ""){ //add
+   saveGroups(itemId, item, option=null){
+      if(option == "add"){
          return this.create(item);
-      }else{ //edit
+      }else if(option == "edit"){
          return this.findOneAndUpdate({"_id": itemId}, item).exec();
       }
    },
-   deleteMulti(itemId){
-      return this.deleteMany({ "_id": { $in: itemId }}).exec();
-   },
-   deleteGroups(itemId){
-      return this.deleteOne({"_id": itemId}).exec();
+   deleteGroups(itemId, option = null){
+      if(option == "one"){
+         return this.deleteOne({"_id": itemId}).exec();
+      }else if(option == "multi"){
+         return this.deleteMany({ "_id": { $in: itemId }}).exec();
+      }
    },
    changeOrdering(idItems, newOrdering, index){
       if(index !== ""){
@@ -65,11 +66,12 @@ ItemSchema.statics = {
          return this.updateOne({"_id": idItems}, {"ordering": parseInt(newOrdering)}).exec();
       }
    },
-   changeStatus(id, data){
-      return this.updateOne({"_id": id}, data).exec();
-   },
-   changeStatusMulti(id, data){
-      return this.updateMany({"_id": id}, data).exec();
+   changeStatus(id, data, option = null){
+      if(option == "one"){
+         return this.updateOne({"_id": id}, data).exec();
+      }else if(option == "multi"){
+         return this.updateMany({"_id": id}, data).exec();
+      } 
    },
    countDocument(condition){
       return this.countDocuments(condition).exec();

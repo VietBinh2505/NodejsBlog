@@ -1,17 +1,25 @@
 import itemSchema from "../schemas/items.Schemas";
 
-const countTotal = (currStatus, keyword) =>{
+const countTotal = (params) =>{
+   let currStatus = params.currentStatus;
+   let keyword = params.keyword;
    return new Promise(async(resolve, reject)=>{
       let resultCount = await itemSchema.countTotal(currStatus, keyword);
       if(resultCount){
          return resolve(resultCount);
       }else{
          return reject();
-      }
+      } 
    }); 
 };
+const showItemService = (params) =>{
+   let skip = ((params.pagination.currentPage - 1) * params.pagination.totalItemsPerPage); //lấy được số phần tử bỏ qua
+   let sort = {};
+   sort[params.sortFiled] = params.sortType;
+   let limit = params.pagination.totalItemsPerPage; //lấy được số phần tử cần lấy
+   let currStatus = params.currentStatus;
+   let keyword = params.keyword;
 
-const showItemService = (currStatus, keyword, skip, limit, sort) =>{
    return new Promise(async(resolve, reject)=>{
       let item = await itemSchema.findItem(currStatus, keyword, skip, limit, sort);
       if(item){
@@ -31,49 +39,65 @@ const showInfoItemEdit = (id) =>{
       }
    });
 };
-const saveItem = (itemId, item) =>{
+const saveItem = (itemId, item, option = null) =>{
+   let items = null;
    return new Promise(async(resolve, reject)=>{
-      let items = await itemSchema.saveItem(itemId, item);
-      if(items){
+      if(option == "edit"){
+         item.modified = {
+            user_id: 1,
+            name: "admin",
+            time: Date.now(),
+         };
+         items = await itemSchema.saveItem(itemId, item, "edit");
+      }else if(option == "add"){
+         item.created = {
+            name: "admin",
+            user_id: 1,
+            time: Date.now(),
+         };
+         items = await itemSchema.saveItem(itemId, item, "add");
+      }
+      if(items !== null){
          return resolve(items);
       }else{
          return reject();
       }
    });
 };
-const deleteItem = (itemId) =>{
+const deleteItem = (itemId, option = null) =>{
    return new Promise(async(resolve, reject)=>{
-      let items = await itemSchema.deleteItem(itemId);
-      if(items){
+      let items = null;
+      if(option == "one"){
+         items = await itemSchema.deleteItem(itemId, "one");
+      }else if(option == "multi"){
+         items = await itemSchema.deleteItem(itemId, "multi");
+      }
+      if(items !== null){
          return resolve(items);
       }else{
          return reject();
       }
    });
 };
-const deleteMulti = (idItem, statusNew) =>{
+const changeStatus = (idItem, currStatus, option = null) =>{
+   let status = (currStatus === "active") ? "inactive" : "active"; // thay dổi 1
+   
+   let data = {
+		modified: {
+			user_id: 1, 
+			name: "admin",
+			time: Date.now(),
+		}
+   };
+   let items;
    return new Promise(async(resolve, reject)=>{
-      let items = await itemSchema.deleteMulti(idItem, statusNew);
-      if(items){
-         return resolve(items);
-      }else{
-         return reject();
+      if(option == "one"){
+         data.status = status;
+         items = await itemSchema.changeStatus(idItem, data,"one");
+      }else if(option == "multi"){
+         data.status = currStatus;
+         items = await itemSchema.changeStatus(idItem, data,"multi");
       }
-   });
-};
-const changeStatus = (id, data) =>{
-   return new Promise(async(resolve, reject)=>{
-      let items = await itemSchema.changeStatus(id, data);
-      if(items){
-         return resolve(items);
-      }else{
-         return reject();
-      }
-   });
-};
-const changeStatusMulti = (idItem, data) =>{
-   return new Promise(async(resolve, reject)=>{
-      let items = await itemSchema.changeStatusMulti(idItem, data);
       if(items){
          return resolve(items);
       }else{
@@ -107,9 +131,7 @@ export default {
    showInfoItemEdit,
    saveItem,
    deleteItem,
-   deleteMulti,
    changeStatus,
-   changeStatusMulti,
    changeOrdering,
-   countDocument
+   countDocument,
 };
