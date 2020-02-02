@@ -34,9 +34,8 @@ ItemSchema.statics = {
       }
       return this.countDocuments(objStt).exec();
    },
-   findItem(currStatus, keyword, skip, limit, sort, filterGroupId){
+   findUser(currStatus, keyword, skip, limit, sort, filterGroupId){
       let objStt = {};
-
       if(currStatus === "all"){
 			if(keyword !== undefined){
             objStt = {"username": new RegExp(keyword, "i")};
@@ -55,26 +54,28 @@ ItemSchema.statics = {
    showInfoItemEdit(id){
       return this.find({"_id": id}).exec();
    },
-   saveItem(itemId, item){
-      if(itemId == ""){ //add
+   saveUser(itemId, item, option = null){
+      if(option == "add"){ //add
          return this.create(item);
-      }else{ //edit
-         if(item.username){
-            return this.findOneAndUpdate({"_id": itemId}, item).exec();
-         }else if(!item.username){
-            return this.findOneAndUpdate({"group.id": itemId}, {"group.name": item}).exec();
-         }
+      }else if(option == "edit"){ //edit
+         return this.findOneAndUpdate({"_id": itemId}, item).exec();
+      }else if(option == "edit_u"){
+         return this.findOneAndUpdate({"group.id": itemId}, {"group.name": item.username}).exec();
+      }else if(option == "deleGr"){
+         return this.findOneAndUpdate({"group.id": itemId}, {"group.name": item}).exec();
       }
    },
-   deleteMulti(itemId){
-      return this.deleteMany({ "_id": { $in: itemId }}).exec();
+
+   deleteUser(itemId, option = null){
+      if(option == "one"){
+         return this.deleteOne({"_id": itemId}).exec();
+      }else if(option == "multi"){
+         return this.deleteMany({ "_id": { $in: itemId }}).exec();
+      }
    },
    countDocument(condition){
       return this.countDocuments(condition).exec();
    },
-   deleteItem(itemId){
-      return this.deleteOne({"_id": itemId}).exec();
-   },
    changeOrdering(idItems, newOrdering, index){
       if(index !== ""){
          return this.updateOne({"_id": idItems}, {"ordering": parseInt(newOrdering[index])}).exec();
@@ -82,17 +83,11 @@ ItemSchema.statics = {
          return this.updateOne({"_id": idItems}, {"ordering": parseInt(newOrdering)}).exec();
       }
    },
-   changeStatus(id, data){
-      return this.updateOne({"_id": id}, data).exec();
-   },
-   changeStatusMulti(id, data){
-      return this.updateMany({"_id": id}, data).exec();
-   },
-   changeOrdering(idItems, newOrdering, index){
-      if(index !== ""){
-         return this.updateOne({"_id": idItems}, {"ordering": parseInt(newOrdering[index])}).exec();
-      }else if(index === ""){
-         return this.updateOne({"_id": idItems}, {"ordering": parseInt(newOrdering)}).exec();
+   changeStatus(id, data, option = null){
+      if(option == "one"){
+         return this.updateOne({"_id": id}, data).exec();
+      }else if(option == "multi"){
+         return this.updateMany({"_id": id}, data).exec();
       }
    },
    countDocument(condition){

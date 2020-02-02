@@ -7,7 +7,7 @@ router.get("/form(/:id)?", UsersCTL.formUser);
 router.post("/save", UsersCTL.saveUser);
 
 router.get("/delete/:id", UsersCTL.deleteUser);
-router.post("/delete", UsersCTL.deleteMulti);
+router.post("/delete", UsersCTL.deleteUserMulti);
 router.get("(/:status)?", UsersCTL.listUser); // tìm kiếm
 router.get("/change-status/:id/:status", UsersCTL.changeStatus);
 router.post("/change-status/:status", UsersCTL.changeStatusMulti);

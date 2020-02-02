@@ -14,7 +14,7 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				Search & Filter
-				<a href="<%= linkPrefix %>">
+				<a href="<%= linkPrefix %>all">
 					<span id="icon-reload" class="glyphicon glyphicon-refresh"></span>
 				</a>
 			</div>
@@ -22,17 +22,17 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="status-list col-sm-6 pl0">
-						<%- filterStatusHelper(linkPrefix, statusFilter, keyword) %>	 
+						<%- filterStatusHelper(linkPrefix, params.statusFilter, params.keyword) %>	 
 					</div>
 					<div class="col-sm-6">
-						<form action="<%= linkPrefix %><%= currentStatus %>" method="GET">
+						<form action="<%= linkPrefix %><%= params.currentStatus %>" method="GET">
 							<div class="input-group">
-								<input type="text" class="form-control" name="keyword" placeholder="Search for..." value="<%= keyword %>">
+								<input type="text" class="form-control" name="keyword" placeholder="Search for..." value="<%= params.keyword %>">
 								<span class="input-group-btn">
 									<button class="btn btn-info" type="submit">Search</button>
 								</span>
 								<span class="input-group-btn">
-									<a class="btn btn-success" type="button" href="<%= linkPrefix %><%= currentStatus %>">Clear</a>
+									<a class="btn btn-success" type="button" href="<%= linkPrefix %><%= params.currentStatus %>">Clear</a>
 								</span>
 							</div>
 						</form>
@@ -54,34 +54,30 @@
 								<tr>
 									<th><input type="checkbox" class="cbAll" /></th>
 									<th>#</th>
-									<%-sortHelper(linkPrefix,  "Name", "username", sortFiled, sortType, "width: 10%") %>
-									<%-sortHelper(linkPrefix,  "Status", "status", sortFiled, sortType) %>
-									<%-sortHelper(linkPrefix,  "Ordering", "ordering", sortFiled, sortType) %>
+									<%-sortHelper(linkPrefix,  "Name", "username", params.sortFiled, params.sortType, "width: 10%") %>
+									<%-sortHelper(linkPrefix,  "Status", "status", params.sortFiled, params.sortType) %>
+									<%-sortHelper(linkPrefix,  "Ordering", "ordering", params.sortFiled, params.sortType) %>
 									<th>Created</th>
 									<th>Modify</th>
 									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								<% if(items.length > 0){%>
-									<% items.forEach( (item, index) => { %>
-										<tr>
-											<td><input type="checkbox" name="cid" value="<%= item.id %>" /></td>
-											<td><%= index+1 %></td>
-											<td><%= item.username %></td>
-											<td><%- statusHelper(linkPrefix, item.status, item.id) %></td>
-											<td><input type="number" value="<%= item.ordering %>" class="text-center ordering"></td>
-											<td><%- sourceByHelper(item.created.name, item.created.time) %></td>
-											<td><%- sourceByHelper(item.modified.name, item.modified.time) %>	</td>
-											<td>
-												<a href="<%= linkPrefix %>form/<%= item.id %>" type="button" class="btn btn-warning btn-sm">Edit</a>
-												<a href="<%= linkPrefix %>delete/<%= item.id %>" type="button" class="btn btn-danger btn-sm btn-delete">Delete</a>
-											</td>
-										</tr>
-									<% }) %>
-								<% }else{ %>
-									<tr><td colspan="9"><h3>Không chưa có dữ liệu hãy thêm  <a href="<%= linkPrefix %>form">tại đây</a></h3></td></tr>
-								<% } %>
+								<% items.forEach( (item, index) => { %>
+									<tr>
+										<td><input type="checkbox" name="cid" value="<%= item.id %>" /></td>
+										<td><%= index+1 %></td>
+										<td><%= item.username %></td>
+										<td><%- statusHelper(linkPrefix, item.status, item.id) %></td>
+										<td><input type="number" value="<%= item.ordering %>" class="text-center ordering"></td>
+										<td><%- sourceByHelper(item.created.name, item.created.time) %></td>
+										<td><%- sourceByHelper(item.modified.name, item.modified.time) %>	</td>
+										<td>
+											<a href="<%= linkPrefix %>form/<%= item.id %>" type="button" class="btn btn-warning btn-sm">Edit</a>
+											<a href="<%= linkPrefix %>delete/<%= item.id %>" type="button" class="btn btn-danger btn-sm btn-delete">Delete</a>
+										</td>
+									</tr>
+								<% }) %>
 							</tbody>
 						</table>
 					</div>
@@ -91,6 +87,6 @@
 	</div> 
 
 	<div class="col-lg-12">
-		<%- paginationHelper(pagination, linkPrefix, currentStatus, keyword) %>
+		<%- paginationHelper(params.pagination, linkPrefix, params.currentStatus, params.keyword) %>
 	</div>
 </div>
