@@ -1,16 +1,16 @@
-import {getParams, filterStt} from "../helpers/index.helper";
 import util from "util";
-const {userService, groupsService} = require(__path_services + "index.Service");
-const systemConfig = require(__path_configs + "system.Config");
-const {ValidateUsers} = require(__path_validates + "index.Validate");
-const notify = require(__path_configs + "notify.Config");
 
-const folderView	 = __path_views + "pages/users/";
+const {getParams, filterStt} 			= require(__path_helpers + "index.helper");
+const {userService, groupsService} 	= require(__path_services + "index.Service");
+const {ValidateUsers} 					= require(__path_validates + "index.Validate");
+const notify 								= require(__path_configs + "notify.Config");
+const systemConfig 						= require(__path_configs + "system.Config");
+
+const folderView	 	= __path_views + "pages/users/";
 const pageTitleIndex = "User Management"; 
 const pageTitleAdd   = pageTitleIndex + " - Add";
 const pageTitleEdit  = pageTitleIndex + " - Edit";
-
-const linkIndex = "/" + systemConfig.prefixAdmin + "/users/";
+const linkIndex 		= "/" + systemConfig.prefixAdmin + "/users/";
 
 const listUser =  async(req, res) => {	
 	try {
@@ -34,8 +34,8 @@ const listUser =  async(req, res) => {
 	
 		params.pagination.currentPage =  await getParams.getParam(req.query, "page", 1); // lấy được trang hiện tại và cập nhập lên cho pagination
 		params.pagination.totalItems = await userService.countTotal(params);
-		
 		let items = await userService.showUsersService(params); // lấy ra các items
+
 		return res.render(`${folderView}list.viewsusers.ejs`, {
 			pageTitle: pageTitleIndex,
 			items,

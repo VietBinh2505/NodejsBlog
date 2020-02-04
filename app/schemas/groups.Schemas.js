@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const databaseConfig = require(__path_configs + "database.Config");
 
-var ItemSchema = new Schema({ 
+var GroupSchema = new Schema({ 
    username: String, 
    status: { type: String, default: "inactive" },
    ordering: Number,
@@ -19,7 +19,7 @@ var ItemSchema = new Schema({
       time: { type: Date, default: Date.now },
    }
 });
-ItemSchema.statics = {
+GroupSchema.statics = {
    countTotal(currStatus, keyword){
       let objStt = {};
       if(currStatus === "all"){
@@ -91,4 +91,4 @@ ItemSchema.statics = {
    },
 
 };
-module.exports = mongoose.model(databaseConfig.col_groups, ItemSchema);
+module.exports = mongoose.model(databaseConfig.col_groups, GroupSchema);

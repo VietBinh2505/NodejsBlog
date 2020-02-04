@@ -1,5 +1,4 @@
-import userSchema from "./../schemas/users.Schemas";
-
+const userSchema = require(__path_schemas+ "users.Schemas");
 const countTotal = (params) =>{
    let currStatus = params.currentStatus;
    let keyword = params.keyword;
