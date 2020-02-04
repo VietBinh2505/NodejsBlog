@@ -1,16 +1,12 @@
-import mongoose from "mongoose"; 
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const databaseConfig = require(__path_configs + "database.Config");
-
-var UsersSchema = new Schema({ 
+var CategSchema = new Schema({ 
    username: String, 
+   slug: String,
    status: { type: String, default: "inactive" },
    ordering: Number,
    content: String,
-   group: {
-      id: String,
-      name: String,
-   },
    created: {
       name: String,
       user_id: Number,
@@ -22,7 +18,7 @@ var UsersSchema = new Schema({
       time: { type: Date, default: Date.now },
    }
 });
-UsersSchema.statics = {
+CategSchema.statics = {
    countTotal(currStatus, keyword){
       let objStt = {};
       if(currStatus === "all"){
@@ -34,45 +30,34 @@ UsersSchema.statics = {
       }
       return this.countDocuments(objStt).exec();
    },
-   findUser(currStatus, keyword, skip, limit, sort, filterGroupId){
+   findItem(currStatus, keyword, skip, limit, sort){
       let objStt = {};
       if(currStatus === "all"){
 			if(keyword !== undefined){
             objStt = {"username": new RegExp(keyword, "i")};
          }
-      }
-      if(keyword !== ""){
+      }else{
          objStt = {"status": currStatus, "username": new RegExp(keyword, "i")};
-      }
-      if(filterGroupId !== "allvalue"){
-         objStt = {"group.id": filterGroupId};
-      }else if(filterGroupId === "allvalue"){
-         objStt = {};
       }
       return this.find(objStt).sort(sort).skip(skip).limit(limit).exec();
    },
    showInfoItemEdit(id){
       return this.find({"_id": id}).exec();
    },
-   saveUser(itemId, item, option = null){
-      if(option == "add"){ //add
+   saveItem(itemId = null, item, option = null){
+      if(option == "add"){
          return this.create(item);
-      }else if(option == "edit"){ //edit
+      }else if(option == "edit"){
          return this.findOneAndUpdate({"_id": itemId}, item).exec();
-      }else if(option == "edit_u"){
-         return this.findOneAndUpdate({"group.id": itemId}, {"group.name": item.username}).exec();
-      }else if(option == "deleGr"){
-         return this.findOneAndUpdate({"group.id": itemId}, {"group.name": item}).exec();
       }
    },
-
-   deleteUser(itemId, option = null){
+   deleteItem(itemId, option = null){
       if(option == "one"){
          return this.deleteOne({"_id": itemId}).exec();
       }else if(option == "multi"){
          return this.deleteMany({ "_id": { $in: itemId }}).exec();
       }
-   },
+   }, 
    countDocument(condition){
       return this.countDocuments(condition).exec();
    },
@@ -88,10 +73,14 @@ UsersSchema.statics = {
          return this.updateOne({"_id": id}, data).exec();
       }else if(option == "multi"){
          return this.updateMany({"_id": id}, data).exec();
+      } 
+   },
+   changeOrdering(idItems, newOrdering, index){
+      if(index !== ""){
+         return this.updateOne({"_id": idItems}, {"ordering": parseInt(newOrdering[index])}).exec();
+      }else if(index === ""){
+         return this.updateOne({"_id": idItems}, {"ordering": parseInt(newOrdering)}).exec();
       }
    },
-   countDocument(condition){
-      return this.countDocuments(condition).exec();
-   },
 };
-module.exports = mongoose.model(databaseConfig.col_user, UsersSchema);
+module.exports = mongoose.model(databaseConfig.col_category, CategSchema);

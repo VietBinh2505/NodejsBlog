@@ -1,4 +1,4 @@
-const groupSchema = require(__path_schemas+ "groups.Schemas")
+const groupSchema = require(__path_schemas+ "groups.Schemas");
 const countTotal = (params) =>{
    let currStatus = params.currentStatus;
    let keyword = params.keyword;

@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const databaseConfig = require(__path_configs + "database.Config");
-
 var ItemSchema = new Schema({ 
    username: String, 
    status: { type: String, default: "inactive" },

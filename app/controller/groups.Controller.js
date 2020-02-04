@@ -1,9 +1,9 @@
-import {getParams, filterStt} from "../helpers/index.helper";
 import util from "util";
-const {groupsService, userService} = require(__path_services + "index.Service");
-const systemConfig = require(__path_configs + "system.Config");
-const {ValidateGroups} = require(__path_validates + "index.Validate");
-const notify = require(__path_configs + "notify.Config");
+const {getParams, filterStt} 			= require(__path_helpers + "index.helper");
+const {groupsService, userService} 	= require(__path_services + "index.Service");
+const systemConfig 						= require(__path_configs + "system.Config");
+const {ValidateGroups} 					= require(__path_validates + "index.Validate");
+const notify 								= require(__path_configs + "notify.Config");
 
 const folderView	 = __path_views + "pages/groups/";
 const pageTitleIndex = "Group Management"; 
@@ -81,7 +81,7 @@ const saveGroups = async(req, res) => {
 	try {
 		if(errors){
 			let pageTitle = (checkStatus == "edit") ? pageTitleEdit : pageTitleAdd;
-			return res.render(`${folderView}form.viewsusers.ejs`, { pageTitle, item, errors, itemsGr});
+			return res.render(`${folderView}form.viewsGr.ejs`, { pageTitle, item, errors});
 		}else{
 			let messNotify = (checkStatus == "edit") ? notify.EDIT_SUCCESS : notify.ADD_SUCCESS;
 			await groupsService.saveGroups(item.id, itemNew, checkStatus);

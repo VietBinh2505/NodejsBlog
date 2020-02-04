@@ -7,17 +7,18 @@ import validator from "express-validator";
 import expressLayouts from "express-ejs-layouts";
 import flash from "express-flash-notification";
 import moment from "moment";
-const pathConfig = require('./path');
+const pathConfig = require("./path");
 // Define Path
-global.__base           = __dirname + '/';
-global.__path_app       = __base + pathConfig.folder_app + '/';
-global.__path_services  = __path_app + pathConfig.folder_services + '/';
-global.__path_configs   = __path_app + pathConfig.folder_configs + '/';
-global.__path_helpers   = __path_app + pathConfig.folder_helpers + '/';
-global.__path_routers   = __path_app + pathConfig.folder_routers + '/';
-global.__path_schemas   = __path_app + pathConfig.folder_schemas + '/';
-global.__path_validates = __path_app + pathConfig.folder_validates + '/';
-global.__path_views     = __path_app + pathConfig.folder_views + '/';
+global.__base           = __dirname + "/";
+global.__path_app       = __base + pathConfig.folder_app + "/";
+global.__path_services  = __path_app + pathConfig.folder_services + "/";
+global.__path_configs   = __path_app + pathConfig.folder_configs + "/";
+global.__path_helpers   = __path_app + pathConfig.folder_helpers + "/";
+global.__path_routers   = __path_app + pathConfig.folder_routers + "/";
+global.__path_schemas   = __path_app + pathConfig.folder_schemas + "/";
+global.__path_validates = __path_app + pathConfig.folder_validates + "/";
+global.__path_views     = __path_app + pathConfig.folder_views + "/";
+global.__path_upload     = __base + pathConfig.folder_public + "/";
 
 const ConfigSession =	require(__path_configs + "session.Config");
 const connectDB = require(__path_configs + "connectDB");
