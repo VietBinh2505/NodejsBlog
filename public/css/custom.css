@@ -28,7 +28,10 @@ li.active > a:first-child{
     margin-right: 10px;
     line-height: 15px;
 }
-
+.img-avatar-form{
+    width: 120px;
+    height: 80px;
+}
 .infor-pagination span{
     color: blue;
     font-weight: bold;

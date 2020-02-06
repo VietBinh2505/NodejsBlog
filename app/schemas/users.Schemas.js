@@ -7,6 +7,7 @@ var UsersSchema = new Schema({
    status: { type: String, default: "inactive" },
    ordering: Number,
    content: String,
+   avatar: String,
    group: {
       id: String,
       name: String,
@@ -44,7 +45,7 @@ UsersSchema.statics = {
       if(keyword !== ""){
          objStt = {"status": currStatus, "username": new RegExp(keyword, "i")};
       }
-      if(filterGroupId !== "allvalue"){
+      if(filterGroupId !== "allvalue" && filterGroupId !== ""){
          objStt = {"group.id": filterGroupId};
       }else if(filterGroupId === "allvalue"){
          objStt = {};
@@ -65,7 +66,6 @@ UsersSchema.statics = {
          return this.findOneAndUpdate({"group.id": itemId}, {"group.name": item}).exec();
       }
    },
-
    deleteUser(itemId, option = null){
       if(option == "one"){
          return this.deleteOne({"_id": itemId}).exec();

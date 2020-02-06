@@ -1,11 +1,11 @@
 import multer from "multer";
 import randomstring from "randomstring";
 import path from "path";
-
+import fs from "fs";
 let uploadFile = (field, folderdes = "users", fileNameLength = 10, fileSizemb = 1, fileExtension = "jpeg|jpg|png|gif") => {
 	const storage = multer.diskStorage({ //Up load vao dau
 		destination: (req, file, cb) => {
-			  cb(null, __path_uploads + folderdes + "/");
+			  cb(null, __path_uploads +"/"+ folderdes + "/");
 		},
 		filename: (req, file, cb) => { //upload len sau do dat ten la gi?
 			cb(null,  randomstring.generate(fileNameLength) + path.extname(file.originalname));
@@ -31,8 +31,14 @@ let uploadFile = (field, folderdes = "users", fileNameLength = 10, fileSizemb = 
 	}).single(field);
 	return upload;
 };
-
+const removefile = (folder, filename) =>{
+	if(filename != "" && filename != undefined){
+		let path = folder + filename;
+    	if (fs.existsSync(path)) { fs.unlinkSync(path, (err) => {if (err) throw err;});}
+	}
+}
 
 module.exports = {
-    upload: uploadFile
+	uploadFile,
+	removefile,
 };

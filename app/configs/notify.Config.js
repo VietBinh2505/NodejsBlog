@@ -15,5 +15,7 @@ module.exports = {
     CHANGE_GRACP_SUCCESS: "Thay đổi group ACP thành công",
     ERROR_GROUP: "Phải là một giá trị khác rỗng",
     ERROR_SLUG: "Slug không hợp lệ",
+    ERROR_AVATAR: "Avatar không được rỗng",
+    ERROR_AVATAR_MAX: "Dung lượng vượt quá 1MB"
 
 };
