@@ -111,7 +111,7 @@ const deleteItemMulti = async(req, res) =>{
 		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length), false);
 	} catch (error) {
 		console.log(error);
-		console.log("error---deleteUserMulti");
+		console.log("error---deleteItemMulti");
 	}
 	return res.redirect(linkIndex);
 };

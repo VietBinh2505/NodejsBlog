@@ -165,7 +165,7 @@ $(document).ready(function () {
        $('input[name="slug"]').val(change_alias($(this).val()));
     });
  
-    $( "form[name=form-upload]" ).submit(function( event ) {
+    $( "form[name=form_upload]" ).submit(function( event ) {
         let avatar = $(this).find("input[name=avatar]");
         $(this).find("input[name=avatar]").remove();
         $(this).append(avatar).css({'display':'none'});
