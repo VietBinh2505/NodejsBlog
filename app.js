@@ -9,17 +9,18 @@ import flash from "express-flash-notification";
 import moment from "moment";
 const pathConfig = require("./path");
 // Define Path
-global.__base           = __dirname + "/";
-global.__path_app       = __base + pathConfig.folder_app + "/";
-global.__path_services  = __path_app + pathConfig.folder_services + "/";
-global.__path_configs   = __path_app + pathConfig.folder_configs + "/";
-global.__path_helpers   = __path_app + pathConfig.folder_helpers + "/";
-global.__path_routers   = __path_app + pathConfig.folder_routers + "/";
-global.__path_schemas   = __path_app + pathConfig.folder_schemas + "/";
-global.__path_validates = __path_app + pathConfig.folder_validates + "/";
-global.__path_views     = __path_app + pathConfig.folder_views + "/";
-global.__path_uploads    = __base + pathConfig.folder_public + "/upload";
-
+global.__base             = __dirname + "/";
+global.__path_app         = __base + pathConfig.folder_app + "/";
+global.__path_services    = __path_app + pathConfig.folder_services + "/";
+global.__path_configs     = __path_app + pathConfig.folder_configs + "/";
+global.__path_helpers     = __path_app + pathConfig.folder_helpers + "/";
+global.__path_routers     = __path_app + pathConfig.folder_routers + "/";
+global.__path_schemas     = __path_app + pathConfig.folder_schemas + "/";
+global.__path_validates   = __path_app + pathConfig.folder_validates + "/";
+global.__path_uploads     = __base + pathConfig.folder_public + "/upload";
+global.__path_views       = __path_app + pathConfig.folder_views + "/";
+global.__path_views_admin = __path_views + pathConfig.folder_views_admin + "/";
+global.__path_views_blog  = __path_views + pathConfig.folder_views_blog + "/";
 const ConfigSession =	require(__path_configs + "session.Config");
 const connectDB = require(__path_configs + "connectDB");
 const systemConfig = require(__path_configs + "system.Config");
@@ -29,7 +30,7 @@ connectDB();
 ConfigSession(app);
 app.use(cookieParser());
 app.use(flash(app, {
-   viewName: __path_views + 'elements/notify',
+   viewName: __path_views_admin + 'elements/notify',
  }));
  
 app.use(validator({
@@ -45,7 +46,7 @@ bodyParser.urlencoded({ extended: false });
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(expressLayouts);
-app.set("layout", __path_views + "backend");
+app.set("layout", __path_views_admin + "backend");
 
 // app.use(logger("dev"));
 app.use(express.json());
@@ -72,7 +73,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render(__path_views +  "pages/error", { pageTitle   : "Page Not Found " });
+  res.render(__path_views_admin +  "pages/error", { pageTitle   : "Page Not Found " });
 });
 
 module.exports = app;

@@ -4,4 +4,5 @@ module.exports = {
    col_groups: "group",
    col_user: "user",
    col_category: "categ",
+   col_arti: "article",
 };

@@ -1,0 +1,74 @@
+<% 
+	const collection = "article";
+	const linkPrefix = systemConfig.prefixAdmin + `/${collection}/`;
+	const folderUpLoad = "upload/article/";
+%>
+<% include ./../../helpers/image %>
+<% include ./../../helpers/selectbox %>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Form User
+			</div>
+			<div class="panel-body">
+				<% include ./../../elements/errors %>
+				<div class="row">
+					<div class="col-lg-6">
+						<form role="form" action="<%= linkPrefix %>save/" method="POST" enctype="multipart/form-data" name="form_upload">
+							<div class="form-group">
+								<label>Name</label>
+								<input class="form-control" name="username" value="<%= item.username %>">
+							</div>
+							<div class="form-group">
+								<label> Avatar </label>
+								<input class="form-control" type="file" name="avatar">
+							</div>
+							<% if(item.id !== undefined && item.id !== ""){%>
+								<div class="form-group">
+									<label></label>
+									<td><%-imageHelper(folderUpLoad, item.avatar, item.username, "img-avatar-form")%></td>
+								</div>
+							<% } %>
+							
+							<div class="form-group">
+								<label>Ordering</label>
+								<input class="form-control" type="number" name="ordering" value="<%= item.ordering %>">
+							</div>
+							<div class="form-group">
+								<label>Status</label>
+								<select name="status" class="form-control">
+									<option value="novalue">Choose Status</option>
+									<option value="active" <%= (item.status == "active") ? 'selected="selected"' : '' %>>Active
+									</option>
+									<option value="inactive" <%= (item.status == "inactive") ? 'selected="selected"' : '' %>>
+										Inactive</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Category</label>
+								<%- selectboxHelper("category_id", itemsGr, item.categ_id) %>
+							</div>
+							<div class="form-group">
+								<label>Content</label>
+								<textarea class="form-control" name="content" rows="2" id="content_ckeditor">
+									<%= item.content %>
+								</textarea>
+							</div>
+							<div class="form-group">
+								<input class="form-control" name="id" value="<%= item.id %>" type="hidden" />
+								<input name="image_old" value="<%= item.avatar %>" type="hidden" />
+								<input class="form-control" name="category_name" type="hidden" value="<%= item.categ_name %>" />
+								<button type="submit" class="btn btn-primary">Submit </button>
+								<a type="button" href="<%= linkPrefix %>" class="btn btn-default">Cancel</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	CKEDITOR.replace("content_ckeditor");
+</script>

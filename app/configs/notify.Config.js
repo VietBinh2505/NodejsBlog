@@ -16,6 +16,7 @@ module.exports = {
     ERROR_GROUP: "Phải là một giá trị khác rỗng",
     ERROR_SLUG: "Slug không hợp lệ",
     ERROR_AVATAR: "Avatar không được rỗng",
-    ERROR_AVATAR_MAX: "Dung lượng vượt quá 1MB"
+    ERROR_AVATAR_MAX: "Dung lượng vượt quá 1MB",
+    ERROR_CATEGORY: "Categorys không được rỗng",
 
 };

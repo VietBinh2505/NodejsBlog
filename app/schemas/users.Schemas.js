@@ -27,7 +27,7 @@ UsersSchema.statics = {
    countTotal(currStatus, keyword){
       let objStt = {};
       if(currStatus === "all"){
-			if(keyword !== undefined){
+			if(keyword !== ""){
             objStt = {"username": new RegExp(keyword, "i")};
          }
       }else{
@@ -41,15 +41,16 @@ UsersSchema.statics = {
 			if(keyword !== undefined){
             objStt = {"username": new RegExp(keyword, "i")};
          }
-      }
-      if(keyword !== ""){
+      }else if(keyword !== ""){
          objStt = {"status": currStatus, "username": new RegExp(keyword, "i")};
       }
       if(filterGroupId !== "allvalue" && filterGroupId !== ""){
          objStt = {"group.id": filterGroupId};
-      }else if(filterGroupId === "allvalue"){
-         objStt = {};
       }
+      // if(filterGroupId === "allvalue"){
+      //    console.log("4");
+      //    objStt = {};
+      // }
       return this.find(objStt).sort(sort).skip(skip).limit(limit).exec();
    },
    showInfoItemEdit(id){
