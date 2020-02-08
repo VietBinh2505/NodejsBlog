@@ -5,7 +5,7 @@ const systemConfig 				= require(__path_configs + "system.Config");
 const {ValidateItems} 			= require(__path_validates + "index.Validate");
 const notify 						= require(__path_configs + "notify.Config");
 
-const folderView	 = __path_views + "pages/items/";
+const folderView	 = __path_views_admin + "pages/items/";
 const pageTitleIndex = "Item Management"; 
 const pageTitleAdd   = pageTitleIndex + " - Add";
 const pageTitleEdit  = pageTitleIndex + " - Edit";
@@ -67,18 +67,18 @@ const formItem = async (req, res) => {
 };
 const saveItem = async(req, res) => {
 	req.body = JSON.parse(JSON.stringify(req.body));
-	ValidateItems.validator(req);
 	let item = Object.assign(req.body);
-	let errors = req.validationErrors();
+	let checkStatus = (typeof item !== "undefined" && item.id !== "" ) ? "edit" : "add"; //check xem user add hay edit
+	let errors = ValidateItems.validator(req);
 	let itemNew = {
 		username: req.body.username,
 		ordering: req.body.ordering,
 		status: req.body.status,
 		content: req.body.content,
 	};
-	let checkStatus = (typeof item !== "undefined" && item.id !== "" ) ? "edit" : "add"; //check xem user add hay edit
+	
 	try {
-		if(errors){
+		if(errors.length > 0){
 			let pageTitle = (checkStatus == "edit") ? pageTitleEdit : pageTitleAdd;
 			return res.render(`${folderView}form.viewsitems.ejs`, { pageTitle, item, errors});
 		}else{

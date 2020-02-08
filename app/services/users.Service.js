@@ -1,5 +1,6 @@
 const userSchema = require(__path_schemas+ "users.Schemas");
 const {FileHelper} = require(__path_helpers + "index.helper");
+const uploadFolder = "public/upload/users/";
 const countTotal = (params) =>{
    let currStatus = params.currentStatus;
    let keyword = params.keyword;
@@ -74,20 +75,20 @@ const deleteUser = (itemId, option = null) =>{
       let item = null
       if(option == "one"){
          item = await userSchema.showInfoItemEdit(itemId);
-         let path = "public/upload/users/";
+         let path = uploadFolder;
          FileHelper.removefile(path, item[0].avatar);
          items = await userSchema.deleteUser(itemId, "one");
       }else if(option == "multi"){
          if(Array.isArray(itemId)){
             for(let i = 0; i < itemId.length; i++){
                await userSchema.showInfoItemEdit(itemId).then((item)=>{
-                  let path = "public/upload/users/";
+                  let path = uploadFolder;
                   FileHelper.removefile(path, item[i].avatar);
                });
             }
          }else{
             await userSchema.showInfoItemEdit(itemId).then((item)=>{
-               let path = "public/upload/users/";
+               let path = uploadFolder;
                FileHelper.removefile(path, item[0].avatar);
             });
          }

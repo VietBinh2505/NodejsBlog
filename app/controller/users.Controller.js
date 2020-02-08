@@ -4,7 +4,7 @@ const { userService, groupsService } = require(__path_services + "index.Service"
 const { ValidateUsers } = require(__path_validates + "index.Validate");
 const notify = require(__path_configs + "notify.Config");
 const systemConfig = require(__path_configs + "system.Config");
-const folderView = __path_views + "pages/users/";
+const folderView = __path_views_admin + "pages/users/";
 const pageTitleIndex = "User Management";
 const pageTitleAdd = pageTitleIndex + " - Add";
 const pageTitleEdit = pageTitleIndex + " - Edit";
@@ -19,7 +19,6 @@ const listUser = async (req, res) => {
 		params.sortType = await getParams.getParam(req.session, "sort_Type", "asc"); // lấy trạng thái trên url (all, active, inactive)
 		params.sortFiled = await getParams.getParam(req.session, "sort_Field", "ordering"); // lấy trạng thái trên url (all, active, inactive)
 		params.filterGroupId = await getParams.getParam(req.session, "filter_groupId", "");
-
 		params.statusFilter = await filterStt.createFilterStatus(params, "users.Service"); // tạo ra bộ lọc
 		params.pagination = {
 			totalItems: 1,
@@ -80,7 +79,7 @@ const saveUser = async (req, res) => {
 		let item = Object.assign(req.body);
 		let checkStatus = (typeof item !== "undefined" && item.id !== "") ? "edit" : "add"; //check xem user add hay edit
 		let errors = ValidateUsers.validator(req, errorUpload, checkStatus);
-		
+		 
 		let itemsGr = await groupsService.showAllGropItem();
 		itemsGr.unshift({ "_id": "novalue", "username": "Choose Group" }); //thêm phần tử vào vị trí đầu tiên trong mảng
 		let itemNew = {
@@ -91,7 +90,7 @@ const saveUser = async (req, res) => {
 		};
 		itemNew.group = {
 			id: item.group,
-			name: item.group_name
+			name: item.group_name,
 		};
 		try {
 			if (errors.length > 0) {
@@ -105,7 +104,7 @@ const saveUser = async (req, res) => {
 				return res.render(`${folderView}form.viewsusers.ejs`, { pageTitle, item, errors, itemsGr });
 			} else {
 				let messNotify = (checkStatus == "edit") ? notify.EDIT_SUCCESS : notify.ADD_SUCCESS;
-				if(req.file.filename == undefined){
+				if(req.file == undefined){
 					itemNew.avatar = item.image_old;
 				}else{
 					itemNew.avatar = req.file.filename;
@@ -113,6 +112,7 @@ const saveUser = async (req, res) => {
 						FileHelper.removefile("public/upload/users/", item.image_old);
 					} 
 				}
+				console.log(itemNew);
 				await userService.saveUser(item.id, itemNew, checkStatus);
 				req.flash("success", messNotify, false);
 			}

@@ -5,7 +5,7 @@ const systemConfig 						= require(__path_configs + "system.Config");
 const {ValidateGroups} 					= require(__path_validates + "index.Validate");
 const notify 								= require(__path_configs + "notify.Config");
 
-const folderView	 = __path_views + "pages/groups/";
+const folderView	 = __path_views_admin + "pages/groups/";
 const pageTitleIndex = "Group Management"; 
 const pageTitleAdd   = pageTitleIndex + " - Add";
 const pageTitleEdit  = pageTitleIndex + " - Edit";

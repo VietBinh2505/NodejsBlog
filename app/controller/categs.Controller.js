@@ -1,11 +1,11 @@
 import util from "util";
 const {getParams, filterStt, createalias} = require(__path_helpers + "index.helper");
-const {categsService} 		= require(__path_services + "index.Service");
+const {categsService, articlesService} 		= require(__path_services + "index.Service");
 const systemConfig 			= require(__path_configs + "system.Config");
 const {Validatecategorys} 	= require(__path_validates + "index.Validate");
 const notify 					= require(__path_configs + "notify.Config");
 
-const folderView	 = __path_views + "pages/categorys/";
+const folderView	 = __path_views_admin + "pages/categorys/";
 const pageTitleIndex = "Categorys Management"; 
 const pageTitleAdd   = pageTitleIndex + " - Add";
 const pageTitleEdit  = pageTitleIndex + " - Edit";
@@ -85,6 +85,7 @@ const saveCateg = async(req, res) => {
 		}else{
 			let messNotify = (checkStatus == "edit") ? notify.EDIT_SUCCESS : notify.ADD_SUCCESS;
 			await categsService.saveCateg(item.id, itemNew, checkStatus);
+			await articlesService.saveArticle(item.id, itemNew, "editcateg");
 			req.flash("success", messNotify, false);
 		}
 	} catch (error) {
@@ -95,8 +96,12 @@ const saveCateg = async(req, res) => {
 };
 const deleteCateg = async(req, res) =>{
 	let itemId = await getParams.getParam(req.params, "id", "");
+	let categ = {
+		name: "Đã xóa",
+	};
 	try {
-		await categsService.deleteCateg(itemId, "one");
+		//await categsService.deleteCateg(itemId, "one");
+		await articlesService.saveArticle(itemId, categ.name, "delecateg");
 		req.flash("success", notify.DELETE_SUCCESS, false);
 	} catch (error) {
 		console.log(error);
@@ -107,8 +112,14 @@ const deleteCateg = async(req, res) =>{
 const deleteCategMulti = async(req, res) =>{
 	let idItem = req.body.cid;
 	let length = idItem.length;
+	let categ = {
+		name: "Đã xóa",
+	};
 	try {
-		await categsService.deleteCateg(idItem, "multi");
+		for(let i = 0; i < length; i++){
+			await categsService.deleteCateg(idItem[i], "multi");
+			await articlesService.saveArticle(idItem[i], categ.name, "delecateg");
+		}
 		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length), false);
 	} catch (error) {
 		console.log(error);

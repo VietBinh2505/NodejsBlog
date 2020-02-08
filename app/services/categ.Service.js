@@ -1,5 +1,4 @@
 const categSchema = require(__path_schemas + "categ.Shemas");
-
 const showCategService = (params) =>{
    let skip = ((params.pagination.currentPage - 1) * params.pagination.totalItemsPerPage); //lấy được số phần tử bỏ qua
    let sort = {};
@@ -70,7 +69,7 @@ const saveCateg = (itemId, item, option = null) =>{
       if(items !== null){
          return resolve(items);
       }else{
-         return reject();
+         return reject("error-saveCateg");
       }
    });
 };
@@ -85,7 +84,7 @@ const deleteCateg = (itemId, option = null) =>{
       if(items !== null){
          return resolve(items);
       }else{
-         return reject();
+         return reject("deleCateg");
       }
    });
 };
@@ -125,6 +124,16 @@ const changeOrdering = (idItem, newOrdering, index) =>{
       }
    });
 };
+const showAllArticle = () =>{ // đổ ra ở 
+   return new Promise(async(resolve, reject)=>{
+      let items = await categSchema.showAllArticle();
+      if(items){
+         return resolve(items);
+      }else{
+         return reject();
+      }
+   });
+};
 export default {
    showCategService,
    countTotal,
@@ -134,4 +143,5 @@ export default {
    deleteCateg,
    changeStatus,
    changeOrdering,
+   showAllArticle
 }; 

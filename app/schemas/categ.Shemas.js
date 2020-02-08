@@ -82,5 +82,8 @@ CategSchema.statics = {
          return this.updateOne({"_id": idItems}, {"ordering": parseInt(newOrdering)}).exec();
       }
    },
+   showAllArticle(){
+      return this.find({}, {"_id": 1, "username": 1}).exec();
+   },
 };
 module.exports = mongoose.model(databaseConfig.col_category, CategSchema);
