@@ -16,4 +16,4 @@ let createalias = (value)=>{
 
 module.exports = {
    createalias,
-}
+};

@@ -1,6 +1,6 @@
 import express from "express";
 var router 	= express.Router();
-import { GroupsCTL} from "../../controller/index.Controller";
+const { GroupsCTL} = require(__path_ctl_BE + "index.Controller");
 // admin/group/...
 router.get("/", GroupsCTL.listGroups);
 router.get("/form(/:id)?", GroupsCTL.formGroups);

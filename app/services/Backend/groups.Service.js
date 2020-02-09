@@ -59,7 +59,7 @@ const saveGroups = (itemId, item, option = null) =>{
       if(items !== null){
          return resolve(items);
       }else{
-         return reject();
+         return reject("loi o saveGroups");
       }
    });
 };

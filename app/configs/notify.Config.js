@@ -18,5 +18,6 @@ module.exports = {
     ERROR_AVATAR: "Avatar không được rỗng",
     ERROR_AVATAR_MAX: "Dung lượng vượt quá 1MB",
     ERROR_CATEGORY: "Categorys không được rỗng",
-
+    CHANGE_NORMAL_SUCCESS: "Thay đổi trạng thái Special thành công",
+    CHANGE_NORMAL_MULTI_SUCCESS : "Thay đổi trạng thái Special thành công",
 };

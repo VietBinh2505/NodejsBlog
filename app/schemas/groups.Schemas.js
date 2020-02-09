@@ -4,6 +4,7 @@ const databaseConfig = require(__path_configs + "database.Config");
 
 var GroupSchema = new Schema({ 
    username: String, 
+   slug: String,
    status: { type: String, default: "inactive" },
    ordering: Number,
    group_acp: String,

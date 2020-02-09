@@ -18,8 +18,12 @@
 						<form role="form" action="<%= linkPrefix %>save/" method="POST" enctype="multipart/form-data" name="form_upload">
 							<div class="form-group">
 								<label>Name</label>
-								<input class="form-control" name="username" value="<%= item.username %>">
+								<input class="form-control" name="username" id="name_slug" value="<%= item.username %>">
 							</div>
+							<div class="form-group">
+								<label>Slug</label>
+								<input class="form-control" name="slug" value="<%= item.slug %>">
+						  </div>
 							<div class="form-group">
 								<label> Avatar </label>
 								<input class="form-control" type="file" name="avatar">
@@ -45,6 +49,16 @@
 										Inactive</option>
 								</select>
 							</div>
+							<div class="form-group">
+								<label>Special</label>
+								<select name="special" class="form-control">
+									 <option value="novalue">Choose Special</option>
+									 <option value="top_post"
+										  <%= (item.special == 'top_post') ? 'selected = "selected"' : ''%>>Top Post</option>
+									 <option value="normal"
+										  <%= (item.special == 'normal') ? 'selected = "selected"' : '' %>>Normal</option>
+								</select>
+						  </div>
 							<div class="form-group">
 								<label>Category</label>
 								<%- selectboxHelper("category_id", itemsGr, item.categ_id) %>

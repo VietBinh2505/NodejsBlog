@@ -65,7 +65,7 @@ const saveUser = (itemId, item, option = null) =>{
       if(items){
          return resolve(items); 
       }else{
-         return reject();
+         return reject("loi o saveUser");
       }
    });
 };

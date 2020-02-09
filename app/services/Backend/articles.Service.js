@@ -1,4 +1,4 @@
-const articleSchemas = require(__path_schemas+ "articles.Schemas");
+const articleSchemas = require(__path_schemas+ "article.Schemas");
 const {FileHelper} = require(__path_helpers + "index.helper");
 const uploadFolder = "public/upload/article/";
 const countTotal = (params) =>{
@@ -128,6 +128,32 @@ const changeStatus = (idItem, currStatus, option = null) =>{
       }
    });
 };
+const changeSpecial = (idItem, currStatus, option = null) =>{
+   let special = (currStatus === "normal") ? "top_post" : "normal"; // thay dổi 1
+   
+   let data = {
+		modified: {
+			user_id: 1, 
+			name: "admin",
+			time: Date.now(),
+		}
+   };
+   let items = null;
+   return new Promise(async(resolve, reject)=>{
+      if(option == "one"){
+         data.special = special
+         items = await articleSchemas.changeSpecial(idItem, data, "one");
+      }else if(option == "multi"){
+         data.special = special;
+         items = await articleSchemas.changeSpecial(idItem, data, "multi");
+      }
+      if(items !== null){
+         return resolve(items);
+      }else{
+         return reject();
+      }
+   });
+};
 const changeOrdering = (idItem, newOrdering, index) =>{
    return new Promise(async(resolve, reject)=>{
       let items = await articleSchemas.changeOrdering(idItem, newOrdering, index);
@@ -157,4 +183,5 @@ export default {
    changeStatus,
    changeOrdering,
    countDocument,
+   changeSpecial,
 };

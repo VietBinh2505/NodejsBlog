@@ -2,7 +2,7 @@ const util  = require("util");
 const notify= require(__path_configs + "notify.Config");
 
 const options = {
-    name:       { min: 1, max: 30 },
+    name:       { min: 1, max: 100 },
     ordering:   { min: 0, max: 100 },
     status:     { value: "novalue" },
     categ:      { value: "novalue" },

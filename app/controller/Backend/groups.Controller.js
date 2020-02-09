@@ -1,6 +1,6 @@
 import util from "util";
-const {getParams, filterStt} 			= require(__path_helpers + "index.helper");
-const {groupsService, userService} 	= require(__path_services + "index.Service");
+const {getParams, filterStt, createalias} = require(__path_helpers + "index.helper");
+const {groupsService, userService} 	= require(__path_sv_BE + "index.Service");
 const systemConfig 						= require(__path_configs + "system.Config");
 const {ValidateGroups} 					= require(__path_validates + "index.Validate");
 const notify 								= require(__path_configs + "notify.Config");
@@ -76,6 +76,7 @@ const saveGroups = async(req, res) => {
 		status: req.body.status,
 		content: req.body.content,
 		group_acp: req.body.group_acp,
+		slug: createalias.createalias(req.body.slug),
 	};
 	let checkStatus = (typeof item !== "undefined" && item.id !== "" ) ? "edit" : "add"; //check xem user add hay edit
 	try {

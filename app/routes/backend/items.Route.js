@@ -1,6 +1,6 @@
 import express from "express";
 var router 	= express.Router();
-import { itemsCTL} from "../../controller/index.Controller";
+const { itemsCTL} = require(__path_ctl_BE + "index.Controller");
 // admin/item/...
 router.get("/", itemsCTL.listItem);
 router.get("/form(/:id)?", itemsCTL.formItem);

@@ -5,6 +5,8 @@ const databaseConfig = require(__path_configs + "database.Config");
 var ArticleSchema = new Schema({ 
    username: String, 
    status: { type: String, default: "inactive" },
+   special: { type: String, default: "normal" },
+   slug: String,
    ordering: Number,
    content: String,
    avatar: String,
@@ -89,6 +91,20 @@ ArticleSchema.statics = {
       }else if(option == "multi"){
          return this.updateMany({"_id": id}, data).exec();
       }
+   },
+   // -------------------------------------------------------------------------------- //
+   changeSpecial(id, data, option = null){
+      if(option == "one"){
+         return this.updateOne({"_id": id}, data).exec();
+      }else if(option == "multi"){
+         return this.updateMany({"_id": id}, data).exec();
+      }
+   }, 
+   listArticleSpecial(){
+      return this.find({status: "active", special: "top_post"})
+         .select("username created.name created.time categ.name avatar")
+         .limit(3)
+         .sort({ordering: "asc"});
    },
 };
 module.exports = mongoose.model(databaseConfig.col_arti, ArticleSchema);
