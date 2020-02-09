@@ -1,11 +1,8 @@
 import express from "express";
 var router = express.Router();
 
-const folderView	 = __path_views + "pages/publish/";
+const {articleCTL_FE} = require(__path_ctl_FE + "index.ControllerFE")
 
-/* GET home page. */
-router.get("/", function(req, res, next) {
-  res.render(`${folderView}index`, { pageTitle   : "publishPage " });
-});
+router.get("/", articleCTL_FE.listItem);
 
 module.exports = router;

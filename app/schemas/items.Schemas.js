@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const databaseConfig = require(__path_configs + "database.Config");
 var ItemSchema = new Schema({ 
    username: String, 
+   slug: String,
    status: { type: String, default: "inactive" },
    ordering: Number,
    content: String,

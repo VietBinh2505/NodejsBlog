@@ -1,17 +1,17 @@
 import util from "util";
-const {getParams, filterStt, createalias} = require(__path_helpers + "index.helper");
-const {categsService, articlesService} 		= require(__path_services + "index.Service");
-const systemConfig 			= require(__path_configs + "system.Config");
-const {Validatecategorys} 	= require(__path_validates + "index.Validate");
-const notify 					= require(__path_configs + "notify.Config");
+const {getParams, filterStt, createalias} 	= require(__path_helpers + "index.helper");
+const {itemsService} 			= require(__path_sv_BE + "index.Service");
+const systemConfig 				= require(__path_configs + "system.Config");
+const {ValidateItems} 			= require(__path_validates + "index.Validate");
+const notify 						= require(__path_configs + "notify.Config");
 
-const folderView	 = __path_views_admin + "pages/categorys/";
-const pageTitleIndex = "Categorys Management"; 
+const folderView	 = __path_views_admin + "pages/items/";
+const pageTitleIndex = "Item Management"; 
 const pageTitleAdd   = pageTitleIndex + " - Add";
 const pageTitleEdit  = pageTitleIndex + " - Edit";
-const linkIndex = "/" + systemConfig.prefixAdmin + "/categorys/";
+const linkIndex = "/" + systemConfig.prefixAdmin + "/items/";
 
-const listCateg =  async(req, res) => {	
+const listItem =  async(req, res) => {	
 	try {
 		let params = {}; 
 		params.currentStatus = getParams.getParam(req.params, "status", "all"); //lấy trạng thái trên url
@@ -19,7 +19,7 @@ const listCateg =  async(req, res) => {
 		params.sortType 		= getParams.getParam(req.session, "sort_Type", "asc"); //lấy trạng thái trên url
 		params.sortFiled 		= getParams.getParam(req.session, "sort_Field", "ordering"); //lấy trạng thái trên url
 		
-		params.statusFilter = await filterStt.createFilterStatus(params, "categ.Service"); //tạo ra bộ lọc
+		params.statusFilter = await filterStt.createFilterStatus(params, "items.Service"); //tạo ra bộ lọc
 		params.pagination = {
 			totalItems: 1,
 			totalItemsPerPage : 4,
@@ -28,9 +28,9 @@ const listCateg =  async(req, res) => {
 		}; 
 		
 		params.pagination.currentPage =  await getParams.getParam(req.query, "page", 1); //lấy được trang hiện tại và cập nhập lên cho pagination
-		params.pagination.totalItems 	= await categsService.countTotal(params);
-		let items = await categsService.showCategService(params); //lấy ra các items
-		return res.render(`${folderView}list.viewscateg.ejs`, {
+		params.pagination.totalItems 	= await itemsService.countTotal(params);
+		let items = await itemsService.showItemService(params); //lấy ra các items
+		return res.render(`${folderView}list.viewsitems.ejs`, {
 			pageTitle: pageTitleIndex,
 			items,
 			params,
@@ -40,15 +40,15 @@ const listCateg =  async(req, res) => {
 		console.log("error---listItem");
 	}
 }; 
-const formCateg = async (req, res) => {
+const formItem = async (req, res) => {
 	let id = await getParams.getParam(req.params, "id", "");
 	let item = {id: id, username: "", ordering: 0, status: "novalue"};
 	let errors   = null;
 
 	if(id){
 		try {
-			item = await categsService.showInfoCategEdit(id); //lấy ra các items
-			return res.render(`${folderView}form.viewscateg.ejs`, {
+			item = await itemsService.showInfoItemEdit(id); //lấy ra các items
+			return res.render(`${folderView}form.viewsitems.ejs`, {
 				pageTitle: pageTitleEdit,
 				item,
 				errors,
@@ -58,18 +58,18 @@ const formCateg = async (req, res) => {
 			console.log("error---formItem");
 		}
 	}else{
-		return res.render(`${folderView}form.viewscateg.ejs`, {
+		return res.render(`${folderView}form.viewsitems.ejs`, {
 			pageTitle: pageTitleAdd,
 			item,
 			errors
 		});
 	}
-}; 
-const saveCateg = async(req, res) => {
+};
+const saveItem = async(req, res) => {
 	req.body = JSON.parse(JSON.stringify(req.body));
-	Validatecategorys.validator(req);
 	let item = Object.assign(req.body);
-	let errors = req.validationErrors();
+	let checkStatus = (typeof item !== "undefined" && item.id !== "" ) ? "edit" : "add"; //check xem user add hay edit
+	let errors = ValidateItems.validator(req);
 	let itemNew = {
 		username: req.body.username,
 		ordering: req.body.ordering,
@@ -77,53 +77,42 @@ const saveCateg = async(req, res) => {
 		content: req.body.content,
 		slug: createalias.createalias(req.body.slug),
 	};
-	let checkStatus = (typeof item !== "undefined" && item.id !== "" ) ? "edit" : "add"; //check xem user add hay edit
+	
 	try {
-		if(errors){
+		if(errors.length > 0){
 			let pageTitle = (checkStatus == "edit") ? pageTitleEdit : pageTitleAdd;
-			return res.render(`${folderView}form.viewscateg.ejs`, { pageTitle, item, errors});
+			return res.render(`${folderView}form.viewsitems.ejs`, { pageTitle, item, errors});
 		}else{
 			let messNotify = (checkStatus == "edit") ? notify.EDIT_SUCCESS : notify.ADD_SUCCESS;
-			await categsService.saveCateg(item.id, itemNew, checkStatus);
-			await articlesService.saveArticle(item.id, itemNew, "editcateg");
+			await itemsService.saveItem(item.id, itemNew, checkStatus);
 			req.flash("success", messNotify, false);
 		}
 	} catch (error) {
 		console.log(error);
-		console.log("error-saveCateg");
+		console.log("error-saveItem");
 	}
 	return res.redirect(linkIndex);
 };
-const deleteCateg = async(req, res) =>{
+const deleteItem = async(req, res) =>{
 	let itemId = await getParams.getParam(req.params, "id", "");
-	let categ = {
-		name: "Đã xóa",
-	};
 	try {
-		//await categsService.deleteCateg(itemId, "one");
-		await articlesService.saveArticle(itemId, categ.name, "delecateg");
+		await itemsService.deleteItem(itemId, "one");
 		req.flash("success", notify.DELETE_SUCCESS, false);
 	} catch (error) {
 		console.log(error);
-		console.log("error---deleteCateg");
+		console.log("error---deleteItem");
 	}
 	return res.redirect(linkIndex);
 }; 
-const deleteCategMulti = async(req, res) =>{
+const deleteItemMulti = async(req, res) =>{
 	let idItem = req.body.cid;
 	let length = idItem.length;
-	let categ = {
-		name: "Đã xóa",
-	};
 	try {
-		for(let i = 0; i < length; i++){
-			await categsService.deleteCateg(idItem[i], "multi");
-			await articlesService.saveArticle(idItem[i], categ.name, "delecateg");
-		}
+		await itemsService.deleteItem(idItem, "multi");
 		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length), false);
 	} catch (error) {
 		console.log(error);
-		console.log("error---deleteCategMulti");
+		console.log("error---deleteItemMulti");
 	}
 	return res.redirect(linkIndex);
 };
@@ -132,7 +121,7 @@ const changeStatus = async(req, res) =>{
 	let id = await getParams.getParam(req.params, "id", ""); //lấy trạng thái trên url
 	
 	try {
-		await categsService.changeStatus(id, currStatus, "one");
+		await itemsService.changeStatus(id, currStatus, "one");
 	} catch (error) {
 		console.log(error);
 		console.log("error---changeStatus");
@@ -145,7 +134,7 @@ const changeStatusMulti = async(req, res) =>{
 	let idItem = req.body.cid;
 	let length = idItem.length;
 	try {
-		await categsService.changeStatus(idItem, statusNew, "multi");
+		await itemsService.changeStatus(idItem, statusNew, "multi");
 	} catch (error) {
 		console.log(error);
 		console.log("error---changeStatusMulti");
@@ -166,10 +155,10 @@ const changeOrdering = async(req, res) => {
 	let newOrdering = req.body.ordering;
 	try {
 		if(length == 1){// đổi 1
-			await categsService.changeOrdering(idItems, newOrdering, "");
+			await itemsService.changeOrdering(idItems, newOrdering, "");
 		}else if(length > 1){ // đổi nhiều
 			idItems.forEach(async(idItem, index)=>{
-				await categsService.changeOrdering(idItem, newOrdering, index);
+				await itemsService.changeOrdering(idItem, newOrdering, index);
 			});
 		}
 		req.flash("success", util.format(notify.CHANGE_ORDERING_SUCCESS, length), false);
@@ -179,17 +168,18 @@ const changeOrdering = async(req, res) => {
 	}
 	return res.redirect(linkIndex);
 };
+
 const sort = async (req, res) =>{
 	req.session.sort_Field = await getParams.getParam(req.params, "sortField", "ordering");
 	req.session.sort_Type = await getParams.getParam(req.params, "sortType", "asc");
 	return res.redirect(linkIndex);
 };
 export default {
-   listCateg,
-	formCateg,
-	saveCateg,
-	deleteCateg,
-	deleteCategMulti,
+	listItem,
+	formItem,
+	saveItem,
+	deleteItem,
+	deleteItemMulti,
 	changeStatusMulti,
 	changeStatus,
 	changeOrdering,

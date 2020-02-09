@@ -35,7 +35,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Content</label>
-                                <textarea class="form-control" name="content" rows="2" id="content_ck"><%= item.content %></textarea>
+                                <textarea class="form-control" name="content" rows="2" id="content_ckeditor"><%= item.content %></textarea>
                             </div>
                             <input class="form-control" name="id" value="<%= item.id %>" type="hidden">
                             <button type="submit" class="btn btn-primary">Submit </button>
@@ -48,9 +48,6 @@
     </div>
 </div>
 
-<script>
-    CKEDITOR.replace('content_ck');
-</script>
 <script>
 	CKEDITOR.replace("content_ckeditor");
 </script>

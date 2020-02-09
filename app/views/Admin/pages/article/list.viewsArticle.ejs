@@ -6,6 +6,7 @@
 <% include ./../../helpers/sort %>
 <% include ./../../helpers/selectbox %>
 <% include ./../../helpers/image %>
+<% include ./../../helpers/special %>
 <% 
 	const collection = "article";
 	const linkPrefix = systemConfig.prefixAdmin + `/${collection}/`; //admin/users
@@ -64,6 +65,7 @@
 									<%-sortHelper(linkPrefix,  "Name", "username", params.sortFiled, params.sortType, "width: 10%") %>
 									<th>Avatar</th>
 									<%-sortHelper(linkPrefix,  "Status", "status", params.sortFiled, params.sortType) %>
+									<%-sortHelper(linkPrefix,  "Special", "special", params.sortFiled, params.sortType) %>
 									<%-sortHelper(linkPrefix,  "Ordering", "ordering", params.sortFiled, params.sortType) %>
 									<%-sortHelper(linkPrefix,  "Group", "group", params.sortFiled, params.sortType) %>
 									<th>Created</th>
@@ -80,6 +82,7 @@
 											<td><%= item.username %></td>
 											<td><%- imageHelper(folderUpLoad, item.avatar, item.username)%></td>
 											<td><%- statusHelper(linkPrefix, item.status, item.id) %></td>
+											<td><%- specialHelper(linkPrefix, item.special, item.id) %></td>
 											<td><input type="number" value="<%= item.ordering %>" class="text-center ordering"></td>
 											<td><%= item.categ.name %></td>
 											<td><%- sourceByHelper(item.created.name, item.created.time) %></td>

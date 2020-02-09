@@ -1,0 +1,67 @@
+<% 
+	folderUpload = "upload/article/";
+%>
+<% if(itemHome.length > 2){ %>
+	<section class="top-post-area pt-10">
+		<div class="container no-padding">
+			<div class="row small-gutters">
+				<div class="col-lg-8 top-post-left">
+					<div class="feature-image-thumb relative">
+						<div class="overlay overlay-bg"></div>
+						<img class="img-fluid" src="<%= folderUpload + itemHome[0].avatar %>" alt="">
+					</div>
+					<div class="top-post-details">
+						<ul class="tags">
+							<li>
+								<a href="#"><%= itemHome[0].categ.name %></a> <!-- thẻ tag -->
+							</li>
+						</ul>
+						<a href="image-post.html">
+							<h3><%= itemHome[0].username %></h3> <!-- tên bài viết -->
+						</a>
+						<ul class="meta">
+							<li>
+								<a href="#">
+									<span class="lnr lnr-user"></span><%= itemHome[0].created.name %></a> <!-- tên người viết -->
+							</li>
+							<li>
+								<a href="#">
+									<span class="lnr lnr-calendar-full"></span><%= moment(itemHome[0].created.time).format(systemConfig.format_long_timeFE) %></a><!-- thời gian viết -->
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-4 top-post-right">
+					<% for(let i = 1; i < itemHome.length; i++){ %>
+						<div class="single-top-post">
+							<div class="feature-image-thumb relative">
+								<div class="overlay overlay-bg"></div>
+								<img class="img-fluid" src="<%= folderUpload + itemHome[i].avatar %>" alt="<%= folderUpload + itemHome[i].avatar %>">
+							</div>
+							<div class="top-post-details">
+								<ul class="tags">
+									<li>
+										<a href="#"><%= itemHome[i].categ.name %></a><!-- thẻ tag -->
+									</li>
+								</ul>
+								<a href="image-post.html">
+									<h4><%= itemHome[i].username %></h4> <!-- tên bài viết -->
+								</a>
+								<ul class="meta">
+									<li>
+										<a href="#">
+											<span class="lnr lnr-user"></span><%= itemHome[i].created.name %></a> <!-- tên người viết -->
+									</li>
+									<li>
+										<a href="#">
+											<span class="lnr lnr-calendar-full"></span><%= moment(itemHome[i].created.time).format(systemConfig.format_long_timeFE) %></a><!-- thời gian viết -->
+									</li>
+								</ul>
+							</div>
+						</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</section>
+<% } %>

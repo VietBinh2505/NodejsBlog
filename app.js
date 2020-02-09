@@ -12,15 +12,25 @@ const pathConfig = require("./path");
 global.__base             = __dirname + "/";
 global.__path_app         = __base + pathConfig.folder_app + "/";
 global.__path_services    = __path_app + pathConfig.folder_services + "/";
+global.__path_sv_BE      = __path_services + pathConfig.folder_sv_BE + "/";
+global.__path_sv_FE      = __path_services + pathConfig.folder_sv_FE + "/";
 global.__path_configs     = __path_app + pathConfig.folder_configs + "/";
 global.__path_helpers     = __path_app + pathConfig.folder_helpers + "/";
 global.__path_routers     = __path_app + pathConfig.folder_routers + "/";
 global.__path_schemas     = __path_app + pathConfig.folder_schemas + "/";
+
+
 global.__path_validates   = __path_app + pathConfig.folder_validates + "/";
 global.__path_uploads     = __base + pathConfig.folder_public + "/upload";
 global.__path_views       = __path_app + pathConfig.folder_views + "/";
+
+global.__path_ctl         = __path_app + pathConfig.folder_ctl + "/";
+global.__path_ctl_BE      = __path_ctl + pathConfig.folder_ctl_BE + "/";
+global.__path_ctl_FE      = __path_ctl + pathConfig.folder_ctl_FE + "/";
+
 global.__path_views_admin = __path_views + pathConfig.folder_views_admin + "/";
 global.__path_views_blog  = __path_views + pathConfig.folder_views_blog + "/";
+
 const ConfigSession =	require(__path_configs + "session.Config");
 const connectDB = require(__path_configs + "connectDB");
 const systemConfig = require(__path_configs + "system.Config");
@@ -58,7 +68,7 @@ app.locals.systemConfig = systemConfig;
 app.locals.moment = moment;
 // Setup router
 app.use(`/${systemConfig.prefixAdmin}`, require(__path_routers + "backend/index.Route"));
-app.use("/", require(__path_routers + "frontend/index.Route"));
+app.use(`/${systemConfig.prefixBlog}`, require(__path_routers + "frontend/index.Route"));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
