@@ -4,13 +4,15 @@ const layoutFE 	= __path_views_blog + "frontend";
 const pageTitleIndex = "Publish Page"; 
 
 const listItem =  async(req, res) => {	
-   let itemHome = await articleServiceFE.listArticleSpecial();
+	let itemSpecial = await articleServiceFE.listArticleSpecial(null, "ItemSpecial");
+	let itemNew = await articleServiceFE.listArticleSpecial(null, "itemNew");
 	try {
 		res.render(`${folderView}indexHomeBlog`, {
          pageTitle: pageTitleIndex,
          layout: layoutFE,
          top_post: true,
-         itemHome,
+			itemSpecial,
+			itemNew,
       }); 
 	} catch (error) {
 		console.log(error);
