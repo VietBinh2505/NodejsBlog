@@ -100,11 +100,21 @@ ArticleSchema.statics = {
          return this.updateMany({"_id": id}, data).exec();
       }
    }, 
-   listArticleSpecial(){
-      return this.find({status: "active", special: "top_post"})
-         .select("username created.name created.time categ.name avatar")
-         .limit(3)
-         .sort({ordering: "asc"});
+   listArticleSpecial(params = null, option = null){
+      let find = "";
+      let select = "username created.name created.time categ.name avatar";
+      let limit = 3;
+      let sort = "";
+      if(option == "ItemSpecial"){
+         find = {status: "active", special: "top_post"};
+         sort = {ordering: "asc"};
+      }
+      if(option == "itemNew"){
+         select = "username created.name created.time categ.name avatar content";
+         find = {status: "active"};
+         sort = {"created.time": "desc"};
+      }
+      return this.find(find).select(select).limit(limit).sort(sort);
    },
 };
 module.exports = mongoose.model(databaseConfig.col_arti, ArticleSchema);
