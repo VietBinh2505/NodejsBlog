@@ -1,3 +1,6 @@
+<%
+    const linkPrefix = systemConfig.prefixBlog; //blog
+%>
 <header>
     <div class="header-top">
         <div class="container">
@@ -5,23 +8,13 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-6 header-top-left no-padding">
                     <ul>
                         <li>
-                            <a href="#">
+                            <a href="https://www.facebook.com/VIETBINH2505">
                                 <i class="fa fa-facebook"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
-                                <i class="fa fa-twitter"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-dribbble"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-behance"></i>
+                            <a href="https://github.com/VietBinh2505">
+                                <i class="fa fa-github"></i>
                             </a>
                         </li>
                     </ul>
@@ -29,15 +22,15 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-6 header-top-right no-padding">
                     <ul>
                         <li>
-                            <a href="tel:+440 012 3654 896">
+                            <a href="tel:+84929735218">
                                 <span class="lnr lnr-phone-handset"></span>
-                                <span>+440 012 3654 896</span>
+                                <span>+84929735218</span>
                             </a>
                         </li>
                         <li>
-                            <a href="mailto:support@colorlib.com">
+                            <a href="mailto:nvb.mern@gmail.com">
                                 <span class="lnr lnr-envelope"></span>
-                                <span>support@colorlib.com</span>
+                                <span>nvb.mern@gmail.com</span>
                             </a>
                         </li>
                     </ul>
@@ -45,12 +38,12 @@
             </div>
         </div>
     </div>
-     <div class="logo-wrap">
+    <div class="logo-wrap">
         <div class="container">
             <div class="row justify-content-between align-items-center">
                 <div class="col-lg-4 col-md-4 col-sm-12 logo-left no-padding">
                     <a href="index.html">
-                        <!-- <img class="img-fluid" src="img/l3.jpg" alt="aaaaaaaaaaa"> -->
+                        <!-- <img class="img-fluid" src="Frontend/img/logo/logo.png" alt="aaaaaaaaaaa"> -->
                     </a>
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-12 logo-right no-padding ads-banner">
@@ -68,30 +61,21 @@
             <nav id="nav-menu-container">
                 <ul class="nav-menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
                     <li class="menu-active">
-                        <a href="index.html">Home</a>
+                        <a href="<%= linkPrefix %>">Trang Chủ</a>
                     </li>
                     <li class="menu-has-children">
-                        <a href="" class="sf-with-ul">Category</a>
+                        <a href="<%= linkPrefix %>" class="sf-with-ul">Thể Loại</a>
                         <ul style="display: none;">
-                            <li>
-                                <a href="#">Category1</a>
-                            </li>
-                            <li>
-                                <a href="#">Category2</a>
-                            </li>
-                            <li>
-                                <a href="#">Category3</a>
-                            </li>
-                            <li>
-                                <a href="#">Category4</a>
-                            </li>
+                            <% ItemCateg.forEach((item)=>{ %>
+                                <li><a href="<%= linkPrefix %>/category/<%= item._id %>"><%= item.username %></a></li>
+                            <% }) %>
                         </ul>
                     </li>
                     <li>
-                        <a href="about.html">About</a>
+                        <a href="<%= linkPrefix %>/about">Tác Giả</a>
                     </li>
                     <li>
-                        <a href="contact.html">Contact</a>
+                        <a href="<%= linkPrefix %>/contact">Liên Hệ</a>
                     </li>
                 </ul>
             </nav>
@@ -111,31 +95,22 @@
         <nav id="mobile-nav">
             <ul class="" style="touch-action: pan-y;" id="">
                 <li class="menu-active">
-                    <a href="index.html">Home</a>
+                    <a href="<%= linkPrefix %>">Trang Chủ</a>
                 </li>
                 <li class="menu-has-children">
                     <i class="lnr lnr-chevron-down"></i>
-                    <a href="" class="sf-with-ul">Category</a>
+                    <a href="" class="sf-with-ul">Thể Loại</a>
                     <ul style="display: none;">
-                        <li>
-                            <a href="#">Category1</a>
-                        </li>
-                        <li>
-                            <a href="#">Category2</a>
-                        </li>
-                        <li>
-                            <a href="#">Category3</a>
-                        </li>
-                        <li>
-                            <a href="#">Category4</a>
-                        </li>
+                        <% ItemCateg.forEach((item)=>{ %>
+                            <li><a href="<%= linkPrefix %>/category/<%= item._id %>"><%= item.username %></a></li>
+                        <% }) %>
                     </ul>
                 </li>
                 <li>
-                    <a href="about.html">About</a>
+                    <a href="about.html">Tác Giả</a>
                 </li>
                 <li>
-                    <a href="contact.html">Contact</a>
+                    <a href="contact.html">Liên Hệ</a>
                 </li>
             </ul>
         </nav>

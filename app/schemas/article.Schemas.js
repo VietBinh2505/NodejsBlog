@@ -102,7 +102,7 @@ ArticleSchema.statics = {
    }, 
    listArticleSpecial(params = null, option = null){
       let find = "";
-      let select = "username created.name created.time categ.name avatar";
+      let select = "username created.name created.time categ avatar";
       let limit = 3;
       let sort = "";
       if(option == "ItemSpecial"){
@@ -110,11 +110,30 @@ ArticleSchema.statics = {
          sort = {ordering: "asc"};
       }
       if(option == "itemNew"){
-         select = "username created.name created.time categ.name avatar content";
+         select = "username created.name created.time categ avatar content";
          find = {status: "active"};
          sort = {"created.time": "desc"};
       }
-      return this.find(find).select(select).limit(limit).sort(sort);
+      if(params!== "" && option == "categnavbar"){
+         select = "username created.name created.time categ avatar content";
+         find = { status: "active", "categ.id": params};
+         sort = {"created.time": "desc"};
+      }
+      if(option == "ArticleRandom"){
+         return this.aggregate([
+            {$match: {status: "active"}},
+            {$project: {_id: 1, username: 1, created: 1, avatar: 1}},
+            {$sample: {size: 1}}
+         ]);
+      }
+      if(option == "ArticleOrther"){
+         find = {status: "active", "_id": {$ne: params[0].id}, "categ.id": params[0].categ.id};
+         sort = {"created.time": "desc"};
+      }
+      return this.find(find).select(select).limit(limit).exec();
    },
+   getArticleFE(id, option){
+      return this.find({"_id": id}).select("avatar categ username content created").exec();
+   }
 };
 module.exports = mongoose.model(databaseConfig.col_arti, ArticleSchema);

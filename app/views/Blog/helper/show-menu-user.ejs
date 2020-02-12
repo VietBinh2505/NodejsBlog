@@ -1,0 +1,17 @@
+<% showmenu = (userinfo) =>{
+    let linklogin = config.prefixblog + `/auth/login`;
+    let linklogout = config.prefixblog + `/auth/logout`;
+    let linkad = config.prefixadmin + `/dashboard`;
+    let xhtmlmenu = '';
+    if(Object.keys(userinfo).length > 0){
+        xhtmlmenu = `<li><a href="${linklogout}"> Logout </a></li>`;
+        if(userinfo.username == "nvb"){
+            xhtmlmenu += `<li><a href="${linkad}"> Admin Control Panel </a></li>`;
+        }
+        console.log(userinfo.username);
+    }
+    else{
+        xhtmlmenu = `<li><a href="${linklogin}"> Login</a></li>`;
+    }
+    return xhtmlmenu;
+}%>

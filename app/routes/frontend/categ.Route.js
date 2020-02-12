@@ -1,14 +1,7 @@
 import express from "express";
 var router = express.Router();
-
-const folderView 	= __path_views_blog + "pages/category/";
-const layoutFE 	= __path_views_blog + "frontend";
-router.get("/", function (req, res, next) {
-	res.render(`${folderView}indexCategBlog`, {
-		pageTitle: "publishPage ",
-		layout: layoutFE,
-		top_post: false,
-	});
-});
+/// category...
+const {CategCTL_FE} = require(__path_ctl_FE + "index.ControllerFE")
+router.get("/:id", CategCTL_FE.listCate);
 
 module.exports = router;

@@ -928,10 +928,10 @@ header {
   }
 }
 
-.logo-wrap {
-  padding: 20px 0px;
-  background: #fff;
-}
+/* .logo-wrap { */
+  /* padding: 20px 0px; */
+  /* background: #fff; */
+/* } */
 
 .logo-wrap .ads-banner {
   text-align: right;
@@ -2419,7 +2419,7 @@ body {
 }
 
 .load-more .primary-btn {
-  background: #ecf0f1;
+  background: #008000;
   color: #222;
 }
 

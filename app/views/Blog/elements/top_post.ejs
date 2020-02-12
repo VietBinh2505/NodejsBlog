@@ -1,5 +1,7 @@
 <% 
 	folderUpload = "upload/article/";
+	const linkPrefix = systemConfig.prefixBlog + "/article/"; //blog
+	const linkPrefixCateg = systemConfig.prefixBlog + "/category/"; //blog
 %>
 <% if(itemSpecial.length > 2){ %>
 	<section class="top-post-area pt-10">
@@ -14,10 +16,10 @@
 					<div class="top-post-details">
 						<ul class="tags">
 							<li>
-								<a href="#"><%= itemSpecial[0].categ.name %></a> <!-- thẻ tag -->
+								<a href="<%= linkPrefixCateg + itemSpecial[0].categ.id %>"><%= itemSpecial[0].categ.name %></a> <!-- thẻ tag -->
 							</li>
 						</ul>
-						<a href="image-post.html">
+						<a href="<%= linkPrefix + itemSpecial[0]._id %>">
 							<h3><%= itemSpecial[0].username %></h3> <!-- tên bài viết -->
 						</a>
 						<ul class="meta">
@@ -27,7 +29,7 @@
 							</li>
 							<li>
 								<a href="#">
-									<span class="lnr lnr-calendar-full"></span><%= moment(itemSpecial[0].created.time).format(systemConfig.format_long_timeFE) %></a><!-- thời gian viết -->
+									<span class="lnr lnr-calendar-full"></span><%= moment(itemSpecial[0].created.time).format(systemConfig.format_long_time) %></a><!-- thời gian viết -->
 							</li>
 						</ul>
 					</div>
@@ -43,10 +45,10 @@
 							<div class="top-post-details">
 								<ul class="tags">
 									<li>
-										<a href="#"><%= itemSpecial[i].categ.name %></a><!-- thẻ tag -->
+										<a href="<%= linkPrefixCateg + itemSpecial[i].categ.id %>"><%= itemSpecial[i].categ.name %></a><!-- thẻ tag -->
 									</li>
 								</ul>
-								<a href="image-post.html">
+								<a href="<%= linkPrefix + itemSpecial[i]._id %>">
 									<h4><%= itemSpecial[i].username %></h4> <!-- tên bài viết -->
 								</a>
 								<ul class="meta">
@@ -56,7 +58,7 @@
 									</li>
 									<li>
 										<a href="#">
-											<span class="lnr lnr-calendar-full"></span><%= moment(itemSpecial[i].created.time).format(systemConfig.format_long_timeFE) %></a><!-- thời gian viết -->
+											<span class="lnr lnr-calendar-full"></span><%= moment(itemSpecial[i].created.time).format(systemConfig.format_long_time) %></a><!-- thời gian viết -->
 									</li>
 								</ul>
 							</div>
