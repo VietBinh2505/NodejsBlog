@@ -8,47 +8,48 @@ import expressLayouts from "express-ejs-layouts";
 import flash from "express-flash-notification";
 import moment from "moment";
 const pathConfig = require("./path");
+
 // Define Path
-global.__base             = __dirname + "/";
-global.__path_app         = __base + pathConfig.folder_app + "/";
-global.__path_services    = __path_app + pathConfig.folder_services + "/";
-global.__path_sv_BE      = __path_services + pathConfig.folder_sv_BE + "/";
-global.__path_sv_FE      = __path_services + pathConfig.folder_sv_FE + "/";
-global.__path_configs     = __path_app + pathConfig.folder_configs + "/";
-global.__path_helpers     = __path_app + pathConfig.folder_helpers + "/";
-global.__path_routers     = __path_app + pathConfig.folder_routers + "/";
-global.__path_schemas     = __path_app + pathConfig.folder_schemas + "/";
+global.__base = __dirname + "/";
+global.__path_app = __base + pathConfig.folder_app + "/";
+global.__path_services = __path_app + pathConfig.folder_services + "/";
+global.__path_sv_BE = __path_services + pathConfig.folder_sv_BE + "/";
+global.__path_sv_FE = __path_services + pathConfig.folder_sv_FE + "/";
+global.__path_configs = __path_app + pathConfig.folder_configs + "/";
+global.__path_helpers = __path_app + pathConfig.folder_helpers + "/";
+global.__path_routers = __path_app + pathConfig.folder_routers + "/";
+global.__path_schemas = __path_app + pathConfig.folder_schemas + "/";
 
 
-global.__path_validates   = __path_app + pathConfig.folder_validates + "/";
-global.__path_uploads     = __base + pathConfig.folder_public + "/upload";
-global.__path_views       = __path_app + pathConfig.folder_views + "/";
+global.__path_validates = __path_app + pathConfig.folder_validates + "/";
+global.__path_uploads = __base + pathConfig.folder_public + "/upload";
+global.__path_views = __path_app + pathConfig.folder_views + "/";
 
-global.__path_ctl         = __path_app + pathConfig.folder_ctl + "/";
-global.__path_ctl_BE      = __path_ctl + pathConfig.folder_ctl_BE + "/";
-global.__path_ctl_FE      = __path_ctl + pathConfig.folder_ctl_FE + "/";
+global.__path_ctl = __path_app + pathConfig.folder_ctl + "/";
+global.__path_ctl_BE = __path_ctl + pathConfig.folder_ctl_BE + "/";
+global.__path_ctl_FE = __path_ctl + pathConfig.folder_ctl_FE + "/";
 
 global.__path_views_admin = __path_views + pathConfig.folder_views_admin + "/";
-global.__path_views_blog  = __path_views + pathConfig.folder_views_blog + "/";
+global.__path_views_blog = __path_views + pathConfig.folder_views_blog + "/";
 
-const ConfigSession =	require(__path_configs + "session.Config");
+const ConfigSession = require(__path_configs + "session.Config");
 const connectDB = require(__path_configs + "connectDB");
 const systemConfig = require(__path_configs + "system.Config");
-
+const {categServiceFE} = require(__path_sv_FE + "index.ServiceFE");
 var app = express();
 connectDB();
 ConfigSession(app);
 app.use(cookieParser());
 app.use(flash(app, {
-   viewName: __path_views_admin + 'elements/notify',
- }));
- 
+	viewName: __path_views_admin + 'elements/notify',
+}));
+
 app.use(validator({
-  customValidators: {
-    isNotEqual: (value1, value2) => {
-      return value1!==value2;
-    }
-  }
+	customValidators: {
+		isNotEqual: (value1, value2) => {
+			return value1 !== value2;
+		}
+	}
 }));
 bodyParser.json();
 bodyParser.urlencoded({ extended: false });
@@ -71,20 +72,29 @@ app.use(`/${systemConfig.prefixAdmin}`, require(__path_routers + "backend/index.
 app.use(`/${systemConfig.prefixBlog}`, require(__path_routers + "frontend/index.Route"));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function (req, res, next) {
+	next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render(__path_views_admin +  "pages/error", { pageTitle   : "Page Not Found " });
+app.use(async (err, req, res, next) => {
+	// set locals, only providing error in development
+	res.locals.message = err.message;
+	res.locals.error = req.app.get("env") === "development" ? err : {};
+	// render the error page
+	if (systemConfig.env == "dev") {
+		res.status(err.status || 500);
+		res.render(__path_views_admin + "pages/error", { pageTitle: "Page Not Found " });
+	}
+	if (systemConfig.env == "production") {
+		let ItemCateg = await categServiceFE.listCategFE(null, "categ-in-menu"); // lấy được cate trên menu
+		res.status(err.status || 500);
+		res.render(__path_views_blog + "pages/error/index.errorBlog.ejs", {
+			layout: __path_views_blog + "frontend",
+			top_post: false,
+			ItemCateg,
+		});
+	}
 });
-
 module.exports = app;
 

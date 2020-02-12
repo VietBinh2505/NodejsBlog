@@ -1,8 +1,8 @@
 import express from "express";
 var router = express.Router();
 
-const {articleCTL_FE} = require(__path_ctl_FE + "index.ControllerFE")
+const {homeCTL_FE} = require(__path_ctl_FE + "index.ControllerFE")
 
-router.get("/", articleCTL_FE.listItem);
+router.get("/", homeCTL_FE.listItem);
 
 module.exports = router;

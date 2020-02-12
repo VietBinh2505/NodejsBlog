@@ -1,0 +1,67 @@
+<% 
+	folderUpload = "upload/article/";
+	const linkPrefix = systemConfig.prefixBlog + "/article/"; //blog
+	const linkPrefixCateg = systemConfig.prefixBlog + "/category/"; //blog
+%>
+<% include ./../../helper/format-date.ejs %>
+<% include ./../../helper/format-summary.ejs %>
+<% if(article){%>
+		<div class="col-lg-8 post-list">
+			<% article.forEach((item)=>{%>
+				<div class="single-post-wrap">
+					<div class="feature-img-thumb relative">
+						<div class="overlay overlay-bg"></div>
+						<img class="img-fluid" src="<%= folderUpload + item.avatar%>" alt="">
+					</div>
+					<div class="content-wrap">
+						<ul class="tags mt-10">
+							<li><a href="<%= linkPrefixCateg + item.categ.id %>"><%= item.categ.name %></a></li>
+						</ul>
+						<a href="<%= linkPrefix + item._id %>">
+							<h3><%= item.username %></h3>
+						</a>
+						<ul class="meta pb-20">
+							<li><a href="#"><span class="lnr lnr-user"></span><%= item.created.name %></a></li>
+							<li><a href="#"><span class="lnr lnr-calendar-full"></span><%= formatdate(item.created.time) %></a></li>
+							<!-- <li><a href="#"><span class="lnr lnr-bubble"></span>06 </a></li> -->
+						</ul>
+						<p class="excert"><%= item.content %>...</p>
+					<blockquote>Để ghi câu kết.</blockquote>
+			</div>
+			<% }); %>
+			<% if(articleOrther.length > 0){ %>
+				<div class="relavent-story-post-wrap mt-30">
+					<h4 class="title">Bài Viết Liên Quan</h4>
+					<div class="relavent-story-list-wrap">
+						<% articleOrther.forEach((item)=>{ %>
+							<div class="single-relavent-post row align-items-center">
+								<div class="col-lg-5 post-left">
+									<div class="feature-img relative">
+										<div class="overlay overlay-bg"></div>
+										<img class="img-fluid" src="<%= folderUpload + item.avatar%>" alt="">
+									</div>
+									<ul class="tags">
+										<li><a href="<%= linkPrefixCateg + item.categ.id %>"><%= item.categ.name %></a></li>
+									</ul>
+								</div>
+								<div class="col-lg-7 post-right">
+									<a href="<%= linkPrefix + item._id %>">
+										<h4><%= item.username %></h4>
+									</a>
+									<ul class="meta">
+										<li><a href="#"><span class="lnr lnr-user"></span><%= item.created.name %></a></li>
+										<li><a href="#"><span class="lnr lnr-calendar-full"></span><%= formatdate(item.created.time) %></a></li>
+									</ul>
+									<p class="excert">
+										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
+									</p>
+								</div>
+							</div>
+						<% }); %>
+					</div>
+				</div>
+			<% } %>
+			
+		</div>
+		</div>
+<% } %>

@@ -1,4 +1,4 @@
-const categSchema = require(__path_schemas + "categ.Shemas");
+const categSchema = require(__path_schemas + "categ.Schemas");
 const showCategService = (params) =>{
    let skip = ((params.pagination.currentPage - 1) * params.pagination.totalItemsPerPage); //lấy được số phần tử bỏ qua
    let sort = {};
