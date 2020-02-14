@@ -1,5 +1,5 @@
 import util from "util";
-const {getParams, filterStt, createalias} 	= require(__path_helpers + "index.helper");
+const {getParams, filterStt, stringHelper} 	= require(__path_helpers + "index.helper");
 const {itemsService} 			= require(__path_sv_BE + "index.Service");
 const systemConfig 				= require(__path_configs + "system.Config");
 const {ValidateItems} 			= require(__path_validates + "index.Validate");
@@ -75,7 +75,7 @@ const saveItem = async(req, res) => {
 		ordering: req.body.ordering,
 		status: req.body.status,
 		content: req.body.content,
-		slug: createalias.createalias(req.body.slug),
+		slug: stringHelper.createalias(req.body.slug),
 	};
 	
 	try {
