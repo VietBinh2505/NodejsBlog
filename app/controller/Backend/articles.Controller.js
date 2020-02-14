@@ -114,7 +114,7 @@ const saveArticle = async (req, res) => {
 					} 
 				}
 				await articlesService.saveArticle(item.id, itemNew, checkStatus);
-				req.flash("success", messNotify, false);
+				req.flash("success", messNotify);
 			}
 		} catch (error) {
 			console.log(error);
@@ -131,7 +131,7 @@ const deleteArticle = async (req, res) => {
 		console.log(error);
 		console.log("error---deleteArticle");
 	}
-	req.flash("success", notify.DELETE_SUCCESS, false);
+	req.flash("success", notify.DELETE_SUCCESS);
 	return res.redirect(linkIndex);
 };
 const deleteArticleMulti = async (req, res) => {
@@ -139,7 +139,7 @@ const deleteArticleMulti = async (req, res) => {
 	let length = idItem.length;
 	try {
 		await articlesService.deleteArticle(idItem, "multi");
-		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length), false);
+		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length));
 	} catch (error) {
 		console.log(error);
 		console.log("error---deleteArticleMulti");
@@ -156,7 +156,7 @@ const changeStatus = async (req, res) => {
 		console.log(error);
 		console.log("error---changeStatus");
 	}
-	req.flash("success", notify.CHANGE_STATUS_SUCCESS, false);
+	req.flash("success", notify.CHANGE_STATUS_SUCCESS);
 	return res.redirect(linkIndex);
 };
 const changeStatusMulti = async (req, res) => {
@@ -169,7 +169,7 @@ const changeStatusMulti = async (req, res) => {
 		console.log(error);
 		console.log("error---changeStatus");
 	}
-	req.flash("success", util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, length), false);
+	req.flash("success", util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, length));
 	return res.redirect(linkIndex);
 };
 const changeOrdering = async (req, res) => {
@@ -191,7 +191,7 @@ const changeOrdering = async (req, res) => {
 				await articlesService.changeOrdering(idItem, newOrdering, index);
 			});
 		}
-		req.flash("success", util.format(notify.CHANGE_ORDERING_SUCCESS, length), false);
+		req.flash("success", util.format(notify.CHANGE_ORDERING_SUCCESS, length));
 	} catch (error) {
 		console.log(error);
 		console.log("error---changeOrdering");
@@ -208,7 +208,7 @@ const changeSpecial = async (req, res) => {
 		console.log(error);
 		console.log("error---changeNormal");
 	}
-	req.flash("success", notify.CHANGE_STATUS_SUCCESS, false);
+	req.flash("success", notify.CHANGE_STATUS_SUCCESS);
 	return res.redirect(linkIndex);
 };
 const changeSpecialMulti = async (req, res) => {
@@ -221,7 +221,7 @@ const changeSpecialMulti = async (req, res) => {
 		console.log(error);
 		console.log("error---changeSpecialMulti");
 	}
-	req.flash("success", util.format(notify.CHANGE_NORMAL_MULTI_SUCCESS, length), false);
+	req.flash("success", util.format(notify.CHANGE_NORMAL_MULTI_SUCCESS, length));
 	return res.redirect(linkIndex);
 };
 const sort = async (req, res) => {

@@ -5,11 +5,12 @@
 <% include ./../../helpers/source-by %>
 <% include ./../../helpers/sort %>
 <% include ./../../helpers/group-acp.ejs %>
+
 <% 
 	const collection = "groups";
 	const linkPrefix = systemConfig.prefixAdmin + `/${collection}/`; //admin/item
 %>
-<%- locals.flash %>
+<% include ./../../elements/notify.ejs %>
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-info">

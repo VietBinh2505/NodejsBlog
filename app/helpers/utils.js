@@ -12,6 +12,7 @@ let createFilterStatus =  async (params, collection) => {
 		if(item.value === params.currentStatus) statusFilter[index].class = "success";
 		try {
 			let data = await crrService.default.countDocument(condition);
+			//if(data)
 			statusFilter[index].count = data;
 		} catch (error) {
 			console.log(error);

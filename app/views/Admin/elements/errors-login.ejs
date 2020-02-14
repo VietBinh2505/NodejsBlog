@@ -1,0 +1,9 @@
+<% if(errors) { %>
+    <div class="alert alert-danger" role="alert">
+        <ul>
+            <% errors.forEach((errs) =>{ %>
+                <li><b><%= errs.param.charAt(0).toUpperCase() + errs.param.slice(1) %></b>: <%= errs.msg %></li>
+            <% }); %>
+        </ul>
+    </div>
+<% } %> 

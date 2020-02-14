@@ -9,3 +9,4 @@ export const CategCTL_FE  = renderCategHTML;
 export const AboutCTL_FE  = renderAboutHTML;
 export const ContactCTL_FE  = renderContactHTML;
 export const ArticleCTL_FE  = renderArticleHTML;
+

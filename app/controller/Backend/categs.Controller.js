@@ -86,7 +86,7 @@ const saveCateg = async(req, res) => {
 			let messNotify = (checkStatus == "edit") ? notify.EDIT_SUCCESS : notify.ADD_SUCCESS;
 			await categsService.saveCateg(item.id, itemNew, checkStatus);
 			await articlesService.saveArticle(item.id, itemNew, "editcateg");
-			req.flash("success", messNotify, false);
+			req.flash("success", messNotify);
 		}
 	} catch (error) {
 		console.log(error);
@@ -102,7 +102,7 @@ const deleteCateg = async(req, res) =>{
 	try {
 		//await categsService.deleteCateg(itemId, "one");
 		await articlesService.saveArticle(itemId, categ.name, "delecateg");
-		req.flash("success", notify.DELETE_SUCCESS, false);
+		req.flash("success", notify.DELETE_SUCCESS);
 	} catch (error) {
 		console.log(error);
 		console.log("error---deleteCateg");
@@ -120,7 +120,7 @@ const deleteCategMulti = async(req, res) =>{
 			await categsService.deleteCateg(idItem[i], "multi");
 			await articlesService.saveArticle(idItem[i], categ.name, "delecateg");
 		}
-		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length), false);
+		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length));
 	} catch (error) {
 		console.log(error);
 		console.log("error---deleteCategMulti");
@@ -137,7 +137,7 @@ const changeStatus = async(req, res) =>{
 		console.log(error);
 		console.log("error---changeStatus");
 	}
-	req.flash("success", notify.CHANGE_STATUS_SUCCESS, false);
+	req.flash("success", notify.CHANGE_STATUS_SUCCESS);
 	return res.redirect(linkIndex);
 };
 const changeStatusMulti = async(req, res) =>{
@@ -150,7 +150,7 @@ const changeStatusMulti = async(req, res) =>{
 		console.log(error);
 		console.log("error---changeStatusMulti");
 	}
-	req.flash("success", util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, length), false);
+	req.flash("success", util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, length));
 	return res.redirect(linkIndex);
 };
 const changeOrdering = async(req, res) => {
@@ -172,7 +172,7 @@ const changeOrdering = async(req, res) => {
 				await categsService.changeOrdering(idItem, newOrdering, index);
 			});
 		}
-		req.flash("success", util.format(notify.CHANGE_ORDERING_SUCCESS, length), false);
+		req.flash("success", util.format(notify.CHANGE_ORDERING_SUCCESS, length));
 	} catch (error) {
 		console.log(error);
 		console.log("error---changeOrdering");

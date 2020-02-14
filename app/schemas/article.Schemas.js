@@ -102,7 +102,7 @@ ArticleSchema.statics = {
    }, 
    listArticleSpecial(params = null, option = null){
       let find = "";
-      let select = "username created.name created.time categ avatar";
+      let select = "username created.name created.time categ avatar content";
       let limit = 3;
       let sort = "";
       if(option == "ItemSpecial"){

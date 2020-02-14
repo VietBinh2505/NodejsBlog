@@ -20,4 +20,7 @@ module.exports = {
     ERROR_CATEGORY: "Categorys không được rỗng",
     CHANGE_NORMAL_SUCCESS: "Thay đổi trạng thái Special thành công",
     CHANGE_NORMAL_MULTI_SUCCESS : "Thay đổi trạng thái Special thành công",
+    ERROR_LOGIN: "Thông tin đăng nhập không đúng",
+    ERROR_ACC_NULL: "Tài khoản không tồn tại",
+    LOGOUT_SUCCESS: "đăng xuất thành công",
 };

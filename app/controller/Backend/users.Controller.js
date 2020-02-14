@@ -115,7 +115,7 @@ const saveUser = async (req, res) => {
 				}
 				console.log(itemNew);
 				await userService.saveUser(item.id, itemNew, checkStatus);
-				req.flash("success", messNotify, false);
+				req.flash("success", messNotify);
 			}
 		} catch (error) {
 			console.log(error);
@@ -132,7 +132,7 @@ const deleteUser = async (req, res) => {
 		console.log(error);
 		console.log("error---deleteUser");
 	}
-	req.flash("success", notify.DELETE_SUCCESS, false);
+	req.flash("success", notify.DELETE_SUCCESS);
 	return res.redirect(linkIndex);
 };
 const deleteUserMulti = async (req, res) => {
@@ -140,7 +140,7 @@ const deleteUserMulti = async (req, res) => {
 	let length = idItem.length;
 	try {
 		await userService.deleteUser(idItem, "multi");
-		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length), false);
+		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length));
 	} catch (error) {
 		console.log(error);
 		console.log("error---deleteUserMulti");
@@ -157,7 +157,7 @@ const changeStatus = async (req, res) => {
 		console.log(error);
 		console.log("error---changeStatus");
 	}
-	req.flash("success", notify.CHANGE_STATUS_SUCCESS, false);
+	req.flash("success", notify.CHANGE_STATUS_SUCCESS);
 	return res.redirect(linkIndex);
 };
 const changeStatusMulti = async (req, res) => {
@@ -170,7 +170,7 @@ const changeStatusMulti = async (req, res) => {
 		console.log(error);
 		console.log("error---changeStatus");
 	}
-	req.flash("success", util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, length), false);
+	req.flash("success", util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, length));
 	return res.redirect(linkIndex);
 };
 const changeOrdering = async (req, res) => {
@@ -192,7 +192,7 @@ const changeOrdering = async (req, res) => {
 				await userService.changeOrdering(idItem, newOrdering, index);
 			});
 		}
-		req.flash("success", util.format(notify.CHANGE_ORDERING_SUCCESS, length), false);
+		req.flash("success", util.format(notify.CHANGE_ORDERING_SUCCESS, length));
 	} catch (error) {
 		console.log(error);
 		console.log("error---changeOrdering");

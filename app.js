@@ -5,10 +5,10 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import validator from "express-validator";
 import expressLayouts from "express-ejs-layouts";
-import flash from "express-flash-notification";
 import moment from "moment";
-const pathConfig = require("./path");
-
+import passport from "passport";
+import pathConfig from "./path";
+import flash from "connect-flash";
 // Define Path
 global.__base = __dirname + "/";
 global.__path_app = __base + pathConfig.folder_app + "/";
@@ -40,10 +40,13 @@ var app = express();
 connectDB();
 ConfigSession(app);
 app.use(cookieParser());
-app.use(flash(app, {
-	viewName: __path_views_admin + 'elements/notify',
-}));
-
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+app.use((req, res, next) => {
+	res.locals.messages = req.flash();
+	next();
+})
 app.use(validator({
 	customValidators: {
 		isNotEqual: (value1, value2) => {
@@ -64,6 +67,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+
 // Local variable
 app.locals.systemConfig = systemConfig;
 app.locals.moment = moment;
@@ -75,7 +79,6 @@ app.use(`/${systemConfig.prefixBlog}`, require(__path_routers + "frontend/index.
 app.use(function (req, res, next) {
 	next(createError(404));
 });
-
 // error handler
 app.use(async (err, req, res, next) => {
 	// set locals, only providing error in development
@@ -96,5 +99,6 @@ app.use(async (err, req, res, next) => {
 		});
 	}
 });
+
 module.exports = app;
 

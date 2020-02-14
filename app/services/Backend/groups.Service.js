@@ -117,10 +117,10 @@ const changeOrdering = (idItem, newOrdering, index) =>{
 const countDocument = (condition) =>{
    return new Promise(async(resolve, reject)=>{
       let items = await groupSchema.countDocument(condition);
-      if(items){
+      if(items || items === 0){
          return resolve(items);
       }else{
-         return reject();
+         return reject("Trang thai khong có items");
       }
    });
 };

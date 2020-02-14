@@ -85,7 +85,7 @@ const saveItem = async(req, res) => {
 		}else{
 			let messNotify = (checkStatus == "edit") ? notify.EDIT_SUCCESS : notify.ADD_SUCCESS;
 			await itemsService.saveItem(item.id, itemNew, checkStatus);
-			req.flash("success", messNotify, false);
+			req.flash("success", messNotify);
 		}
 	} catch (error) {
 		console.log(error);
@@ -97,7 +97,7 @@ const deleteItem = async(req, res) =>{
 	let itemId = await getParams.getParam(req.params, "id", "");
 	try {
 		await itemsService.deleteItem(itemId, "one");
-		req.flash("success", notify.DELETE_SUCCESS, false);
+		req.flash("success", notify.DELETE_SUCCESS);
 	} catch (error) {
 		console.log(error);
 		console.log("error---deleteItem");
@@ -109,7 +109,7 @@ const deleteItemMulti = async(req, res) =>{
 	let length = idItem.length;
 	try {
 		await itemsService.deleteItem(idItem, "multi");
-		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length), false);
+		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length));
 	} catch (error) {
 		console.log(error);
 		console.log("error---deleteItemMulti");
@@ -119,14 +119,13 @@ const deleteItemMulti = async(req, res) =>{
 const changeStatus = async(req, res) =>{
 	let currStatus = await getParams.getParam(req.params, "status", ""); //lấy trạng thái trên url
 	let id = await getParams.getParam(req.params, "id", ""); //lấy trạng thái trên url
-	
 	try {
 		await itemsService.changeStatus(id, currStatus, "one");
 	} catch (error) {
 		console.log(error);
 		console.log("error---changeStatus");
 	}
-	req.flash("success", notify.CHANGE_STATUS_SUCCESS, false);
+	req.flash("success", notify.CHANGE_STATUS_SUCCESS);
 	return res.redirect(linkIndex);
 };
 const changeStatusMulti = async(req, res) =>{
@@ -139,7 +138,7 @@ const changeStatusMulti = async(req, res) =>{
 		console.log(error);
 		console.log("error---changeStatusMulti");
 	}
-	req.flash("success", util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, length), false);
+	req.flash("success", util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, length));
 	return res.redirect(linkIndex);
 };
 const changeOrdering = async(req, res) => {
@@ -161,7 +160,7 @@ const changeOrdering = async(req, res) => {
 				await itemsService.changeOrdering(idItem, newOrdering, index);
 			});
 		}
-		req.flash("success", util.format(notify.CHANGE_ORDERING_SUCCESS, length), false);
+		req.flash("success", util.format(notify.CHANGE_ORDERING_SUCCESS, length));
 	} catch (error) {
 		console.log(error);
 		console.log("error---changeOrdering");
