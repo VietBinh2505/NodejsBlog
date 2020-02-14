@@ -123,7 +123,7 @@ ArticleSchema.statics = {
          return this.aggregate([
             {$match: {status: "active"}},
             {$project: {_id: 1, username: 1, created: 1, avatar: 1}},
-            {$sample: {size: 1}}
+            {$sample: {size: 2}}
          ]);
       }
       if(option == "ArticleOrther"){

@@ -13,7 +13,13 @@ let createalias = (value)=>{
     str = str.trim(); 
     return str;
 };
-
+let formatlink = (value) =>{
+    if(value[1] == "/"){
+        value = value.substr(1);
+    };
+    return value;
+}
 module.exports = {
    createalias,
+   formatlink,
 };

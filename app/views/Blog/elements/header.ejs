@@ -1,119 +1,126 @@
 <%
     const linkPrefix = systemConfig.prefixBlog; //blog
 %>
+<% include ./../helper/show-menu-user.ejs %>
 <header>
-    <div class="header-top">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-6 header-top-left no-padding">
-                    <ul>
-                        <li>
-                            <a href="https://www.facebook.com/VIETBINH2505">
-                                <i class="fa fa-facebook"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/VietBinh2505">
-                                <i class="fa fa-github"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-6 header-top-right no-padding">
-                    <ul>
-                        <li>
-                            <a href="tel:+84929735218">
-                                <span class="lnr lnr-phone-handset"></span>
-                                <span>+84929735218</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="mailto:nvb.mern@gmail.com">
-                                <span class="lnr lnr-envelope"></span>
-                                <span>nvb.mern@gmail.com</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="logo-wrap">
-        <div class="container">
-            <div class="row justify-content-between align-items-center">
-                <div class="col-lg-4 col-md-4 col-sm-12 logo-left no-padding">
-                    <a href="index.html">
-                        <!-- <img class="img-fluid" src="Frontend/img/logo/logo.png" alt="aaaaaaaaaaa"> -->
-                    </a>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-12 logo-right no-padding ads-banner">
-                    <!-- <img class="img-fluid" src="img/banner-ad.jpg" alt="bbbbbbbbbbbbbbbbbb"> -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container main-menu" id="main-menu">
-        <button type="button" id="mobile-nav-toggle">
-            <i class="lnr lnr-menu"></i>
-            <span class="menu-title">Menu</span>
-        </button>
-        <div class="row align-items-center justify-content-between">
-            <nav id="nav-menu-container">
-                <ul class="nav-menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
-                    <li class="menu-active">
-                        <a href="<%= linkPrefix %>">Trang Chủ</a>
-                    </li>
-                    <li class="menu-has-children">
-                        <a href="<%= linkPrefix %>" class="sf-with-ul">Thể Loại</a>
-                        <ul style="display: none;">
-                            <% ItemCateg.forEach((item)=>{ %>
-                                <li><a href="<%= linkPrefix %>/category/<%= item._id %>"><%= item.username %></a></li>
-                            <% }) %>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="<%= linkPrefix %>/about">Tác Giả</a>
-                    </li>
-                    <li>
-                        <a href="<%= linkPrefix %>/contact">Liên Hệ</a>
-                    </li>
-                </ul>
-            </nav>
-            <!-- #nav-menu-container -->
-            <div class="navbar-right">
-                <form class="Search">
-                    <input type="text" class="form-control Search-box" name="Search-box" id="Search-box" placeholder="Search">
-                    <label for="Search-box" class="Search-box-label">
-                        <span class="lnr lnr-magnifier"></span>
-                    </label>
-                    <span class="Search-close">
-                        <span class="lnr lnr-cross"></span>
-                    </span>
-                </form>
-            </div>
-        </div>
-        <nav id="mobile-nav">
-            <ul class="" style="touch-action: pan-y;" id="">
-                <li class="menu-active">
-                    <a href="<%= linkPrefix %>">Trang Chủ</a>
-                </li>
-                <li class="menu-has-children">
-                    <i class="lnr lnr-chevron-down"></i>
-                    <a href="" class="sf-with-ul">Thể Loại</a>
-                    <ul style="display: none;">
-                        <% ItemCateg.forEach((item)=>{ %>
-                            <li><a href="<%= linkPrefix %>/category/<%= item._id %>"><%= item.username %></a></li>
-                        <% }) %>
-                    </ul>
-                </li>
-                <li>
-                    <a href="about.html">Tác Giả</a>
-                </li>
-                <li>
-                    <a href="contact.html">Liên Hệ</a>
-                </li>
-            </ul>
-        </nav>
-        <div id="mobile-body-overly"></div>
-    </div>
+	<div class="header-top">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-6 header-top-left no-padding">
+					<ul>
+						<li>
+							<a href="https://www.facebook.com/VIETBINH2505">
+								<i class="fa fa-facebook"></i>
+							</a>
+						</li>
+						<li>
+							<a href="https://github.com/VietBinh2505">
+								<i class="fa fa-github"></i>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-6 header-top-right no-padding">
+					<ul>
+						<li>
+							<a href="tel:+84929735218">
+								<span class="lnr lnr-phone-handset"></span>
+								<span>+84929735218</span>
+							</a>
+						</li>
+						<li>
+							<a href="mailto:nvb.mern@gmail.com">
+								<span class="lnr lnr-envelope"></span>
+								<span>nvb.mern@gmail.com</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="logo-wrap">
+		<div class="container">
+			<div class="row justify-content-between align-items-center">
+				<div class="col-lg-4 col-md-4 col-sm-12 logo-left no-padding">
+					<a href="index.html">
+						<!-- <img class="img-fluid" src="Frontend/img/logo/logo.png" alt="aaaaaaaaaaa"> -->
+					</a>
+				</div>
+				<div class="col-lg-8 col-md-8 col-sm-12 logo-right no-padding ads-banner">
+					<!-- <img class="img-fluid" src="img/banner-ad.jpg" alt="bbbbbbbbbbbbbbbbbb"> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container main-menu" id="main-menu">
+		<button type="button" id="mobile-nav-toggle">
+			<i class="lnr lnr-menu"></i>
+			<span class="menu-title">Menu</span>
+		</button>
+		<div class="row align-items-center justify-content-between">
+			<nav id="nav-menu-container">
+				<ul class="nav-menu sf-js-enabled sf-arrows" style="touch-action: pan-y;">
+					<li class="menu-active">
+						<a href="<%= linkPrefix %>">Trang Chủ</a>
+					</li>
+					<li class="menu-has-children">
+						<a href="<%= linkPrefix %>" class="sf-with-ul">Thể Loại</a>
+						<ul style="display: none;">
+							<% ItemCateg.forEach((item)=>{ %>
+							<li><a href="<%= linkPrefix %>/category/<%= item._id %>"><%= item.username %></a></li>
+							<% }) %>
+						</ul>
+					</li>
+					<li>
+						<a href="<%= linkPrefix %>/about">Tác Giả</a>
+					</li>
+					<li>
+						<a href="<%= linkPrefix %>/contact">Liên Hệ</a>
+					</li>
+						<%- showmenu(userData) %>
+					</li>
+				</ul>
+			</nav>
+			<!-- #nav-menu-container -->
+			<div class="navbar-right">
+				<form class="Search">
+					<input type="text" class="form-control Search-box" name="Search-box" id="Search-box"
+						placeholder="Search">
+					<label for="Search-box" class="Search-box-label">
+						<span class="lnr lnr-magnifier"></span>
+					</label>
+					<span class="Search-close">
+						<span class="lnr lnr-cross"></span>
+					</span>
+				</form>
+			</div>
+		</div>
+		<nav id="mobile-nav">
+			<ul class="" style="touch-action: pan-y;" id="">
+				<li class="menu-active">
+					<a href="<%= linkPrefix %>">Trang Chủ</a>
+				</li>
+				<li class="menu-has-children">
+					<i class="lnr lnr-chevron-down"></i>
+					<a href="" class="sf-with-ul">Thể Loại</a>
+					<ul style="display: none;">
+						<% ItemCateg.forEach((item)=>{ %>
+						<li><a href="<%= linkPrefix %>/category/<%= item._id %>"><%= item.username %></a></li>
+						<% }) %>
+					</ul>
+				</li>
+				<li>
+					<a href="about.html">Tác Giả</a>
+				</li>
+				<li>
+					<a href="contact.html">Liên Hệ</a>
+				</li>
+			</li>
+				<%- showmenu(userData) %>
+			</li>
+			</ul>
+		</nav>
+		<div id="mobile-body-overly"></div>
+	</div>
 </header>

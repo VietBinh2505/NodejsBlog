@@ -1,5 +1,5 @@
 import util from "util";
-const { getParams, filterStt, FileHelper, createalias } = require(__path_helpers + "index.helper");
+const { getParams, filterStt, FileHelper, stringHelper } = require(__path_helpers + "index.helper");
 const { userService, groupsService } = require(__path_sv_BE + "index.Service");
 const { ValidateUsers } = require(__path_validates + "index.Validate");
 const notify = require(__path_configs + "notify.Config");
@@ -87,7 +87,7 @@ const saveUser = async (req, res) => {
 			ordering: req.body.ordering,
 			status: req.body.status,
 			content: req.body.content,
-			slug: createalias.createalias(req.body.slug),
+			slug: stringHelper.createalias(req.body.slug),
 		};
 		itemNew.group = {
 			id: item.group,

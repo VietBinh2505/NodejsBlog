@@ -1,5 +1,5 @@
 import util from "util";
-const { getParams, filterStt, FileHelper, createalias } = require(__path_helpers + "index.helper");
+const { getParams, filterStt, FileHelper, stringHelper } = require(__path_helpers + "index.helper");
 const { articlesService, categsService } = require(__path_sv_BE + "index.Service");
 
 const { ValidateArt } = require(__path_validates + "index.Validate");
@@ -87,7 +87,7 @@ const saveArticle = async (req, res) => {
 			status: req.body.status,
 			content: req.body.content,
 			special: req.body.special,
-			slug: createalias.createalias(req.body.slug),
+			slug: stringHelper.createalias(req.body.slug),
 		};
 		itemNew.categ = {
 			id: item.category_id,

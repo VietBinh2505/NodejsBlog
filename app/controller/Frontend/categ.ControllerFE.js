@@ -8,14 +8,12 @@ const listCate =  async(req, res) => {
 	try {
 		let ItemCateg = await categServiceFE.listCategFE(null, "categ-in-menu"); // lấy được cate trên menu
 		let articleItem = await articleServiceFE.listArticleSpecial(idCateg, "categnavbar"); //lấy các bài viết khi click ở navbar
-		let ArticleRandom = await articleServiceFE.listArticleSpecial(null, "ArticleRandom"); // lấy ra các bài viết ngẫu nhiên
 		return res.render(`${folderView}indexCategBlog`, {
 			pageTitle: pageTitleIndex,
 			layout: layoutFE,
 			top_post: false,
 			ItemCateg,
 			articleItem,
-			ArticleRandom,
 		});
 	} catch (error) {
 		console.log(error);

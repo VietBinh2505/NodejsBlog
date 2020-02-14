@@ -10,16 +10,16 @@ import passport from "passport";
 import pathConfig from "./path";
 import flash from "connect-flash";
 // Define Path
-global.__base = __dirname + "/";
-global.__path_app = __base + pathConfig.folder_app + "/";
-global.__path_services = __path_app + pathConfig.folder_services + "/";
-global.__path_sv_BE = __path_services + pathConfig.folder_sv_BE + "/";
-global.__path_sv_FE = __path_services + pathConfig.folder_sv_FE + "/";
-global.__path_configs = __path_app + pathConfig.folder_configs + "/";
-global.__path_helpers = __path_app + pathConfig.folder_helpers + "/";
-global.__path_routers = __path_app + pathConfig.folder_routers + "/";
-global.__path_schemas = __path_app + pathConfig.folder_schemas + "/";
-
+global.__base 				= __dirname + "/";
+global.__path_app 		= __base + pathConfig.folder_app + "/";
+global.__path_services 	= __path_app + pathConfig.folder_services + "/";
+global.__path_sv_BE 		= __path_services + pathConfig.folder_sv_BE + "/";
+global.__path_sv_FE 		= __path_services + pathConfig.folder_sv_FE + "/";
+global.__path_configs 	= __path_app + pathConfig.folder_configs + "/";
+global.__path_helpers 	= __path_app + pathConfig.folder_helpers + "/";
+global.__path_routers 	= __path_app + pathConfig.folder_routers + "/";
+global.__path_schemas 	= __path_app + pathConfig.folder_schemas + "/";
+global.__path_mdware 	= __path_app + pathConfig.folder_mdware + "/";
 
 global.__path_validates = __path_app + pathConfig.folder_validates + "/";
 global.__path_uploads = __base + pathConfig.folder_public + "/upload";
@@ -90,12 +90,10 @@ app.use(async (err, req, res, next) => {
 		res.render(__path_views_admin + "pages/error", { pageTitle: "Page Not Found " });
 	}
 	if (systemConfig.env == "production") {
-		let ItemCateg = await categServiceFE.listCategFE(null, "categ-in-menu"); // lấy được cate trên menu
 		res.status(err.status || 500);
 		res.render(__path_views_blog + "pages/error/index.errorBlog.ejs", {
 			layout: __path_views_blog + "frontend",
 			top_post: false,
-			ItemCateg,
 		});
 	}
 });

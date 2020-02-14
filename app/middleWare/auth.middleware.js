@@ -1,16 +1,17 @@
 import passport from "passport";
 import md5 from "md5";
-const LocalStrategy = require("passport-local").Strategy;
-const { userService } = require(__path_sv_BE + "index.Service");
-const systemConfig = require(__path_configs + "system.Config");
-const notify = require(__path_configs + "notify.Config");
-const { ValidateAuth } = require(__path_validates + "index.Validate");
-
-const folderView = __path_views_admin + "pages/auth/";
-const layout = __path_views_admin + "login";
-const linkIndex = "/" + systemConfig.prefixAdmin + "/dashboard";
-const linkLogin = "/" + systemConfig.prefixAdmin + "/auth/login";
-const linknoPermission = "/" + systemConfig.prefixAdmin + "/noPermission";
+const LocalStrategy 		= require("passport-local").Strategy;
+const { userService } 	= require(__path_sv_BE + "index.Service");
+const systemConfig 		= require(__path_configs + "system.Config");
+const notify 				= require(__path_configs + "notify.Config");
+const { ValidateAuth } 	= require(__path_validates + "index.Validate");
+const {stringHelper} 	= require(__path_helpers + "index.helper");
+const folderView 			= __path_views_blog + "pages/auth/";
+const layout 				= __path_views_blog + "login";
+const layoutBlog 				= __path_views_blog + "frontend.ejs";
+const linkIndex 			= stringHelper.formatlink("/" + systemConfig.prefixBlog + "/");
+const linkLogin 			= "/" + systemConfig.prefixBlog + "/auth/login";
+const linknoPermission 	= "/" + systemConfig.prefixBlog + "/auth/noPermission";
 const login = async (req, res) => {
 	let item = { nameLogin: "", password: "" };
 	let errors = null;
@@ -91,7 +92,7 @@ const checkLogin = (req, res, next) =>{ //kiểm tra xem đăng nhập hay chưa
 		}else{
 			return res.redirect(linknoPermission);//chưa không phải admin thì chuyển về trang no...
 		}
-	}
+   }
 	return res.redirect(linkLogin);//chưa đăng nhập thì chuyển về trang đăng nhập
 };
 
@@ -100,12 +101,20 @@ const checkLogout = (req, res, next) => { //kiểm tra xem đăng xuất hay ch�
 		return next();
 	}
 	return res.redirect(linkIndex); //chưa đăng xuất thì chuyển về trang quản ly
-}
-
+};
+const getUserInfo = (req, res, next) => { //lấy thông tin người đăng nhập
+	let userData = {};
+	if (req.isAuthenticated()) {
+		userData = req.user;
+	}
+	res.locals.userData = userData;
+	return next();
+};
 const noPermission = (req, res) =>{
 	return res.render(`${folderView}no-permission.Auth.ejs`, {
-      pageTitle: "No-permission",
-   });
+		layout: layoutBlog,
+		top_post: false,
+	});
 };
 export default {
 	login,
@@ -114,4 +123,5 @@ export default {
 	checkLogin,
 	checkLogout,
 	noPermission,
+	getUserInfo,
 };
