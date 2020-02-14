@@ -167,7 +167,7 @@ const changeOrdering = (idItem, newOrdering, index) =>{
 const countDocument = (condition) =>{
    return new Promise(async(resolve, reject)=>{
       let items = await articleSchemas.countDocument(condition);
-      if(items !== undefined){
+      if(items || items === 0){
          return resolve(items);
       }else{
          return reject("Trang thai khong có items");

@@ -89,7 +89,7 @@ const saveGroups = async(req, res) => {
 			if(checkStatus == "edit"){
 				await userService.saveUser(item.id, itemNew, "edit_u");
 			}
-			req.flash("success", messNotify, false);
+			req.flash("success", messNotify);
 		}
 	} catch (error) {
 		console.log(error);
@@ -109,7 +109,7 @@ const deleteGroups = async(req, res) =>{
 		console.log(error);
 		console.log("error---deleteGroups");
 	}
-	req.flash("success", notify.DELETE_SUCCESS, false);
+	req.flash("success", notify.DELETE_SUCCESS);
 	return res.redirect(linkIndex);
 };
 const deleteMulti = async(req, res) =>{
@@ -121,7 +121,7 @@ const deleteMulti = async(req, res) =>{
 	try {
 		await groupsService.deleteGroups(idItem, "multi");
 		await userService.saveItem(idItem, group.name, "multi");
-		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length), false);
+		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length));
 	} catch (error) {
 		console.log(error);
 		console.log("error---deleteMulti");
@@ -134,7 +134,7 @@ const changeStatus = async(req, res) =>{
 	
 	try {
 		await groupsService.changeStatus(id, currStatus, "one");
-		req.flash("success", notify.CHANGE_STATUS_SUCCESS, false);
+		req.flash("success", notify.CHANGE_STATUS_SUCCESS);
 	} catch (error) {
 		console.log(error);
 		console.log("error---changeStatus");
@@ -147,7 +147,7 @@ const changeStatusMulti = async(req, res) =>{
 	let length = idItem.length;
 	try {
 		await groupsService.changeStatus(idItem, statusNew, "multi");
-		req.flash("success", util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, length), false);
+		req.flash("success", util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, length));
 	} catch (error) {
 		console.log(error);
 		console.log("error---changeStatusMulti");
@@ -173,7 +173,7 @@ const changeOrdering = async(req, res) => {
 				await groupsService.changeOrdering(idItem, newOrdering, index);
 			});
 		}
-		req.flash("success", util.format(notify.CHANGE_ORDERING_SUCCESS, length), false);
+		req.flash("success", util.format(notify.CHANGE_ORDERING_SUCCESS, length));
 	} catch (error) {
 		console.log(error);
 		console.log("error---changeOrdering");
@@ -199,7 +199,7 @@ const changeGroupACP = async(req, res) => {
 	}
 	try {
 		await groupsService.changeGroupACP(idItem, data);
-		req.flash("success", notify.CHANGE_GRACP_SUCCESS, false);
+		req.flash("success", notify.CHANGE_GRACP_SUCCESS);
 	} catch (error) {
 		console.log(error);
 		console.log("error---changeOrdering");

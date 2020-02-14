@@ -13,7 +13,7 @@ let ConfigSession = (app) => {
       secret: 'khoabimat', // khóa bí mật
       store: sessionStore,
       resave: true, // lưu vào database
-      saveUninitialized: false,
+      saveUninitialized: true,
       cookie: { maxAge: 86400000 } // thời gian sống của cookie (1 ngày)
    }));
 };

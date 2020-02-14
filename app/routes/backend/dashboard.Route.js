@@ -1,10 +1,8 @@
 import express from "express";
 var router = express.Router();
 
-const folderView	 = __path_views + "pages/dashboard/";
-
-router.get("/", function(req, res, next) {
-  res.render(`${folderView}index`, { pageTitle: "Dashboard Page", "courseName": "<p>NodeJS</p>" });
-});
-
+const { dashBoardCTL, AuthCTL} = require(__path_ctl_BE + "index.Controller");
+// admin/...
+router.get("/dashboard", AuthCTL.checkLogin, dashBoardCTL.listDashBoard);
+router.get("/noPermission", AuthCTL.noPermission);
 module.exports = router;

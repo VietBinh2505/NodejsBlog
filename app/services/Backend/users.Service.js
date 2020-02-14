@@ -140,11 +140,17 @@ const changeOrdering = (idItem, newOrdering, index) =>{
 const countDocument = (condition) =>{
    return new Promise(async(resolve, reject)=>{
       let items = await userSchema.countDocument(condition);
-      if(items !== undefined){
+      if(items || items === 0){
          return resolve(items);
       }else{
          return reject("Trang thai khong có items");
       }
+   });
+};
+const checkUserLogin = (username) =>{
+   return new Promise(async(resolve, reject)=>{
+      let user = await userSchema.checkUserLogin(username);
+      return resolve(user);
    });
 };
 export default {
@@ -156,4 +162,5 @@ export default {
    changeStatus,
    changeOrdering,
    countDocument,
+   checkUserLogin,
 };

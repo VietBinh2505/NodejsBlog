@@ -7,6 +7,7 @@ var UsersSchema = new Schema({
    slug: String,
    status: { type: String, default: "inactive" },
    ordering: Number,
+   password: String,
    content: String,
    avatar: String,
    group: {
@@ -48,10 +49,6 @@ UsersSchema.statics = {
       if(filterGroupId !== "allvalue" && filterGroupId !== ""){
          objStt = {"group.id": filterGroupId};
       }
-      // if(filterGroupId === "allvalue"){
-      //    console.log("4");
-      //    objStt = {};
-      // }
       return this.find(objStt).sort(sort).skip(skip).limit(limit).exec();
    },
    showInfoItemEdit(id){
@@ -94,6 +91,10 @@ UsersSchema.statics = {
    },
    countDocument(condition){
       return this.countDocuments(condition).exec();
+   },
+   checkUserLogin(username){
+      return this.findOne({"username": username})
+      .select("password username ordering avatar").exec();
    },
 };
 module.exports = mongoose.model(databaseConfig.col_user, UsersSchema);
