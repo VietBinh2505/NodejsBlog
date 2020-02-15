@@ -50,7 +50,7 @@ ArticleSchema.statics = {
          objStt = {"categ.id": filterCateg};
       }
       if(filterCateg === "allvalue"){
-         objStt = {};
+         objStt = {"username": new RegExp(keyword, "i")};
       }
       return this.find(objStt).sort(sort).skip(skip).limit(limit).exec();
    },

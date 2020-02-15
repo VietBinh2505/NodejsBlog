@@ -12,30 +12,36 @@ import flash from "connect-flash";
 // Define Path
 global.__base 				= __dirname + "/";
 global.__path_app 		= __base + pathConfig.folder_app + "/";
-global.__path_services 	= __path_app + pathConfig.folder_services + "/";
-global.__path_sv_BE 		= __path_services + pathConfig.folder_sv_BE + "/";
-global.__path_sv_FE 		= __path_services + pathConfig.folder_sv_FE + "/";
 global.__path_configs 	= __path_app + pathConfig.folder_configs + "/";
 global.__path_helpers 	= __path_app + pathConfig.folder_helpers + "/";
-global.__path_routers 	= __path_app + pathConfig.folder_routers + "/";
 global.__path_schemas 	= __path_app + pathConfig.folder_schemas + "/";
 global.__path_mdware 	= __path_app + pathConfig.folder_mdware + "/";
 
-global.__path_validates = __path_app + pathConfig.folder_validates + "/";
-global.__path_uploads = __base + pathConfig.folder_public + "/upload";
-global.__path_views = __path_app + pathConfig.folder_views + "/";
+global.__path_routers 			= __path_app + pathConfig.folder_routers + "/";
+global.__path_routers_BLOG 	= __path_routers + pathConfig.folder_routers_BLOG + "/";
+global.__path_routers_ADMIN 	= __path_routers + pathConfig.folder_routers_ADMIN + "/";
+global.__path_routers_CHAT 	= __path_routers + pathConfig.folder_routers_CHAT + "/";
 
-global.__path_ctl = __path_app + pathConfig.folder_ctl + "/";
-global.__path_ctl_BE = __path_ctl + pathConfig.folder_ctl_BE + "/";
-global.__path_ctl_FE = __path_ctl + pathConfig.folder_ctl_FE + "/";
+global.__path_services 	= __path_app + pathConfig.folder_services + "/";
+global.__path_sv_BE 		= __path_services + pathConfig.folder_sv_BE + "/";
+global.__path_sv_FE 		= __path_services + pathConfig.folder_sv_FE + "/";
+global.__path_sv_Chat 	= __path_services + pathConfig.folder_sv_Chat + "/";
 
-global.__path_views_admin = __path_views + pathConfig.folder_views_admin + "/";
-global.__path_views_blog = __path_views + pathConfig.folder_views_blog + "/";
+global.__path_validates 	= __path_app + pathConfig.folder_validates + "/";
+global.__path_uploads 		= __base + pathConfig.folder_public + "/upload";
+global.__path_views 			= __path_app + pathConfig.folder_views + "/";
 
-const ConfigSession = require(__path_configs + "session.Config");
-const connectDB = require(__path_configs + "connectDB");
-const systemConfig = require(__path_configs + "system.Config");
-const {categServiceFE} = require(__path_sv_FE + "index.ServiceFE");
+global.__path_ctl 		= __path_app + pathConfig.folder_ctl + "/";
+global.__path_ctl_BE 	= __path_ctl + pathConfig.folder_ctl_BE + "/";
+global.__path_ctl_FE 	= __path_ctl + pathConfig.folder_ctl_FE + "/";
+global.__path_ctl_Chat 	= __path_ctl + pathConfig.folder_ctl_Chat + "/";
+
+global.__path_views_admin 	= __path_views + pathConfig.folder_views_admin + "/";
+global.__path_views_blog 	= __path_views + pathConfig.folder_views_blog + "/";
+global.__path_views_chat 	= __path_views + pathConfig.folder_views_chat + "/";
+const ConfigSession 		= require(__path_configs + "session.Config");
+const connectDB 			= require(__path_configs + "connectDB");
+const systemConfig 		= require(__path_configs + "system.Config");
 var app = express();
 connectDB();
 ConfigSession(app);
@@ -67,13 +73,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-
 // Local variable
 app.locals.systemConfig = systemConfig;
 app.locals.moment = moment;
 // Setup router
-app.use(`/${systemConfig.prefixAdmin}`, require(__path_routers + "backend/index.Route"));
-app.use(`/${systemConfig.prefixBlog}`, require(__path_routers + "frontend/index.Route"));
+app.use(`/${systemConfig.prefixAdmin}`	, require(__path_routers_ADMIN + "index.Route"));
+app.use(`/${systemConfig.prefixBlog}`	, require(__path_routers_BLOG  + "index.Route"));
+app.use(`/${systemConfig.prefixChat}`	, require(__path_routers_CHAT  + "index.Route"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
