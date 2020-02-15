@@ -1,0 +1,109 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+.one-box{
+    width: 50%;
+}
+.widget-user-2 .widget-user-image>img {
+    width: 57px;
+    height: 43px;
+    float: left;
+}
+.user:last-child,.room:last-child,.user-invite:last-child{
+    border-bottom: none ;
+}
+.no-padding-right {
+    padding-right: 0px;
+}
+.no-padding-left {
+    padding-left: 0px;
+}
+.count{
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+.btn-w{
+    width: 82%;
+}
+li .btn-w{
+    width: 35%;
+    margin: auto;
+}
+.alert a{
+    text-decoration: none ;
+}
+.navbar-header{
+    margin-left: 15px !important;
+}
+.user,.user-invite{
+    height: 40px;
+    margin: 10px 0px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid #ecf0f5;
+}
+.room{
+    height: 40px;
+    margin: 17px 0px;
+    border-bottom: 1px solid #ecf0f5;
+    padding-bottom: 65px;
+}
+.user-avatar img.contacts-list-img {
+    margin-right: 15px;
+}
+img.rooms-list-img {
+    width: 50px;
+    float: left;
+    margin-right: 10px;
+}
+h5.room-name {
+    margin-bottom: 0px;
+}
+.direct-chat-messages{
+    height: 547px;
+}
+.direct-chat-msg {
+    display: table;
+    clear: both
+}
+.right{
+    float: right;
+}
+.notifications-menu .dropdown-menu,.messages-menu .dropdown-menu{
+    width: 350px !important;
+}
+.alert-msg {
+    position: absolute;
+    top: 82%;
+    left: 10px;
+}
+p.show-typing {
+    position: absolute;
+    top: 563px;
+    left: 10px;
+    background: #c1c1c1;
+    padding:  2px 10px 2px 10px;
+    display: table;
+    color: #4f4f50;
+}
+.btn-action-invite{
+    display: grid;
+    grid-column-gap: 3px;
+}
+.btn-action-invite button{
+    grid-row: 1;
+    margin-top: 0px !important;
+    padding: 4px 0px;
+}
+.navbar-nav>.notifications-menu>.dropdown-menu>li .menu,.navbar-nav>.messages-menu>.dropdown-menu>li .menu{
+    max-height: 400px;
+}
+.scroll-box{
+    max-height: 255px;
+    overflow-x: hidden;
+}
+@media (max-width: 992px) {
+    .no-padding-left{
+        padding-right: 0px;
+    }
+}

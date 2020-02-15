@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include ./elements/head.ejs %>
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+<div class="wrapper">
+    <% include ./elements/header.ejs %>
+    
+    <div class="content-wrapper">
+        <div class="container">
+            <% include ./elements/breadcrumb.ejs %>
+            <section class="content">
+                <%- body %>
+            </section>
+        </div>
+    </div>
+    <% include ./elements/footer.ejs %>
+</div>
+<% include ./elements/scripts.ejs %> 
+</body>
+</html>
