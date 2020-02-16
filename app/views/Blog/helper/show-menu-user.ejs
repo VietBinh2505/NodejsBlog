@@ -1,7 +1,7 @@
 <%NameAdmin = systemConfig.NameAdmin;%>
 <% showmenu = (userinfo) =>{
-    let linklogin = systemConfig.prefixBlog + `/auth/login`;
-    let linklogout = systemConfig.prefixBlog + `/auth/logout`;
+    let linklogin = systemConfig.prefixChat + `/auth/login`;
+    let linklogout = systemConfig.prefixChat + `/auth/logout`;
     let linkad = systemConfig.prefixAdmin + `/dashboard`;
     let xhtmlmenu = '';
     if(Object.keys(userinfo).length > 0){

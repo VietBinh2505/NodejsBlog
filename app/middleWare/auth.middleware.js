@@ -1,32 +1,31 @@
 import passport from "passport";
-import md5 from "md5";
 const LocalStrategy 		= require("passport-local").Strategy;
 const { userService } 	= require(__path_sv_BE + "index.Service");
 const systemConfig 		= require(__path_configs + "system.Config");
 const notify 				= require(__path_configs + "notify.Config");
-const { ValidateAuth } 	= require(__path_validates + "index.Validate");
+const {ValidateAuth} 	= require(__path_validates + "index.Validate");
 const {stringHelper} 	= require(__path_helpers + "index.helper");
-const folderView 			= __path_views_blog + "pages/auth/";
-const layout 				= __path_views_blog + "login";
-const layoutBlog 				= __path_views_blog + "frontend.ejs";
-const linkIndex 			= stringHelper.formatlink("/" + systemConfig.prefixBlog + "/");
-const linkLogin 			= "/" + systemConfig.prefixBlog + "/auth/login";
-const linknoPermission 	= "/" + systemConfig.prefixBlog + "/auth/noPermission";
+const folderView 			= __path_views_chat + "pages/auth/";
+const layout 				= __path_views_chat + "login";
+const layoutChat 			= __path_views_chat + "main";
+const linkIndex 			= stringHelper.formatlink("/" + systemConfig.prefixChat + "/");
+const linkLogin 			= stringHelper.formatlink("/" + systemConfig.prefixChat + "/auth/login");
+const linknoPermission 	= stringHelper.formatlink("/" + systemConfig.prefixChat + "/auth/noPermission");
 const login = async (req, res) => {
 	let item = { nameLogin: "", password: "" };
 	let errors = null;
-	try {
-		return res.render(`${folderView}login.Auth.ejs`, {
-			layout,
-			errors,
-			item,
-		});
-	} catch (error) {
-		console.log(error);
-		console.log("error---listCateFE");
-	}
+	return res.render(`${folderView}login.Auth.ejs`, {
+		layout,
+		errors,
+		item,
+	});
 };
-
+const checkLoginchat = (req, res, next) =>{ //kiểm tra xem đăng nhập hay chưa
+	if (req.isAuthenticated()) {  //đăng nhập rồi
+		return next(); //cho tiếp
+   }
+	return res.redirect(linkLogin);//chưa đăng nhập thì chuyển về trang đăng nhập
+};
 const loginPost = async (req, res, next) => {
 	req.body = JSON.parse(JSON.stringify(req.body));
 	ValidateAuth.validator(req);
@@ -84,8 +83,7 @@ const logout = (req, res) => {
 	req.flash("success", notify.LOGOUT_SUCCESS);
 	res.redirect(linkLogin);
 };
-
-const checkLogin = (req, res, next) =>{ //kiểm tra xem đăng nhập hay chưa
+const checkLoginAdmin = (req, res, next) =>{ //kiểm tra xem đăng nhập hay chưa
 	if (req.isAuthenticated()) {  //đăng nhập rồi
 		if(req.user.username === "admin"){
 			return next(); //cho tiếp
@@ -112,7 +110,7 @@ const getUserInfo = (req, res, next) => { //lấy thông tin người đăng nh�
 };
 const noPermission = (req, res) =>{
 	return res.render(`${folderView}no-permission.Auth.ejs`, {
-		layout: layoutBlog,
+		layout: layoutChat,
 		top_post: false,
 	});
 };
@@ -120,8 +118,9 @@ export default {
 	login,
 	loginPost,
 	logout,
-	checkLogin,
+	checkLoginAdmin,
 	checkLogout,
 	noPermission,
 	getUserInfo,
+	checkLoginchat
 };

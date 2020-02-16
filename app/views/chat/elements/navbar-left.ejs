@@ -1,0 +1,21 @@
+<% 
+    const linkAdmin = systemConfig.prefixAdmin + `/dashboard`;
+    let xhtmlLinkAdmin = '';
+
+    if( Object.keys(userData).length > 0) {
+        if(userData.username == "admin"){
+            xhtmlLinkAdmin = `<li><a href="${linkAdmin}">Admin Control Panel</a></li>`;
+        }
+    }
+%>
+
+<div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+    <ul class="nav navbar-nav">
+        <li ><a href="<%= systemConfig.prefixChat %>/list-room">Rooms</a></li>
+        <li ><a href="<%= systemConfig.prefixChat %>/invitation/receive">Invitations</a></li>
+        <li ><a href="<%= systemConfig.prefixChat %>/invitation/send">Invitations send</a></li>
+        <li ><a href="<%= systemConfig.prefixChat %>/friends">Friends</a></li>
+        <li ><a href="<%= systemConfig.prefixBlog %>/blog">View Blog</a></li>
+        <%- xhtmlLinkAdmin %>
+    </ul>
+</div>

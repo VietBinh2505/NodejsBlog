@@ -1,0 +1,35 @@
+
+<%
+    showBoxListInvitation = (totalRequest, requestList, type) => {
+        xhtml = ``;
+        if(totalRequest > 0) {
+            xhtmlButton = ``;
+            if(type == "receive") {
+                xhtmlButton = `<button type="button" class="btn btn-block btn-primary">Accept</button>
+                            <button type="button" class="btn btn-block btn-defaultt" >Deny</button>`;
+            }else if(type == "send") {
+                xhtmlButton = `<button type="button" class="btn btn-block btn-primary">Clear</button>`;
+            }else if(type == "friend") {
+                xhtmlButton = `<button type="button" class="btn btn-block btn-primary">Remove</button>`;
+            };;
+
+
+            for(let i = 0; i < totalRequest; i++){ 
+                let request     = requestList[i];
+                let userAvatar  = 'uploads/users/' + request.avatar;
+                let username    = request.username;
+                xhtml += `<div class="user-invite" >
+                        <div  class="col-md-7 col-sm-7 col-xs-7 user-avatar">
+                            <img class="contacts-list-img" src="${userAvatar}" alt="${username}">
+                            <h5>${username}</h5>
+                        </div>
+                        <div class="col-md-5 col-sm-5 col-xs-5 btn-action-invite">${xhtmlButton}</div>
+                    </div>`;
+            }
+        }else {
+             xhtml = `<p>You have 0 invitations</p>`;
+        }
+        
+        return xhtml;
+    } 
+%>
