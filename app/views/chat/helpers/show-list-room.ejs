@@ -1,0 +1,36 @@
+<%
+    showListRoom = (roomInfo) => {
+        let xhtmlRoom = '';
+        let lengthObj = roomInfo.length;
+        for (let i = 0; i < lengthObj; i++) {
+            let room        = roomInfo[i];
+            let thumbnail   = 'uploads/rooms/' + room.thumbnail;
+            let linkRoom    = systemConfig.prefixChat + `/room/` + room.id;
+
+            xhtmlRoom += `<div class="col-md-4">
+                            <div class="box box-widget widget-user-2">
+                                <div class="widget-user-header bg-light-blue">
+                                    <div class="widget-user-image">
+                                        <img class="img-circle" src="${thumbnail}" alt="${room.name}">
+                                    </div>
+                                    <h3 class="widget-user-username">${room.name}</h3>
+                                </div>
+                                <div class="box-footer no-padding">
+                                    <ul class="nav nav-stacked">
+                                        <li><a href="#">Language <span class="pull-right badge bg-aqua">PHP</span></a></li>
+                                        <li><a href="#">Category<span class="pull-right badge bg-green">Education</span></a></li>
+                                        <li>
+                                            <a href="${linkRoom}">
+                                                <button type="button" class="btn btn-block btn-primary btn-w btn-sm">Join</button>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>`;
+        }
+
+        return xhtmlRoom;
+    }
+%>
+

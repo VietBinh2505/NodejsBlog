@@ -1,0 +1,25 @@
+<%
+    showBoxRoom = (roomInfo) => {
+        let xhtmlRoom = '';
+        let lengthObj = roomInfo.length;
+
+        for (let i = 0; i < lengthObj; i++) {
+            let room        = roomInfo[i];
+            let thumbnail   = 'uploads/rooms/' + roomInfo[i].thumbnail;
+            let linkRoom    = systemConfig.prefixChat + `/room/` + room.id;
+
+            xhtmlRoom += `<div class="room">
+                            <div class="col-md-8 col-sm-8 col-xs-8 room-avatar">
+                                <img class="rooms-list-img" src="${thumbnail}" alt="${room.name}">
+                                <h5 class="room-name">${room.name}</h5>
+                                <small >Member: 4</small>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4">
+                                <a href="${linkRoom}" type="button" class="btn btn-block btn-primary btn-w btn-sm">Join</a>
+                            </div>
+                        </div>`;
+        }
+
+        return xhtmlRoom;
+    }
+%>

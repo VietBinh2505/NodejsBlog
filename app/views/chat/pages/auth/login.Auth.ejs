@@ -1,24 +1,31 @@
-<% const linkprefix = systemConfig.prefixBlog + "/auth/login/";%>
+<% 
+	const linkPrefix = systemConfig.prefixChat + `/auth/login/`;
+%>
 
-<div class="login-panel panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">Please Sign In </h3>
-	</div>
-	<div class="panel-body">
-		<% include ./../../elements/errors-login %>
-		<% include ./../../elements/notify %>
-		<form role="form" action="<%= linkprefix %>" method="POST">
-			<fieldset>
-				<div class="form-group">
-					<input class="form-control" placeholder="Username" name="username" value="<%= item.username %>">
-				</div>
-				<div class="form-group">
-					<input class="form-control" placeholder="Password" name="password">
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-primary">Login </button>
-				</div>
-			</fieldset>
-		</form>
-	</div>
+<div class="login-box">
+    <div class="login-logo">
+        <a href="#"><b>NodeJs Learning</b></a>
+    </div>
+    <div class="login-box-body">
+    
+        <% include ./../../elements/errors-login %>
+        <% include ./../../elements/notify %>
+        <form action=""<%= linkPrefix %>" method="POST">
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" name="username" value="" placeholder="username">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+
+            <div class="form-group has-feedback">
+                <input type="text" name="password" value="" class="form-control" placeholder="Password">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

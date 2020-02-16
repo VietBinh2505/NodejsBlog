@@ -1,0 +1,32 @@
+<% 
+    showBoxUser = (userInfo) => { 
+        const linkLogout= systemConfig.prefixChat + `/auth/logout`;
+        let xhtmlMenuUser = '';
+        if( Object.keys(userInfo).length > 0) {
+            let userAvatar = 'upload/users/' + userInfo.avatar;
+            xhtmlMenuUser = `<li class="dropdown  user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="${userAvatar}" class="user-image" alt="User Image">
+                    <span class="hidden-xs">${userInfo.username}</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="user-header">
+                        <img src="${userAvatar}" class="img-circle" alt="User Image">
+                        <p>${userInfo.username}
+                            <small>Thành viên từ ${formatdate(userInfo.created.time)}</small>
+                        </p>
+                    </li>
+                    <li class="user-footer">
+                        <div class="pull-left">
+                            <a href="#" class="btn btn-default btn-flat">Hồ Sơ</a>
+                        </div>
+                        <div class="pull-right">
+                            <a href="${linkLogout}" class="btn btn-default btn-flat">Đăng xuất</a>
+                        </div>
+                    </li>
+                </ul>
+            </li>`;
+        }
+        return xhtmlMenuUser;
+    } 
+%>

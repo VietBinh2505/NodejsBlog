@@ -4,9 +4,11 @@ var router = express.Router();
 const { AuthMDW, item } = require(__path_mdware + "index.middleware");
 // blog/...
 router.use("/", 
+   AuthMDW.getUserInfo, // có userData
    item.getCategMenu, //có ItemCateg
    item.ArticleRandom, //lấy được ArticleRandom
-   require("./home.Route"));
+   require("./home.Route")
+);
 
 router.use("/about", require("./about.Route "));
 router.use("/contact", require("./contact.Route "));

@@ -1,8 +1,8 @@
 import express from "express";
 var router = express.Router();
-// blog/auth/...
-
+// /auth/...
 const { AuthMDW} = require(__path_mdware + "index.middleware");
+
 router.get("/login", AuthMDW.checkLogout, AuthMDW.login);
 router.post("/login", AuthMDW.loginPost);
 router.get("/logout", AuthMDW.logout);
