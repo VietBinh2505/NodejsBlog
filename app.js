@@ -9,11 +9,14 @@ import moment from "moment";
 import passport from "passport";
 import pathConfig from "./path";
 import flash from "connect-flash";
+import socket_io from "socket.io";
+
 // Define Path
 global.__base 				= __dirname + "/";
 global.__path_app 		= __base + pathConfig.folder_app + "/";
 global.__path_configs 	= __path_app + pathConfig.folder_configs + "/";
 global.__path_helpers 	= __path_app + pathConfig.folder_helpers + "/";
+global.__path_socket 	= __path_app + pathConfig.folder_socket + "/";
 global.__path_schemas 	= __path_app + pathConfig.folder_schemas + "/";
 global.__path_mdware 	= __path_app + pathConfig.folder_mdware + "/";
 
@@ -39,10 +42,17 @@ global.__path_ctl_Chat 	= __path_ctl + pathConfig.folder_ctl_Chat + "/";
 global.__path_views_admin 	= __path_views + pathConfig.folder_views_admin + "/";
 global.__path_views_blog 	= __path_views + pathConfig.folder_views_blog + "/";
 global.__path_views_chat 	= __path_views + pathConfig.folder_views_chat + "/";
+
+
 const ConfigSession 		= require(__path_configs + "session.Config");
 const connectDB 			= require(__path_configs + "connectDB");
 const systemConfig 		= require(__path_configs + "system.Config");
+const initSocket 			= require(__path_socket  + "index.socket");
+
 var app = express();
+const io = socket_io();
+app.io = io;
+initSocket(io)
 connectDB();
 ConfigSession(app);
 app.use(cookieParser());
@@ -79,7 +89,7 @@ app.locals.moment = moment;
 // Setup router
 app.use(`/${systemConfig.prefixAdmin}`	, require(__path_routers_ADMIN + "index.Route"));
 app.use(`/${systemConfig.prefixBlog}`	, require(__path_routers_BLOG  + "index.Route"));
-app.use(`/${systemConfig.prefixChat}`	, require(__path_routers_CHAT  + "index.Route"));
+app.use(`/${systemConfig.prefixChat}`	, require(__path_routers_CHAT  + "index.Route")(io));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

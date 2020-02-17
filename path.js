@@ -24,6 +24,7 @@ module.exports = {
     folder_routers_CHAT     : "chat",
 
     folder_helpers      : "helpers",
+    folder_socket       : "socket",
     folder_schemas      : "schemas",
     folder_validates    : "validates",
     folder_mdware       : "middleWare",
