@@ -7,6 +7,7 @@ var UsersSchema = new Schema({
    slug: String,
    status: { type: String, default: "inactive" },
    ordering: Number,
+   nameLogin: String,
    password: String,
    content: String,
    avatar: String,
@@ -92,9 +93,9 @@ UsersSchema.statics = {
    countDocument(condition){
       return this.countDocuments(condition).exec();
    },
-   checkUserLogin(username){
-      return this.findOne({"username": username})
-      .select("password username ordering avatar").exec();
+   checkUserLogin(nameLogin){
+      return this.findOne({"nameLogin": nameLogin})
+      .select("password username ordering avatar nameLogin").exec();
    },
 };
 module.exports = mongoose.model(databaseConfig.col_user, UsersSchema);

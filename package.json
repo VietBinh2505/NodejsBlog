@@ -25,7 +25,8 @@
     "nodemon": "^2.0.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "randomstring": "^1.1.5"
+    "randomstring": "^1.1.5",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",

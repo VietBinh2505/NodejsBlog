@@ -11,6 +11,7 @@ const layoutChat 			= __path_views_chat + "main";
 const linkIndex 			= stringHelper.formatlink("/" + systemConfig.prefixChat + "/");
 const linkLogin 			= stringHelper.formatlink("/" + systemConfig.prefixChat + "/auth/login");
 const linknoPermission 	= stringHelper.formatlink("/" + systemConfig.prefixChat + "/auth/noPermission");
+const nameLoginAdmin 	= "admin";	
 const login = async (req, res) => {
 	let item = { nameLogin: "", password: "" };
 	let errors = null;
@@ -85,7 +86,7 @@ const logout = (req, res) => {
 };
 const checkLoginAdmin = (req, res, next) =>{ //kiểm tra xem đăng nhập hay chưa
 	if (req.isAuthenticated()) {  //đăng nhập rồi
-		if(req.user.username === "admin"){
+		if(req.user.nameLogin == nameLoginAdmin){
 			return next(); //cho tiếp
 		}else{
 			return res.redirect(linknoPermission);//chưa không phải admin thì chuyển về trang no...

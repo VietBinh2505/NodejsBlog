@@ -5,4 +5,5 @@ module.exports = {
    col_user: "user",
    col_category: "categ",
    col_arti: "article",
+   col_chat: "chat",
 };

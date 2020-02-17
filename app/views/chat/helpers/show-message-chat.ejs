@@ -1,20 +1,20 @@
 <% include ./format-date %>
 
 <% 
-    showMessageChat = (chats, userInfo) => { 
+    showMessageChat = (chats, userData) => { 
         xhtmlChats = '';
         for(let i = 0; i < chats.length; i++){ 
             let chat = chats[i];
-            let userAvatar = 'uploads/users/' + chat.avatar;
+            let userAvatar = 'upload/users/' + chat.avatar;
 
             let typeShow = "";
             let classUsername = "pull-left";
             let classCreated = "pull-right";
 
-            if(userInfo.username == chat.username ){
-                typeShow        = "right";
-                classUsername   = "pull-right";
-                classCreated    = "pull-left";
+            if(userData.username == chat.username ){
+					typeShow        = "right";
+					classUsername   = "pull-right";
+					classCreated    = "pull-left";
             }
 
             xhtmlChats += `<div class="direct-chat-msg ${typeShow}">
