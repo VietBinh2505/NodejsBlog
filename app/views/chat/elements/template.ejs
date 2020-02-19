@@ -1,33 +1,33 @@
-<script id="template-chat-message" type="x-tmpl-mustache">
+<script id="template-message" type="x-tmpl-mustache">
     <div class="direct-chat-msg {{typeShow}}">
         <div class="direct-chat-info clearfix">
             <span class="direct-chat-name {{classUsername}}">{{data.username}}</span>
             <span class="direct-chat-timestamp {{classCreated}}">{{data.created}}</span>
         </div>
-        <img class="direct-chat-img" src="uploads/users/{{data.avatar}}" alt="{{data.username}}">
+        <img class="direct-chat-img" src="{{userAvatar}}" alt="{{data.username}}">
         <div class="direct-chat-text">{{data.content}}</div>
     </div>
 </script>
 
-<script id="template-notify-error" type="x-tmpl-mustache">
+<script id="server_return_newMessage_error" type="x-tmpl-mustache">
     <div class="alert alert-danger alert-dismissible" id="area-notify">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <strong>Error: </strong>{{data.content}}
-    </div>
+     </div>
 </script>
 
 <script id="template-user-typing" type="x-tmpl-mustache">
-    <p class="show-typing">{{data.username}} is typing ...</p>
+    <p class="show-typing">{{user}} đang chat ...</p>
 </script>
 
 <script id="template-user-online" type="x-tmpl-mustache">
     <div class="user">
-        <div class="col-md-8 col-sm-8 col-xs-8 user-avatar">
-            <img class="contacts-list-img" src="uploads/users/{{user.avatar}}" alt="{{user.username}}">
-            <h5>{{user.username}}</h5>
+        <div class="col-md-8 col-sm-8 user-avatar">
+            <img class="contacts-list-img" src="upload/users/{{user.avatar}}" alt="{{user.username}}">
+            <h5>{{user.username}} </h5>
         </div>
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <button data-username="{{user.username}}" data-socketid="{{user.id}}" data-avatar="{{user.avatar}}" type="button" class="btn btn-block btn-primary btn-w btn-sm control-add-friend">Add friend </button>
+        <div class="col-md-4 col-sm-4 col-xs-4"><button type="button"
+            class="btn btn-block btn-primary btn-w btn-sm">Add friend</button>
         </div>
     </div>
 </script>
