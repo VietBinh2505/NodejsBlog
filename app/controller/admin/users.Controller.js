@@ -79,7 +79,7 @@ const saveUser = async (req, res) => {
 		let item = Object.assign(req.body);
 		let checkStatus = (typeof item !== "undefined" && item.id !== "") ? "edit" : "add"; //check xem user add hay edit
 		let errors = ValidateUsers.validator(req, errorUpload, checkStatus);
-		 
+		
 		let itemsGr = await groupsService.showAllGropItem();
 		itemsGr.unshift({ "_id": "novalue", "username": "Choose Group" }); //thêm phần tử vào vị trí đầu tiên trong mảng
 		let itemNew = {
@@ -93,6 +93,7 @@ const saveUser = async (req, res) => {
 			id: item.group,
 			name: item.group_name,
 		};
+		console.log(req.file.filename);
 		try {
 			if (errors.length > 0) {
 				let pageTitle = (checkStatus == "edit") ? pageTitleEdit : pageTitleAdd;

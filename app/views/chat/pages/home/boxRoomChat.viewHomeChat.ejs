@@ -1,8 +1,12 @@
+<%
+	const folderUpload = "upload/groups/";
+%>
+<% include ./../../helpers/show-box-room.ejs %> 
 <div class="row">
 	<div class="box box-primary">
 		<div class="box-header with-border">
-			<h3 class="box-title">Rooms</h3>
-			<span data-toggle="tooltip" title="" class="badge bg-light-blue count" data-original-title="2 Rooms">2</span>
+			<h3 class="box-title">Phòng Chat</h3>
+			<span data-toggle="tooltip" title="" class="badge bg-light-blue count" data-original-title="2 Rooms"><%= listRooms.length %></span>
 
 			<div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -10,17 +14,7 @@
 			</div>
 		</div>
 		<div class="box-body scroll-box">
-			<div class="room">
-				<% listRooms.forEach((listRoom)=>{%>
-					<div class="col-md-8 room-avatar">
-						<img class="rooms-list-img" src="chat/img/Angular.png" alt="User Image">
-						<h5 class="room-name"><%= listRoom.username %></h5>
-						<small>Member: 5</small>
-					</div>
-					<div class="col-md-4"><button type="button" class="btn btn-block btn-primary btn-w btn-sm">Join</button>
-					</div>
-				<% }); %>
-			</div>
+			<%- showBoxRoom(listRooms) %>
 		</div>
 	</div>
 </div>

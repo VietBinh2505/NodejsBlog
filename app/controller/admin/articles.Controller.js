@@ -93,6 +93,7 @@ const saveArticle = async (req, res) => {
 			id: item.category_id,
 			name: item.category_name,
 		};
+		console.log(req.file.filename);
 		try {
 			if (errors.length > 0) {
 				let pageTitle = (checkStatus == "edit") ? pageTitleEdit : pageTitleAdd;

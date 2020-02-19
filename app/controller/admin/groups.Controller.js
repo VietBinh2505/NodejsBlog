@@ -1,16 +1,67 @@
 import util from "util";
-const {getParams, filterStt, stringHelper} = require(__path_helpers + "index.helper");
+const {getParams, filterStt, stringHelper, FileHelper} = require(__path_helpers + "index.helper");
 const {groupsService, userService} 	= require(__path_sv_BE + "index.Service");
 const systemConfig 						= require(__path_configs + "system.Config");
 const {ValidateGroups} 					= require(__path_validates + "index.Validate");
 const notify 								= require(__path_configs + "notify.Config");
 
+const upLoadAvatar = FileHelper.uploadFile("avatar", "groups");
 const folderView	 = __path_views_admin + "pages/groups/";
 const pageTitleIndex = "Group Management"; 
 const pageTitleAdd   = pageTitleIndex + " - Add";
 const pageTitleEdit  = pageTitleIndex + " - Edit";
 
 const linkIndex = "/" + systemConfig.prefixAdmin + "/groups/";
+
+const saveGroups = async(req, res) => {
+	upLoadAvatar(req, res, async (errorUpload) => {
+		req.body = JSON.parse(JSON.stringify(req.body));
+		let item = Object.assign(req.body);
+		let checkStatus = (typeof item !== "undefined" && item.id !== "") ? "edit" : "add"; //check xem user add hay edit
+		let errors = ValidateGroups.validator(req, errorUpload, checkStatus);
+		let itemNew = {
+			username: req.body.username,
+			ordering: req.body.ordering,
+			status: req.body.status,
+			content: req.body.content,
+			group_acp: req.body.group_acp,
+			special: req.body.special,
+			slug: stringHelper.createalias(req.body.slug),
+		};
+		try {
+			if (errors.length > 0) {
+				let pageTitle = (checkStatus == "edit") ? pageTitleEdit : pageTitleAdd;
+				if(req.filename !== undefined){
+					FileHelper.removefile("public/upload/groups/", req.file.filename);
+				}
+				if(checkStatus == "edit"){
+					item.avatar = item.image_old;
+				}
+				return res.render(`${folderView}form.viewsGr.ejs`, { pageTitle, item, errors });
+			} else {
+				let messNotify = (checkStatus == "edit") ? notify.EDIT_SUCCESS : notify.ADD_SUCCESS;
+				if(req.file == undefined){
+					itemNew.avatar = item.image_old;
+				}else{
+					itemNew.avatar = req.file.filename;
+					if(checkStatus === "edit"){
+						FileHelper.removefile("public/upload/groups/", item.image_old);
+					} 
+				}
+				await groupsService.saveGroups(item.id, itemNew, checkStatus);
+				req.flash("success", messNotify);
+			}
+		} catch (error) {
+			console.log(error);
+			console.log("error-saveItem");
+		}
+		return res.redirect(linkIndex);
+	});
+};
+
+
+
+
 const listGroups = async(req, res) => {
 	try {
 		let params = {};
@@ -64,38 +115,6 @@ const formGroups = async (req, res) => {
 			errors
 		});
 	}
-};
-const saveGroups = async(req, res) => {
-	req.body = JSON.parse(JSON.stringify(req.body));
-	ValidateGroups.validator(req);
-	let item = Object.assign(req.body);
-	let errors = req.validationErrors();
-	let itemNew = {
-		username: req.body.username,
-		ordering: req.body.ordering,
-		status: req.body.status,
-		content: req.body.content,
-		group_acp: req.body.group_acp,
-		slug: stringHelper.createalias(req.body.slug),
-	};
-	let checkStatus = (typeof item !== "undefined" && item.id !== "" ) ? "edit" : "add"; //check xem user add hay edit
-	try {
-		if(errors){
-			let pageTitle = (checkStatus == "edit") ? pageTitleEdit : pageTitleAdd;
-			return res.render(`${folderView}form.viewsGr.ejs`, { pageTitle, item, errors});
-		}else{
-			let messNotify = (checkStatus == "edit") ? notify.EDIT_SUCCESS : notify.ADD_SUCCESS;
-			await groupsService.saveGroups(item.id, itemNew, checkStatus);
-			if(checkStatus == "edit"){
-				await userService.saveUser(item.id, itemNew, "edit_u");
-			}
-			req.flash("success", messNotify);
-		}
-	} catch (error) {
-		console.log(error);
-		console.log("error-saveGroups");
-	}
-	return res.redirect(linkIndex);
 };
 const deleteGroups = async(req, res) =>{
 	let itemId = await getParams.getParam(req.params, "id", "");
