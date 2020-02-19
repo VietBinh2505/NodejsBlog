@@ -5,10 +5,11 @@
 <% include ./../../helpers/source-by %>
 <% include ./../../helpers/sort %>
 <% include ./../../helpers/group-acp.ejs %>
-
+<% include ./../../helpers/image %>
 <% 
 	const collection = "groups";
 	const linkPrefix = systemConfig.prefixAdmin + `/${collection}/`; //admin/item
+	const folderUpLoad = "upload/groups/";
 %>
 <% include ./../../elements/notify.ejs %>
 <div class="row">
@@ -58,6 +59,7 @@
 									<th><input type="checkbox" class="cbAll" /></th>
 									<th>#</th>
 									<%-sortHelper(linkPrefix,  "Name", "username", params.sortFiled, params.sortType, "width: 10%") %>
+									<th>Avatar</th>
 									<%-sortHelper(linkPrefix,  "Status", "status", params.sortFiled, params.sortType) %>
 									<%-sortHelper(linkPrefix,  "Ordering", "ordering", params.sortFiled, params.sortType) %>
 									<%-sortHelper(linkPrefix,  "Group ACP", "group_acp", params.sortFiled, params.sortType) %>
@@ -73,6 +75,7 @@
 											<td><input type="checkbox" name="cid" value="<%= item.id %>" /></td>
 											<td><%= index+1 %></td>
 											<td><%= item.username %></td>
+											<td><%- imageHelper(folderUpLoad, item.avatar, item.username)%></td>
 											<td><%- statusHelper(linkPrefix, item.status, item.id) %></td>
 											<td><input type="number" value="<%= item.ordering %>" class="text-center ordering"></td>
 											<td><%- groupACPHelper(linkPrefix, item.group_acp, item.id) %></td>

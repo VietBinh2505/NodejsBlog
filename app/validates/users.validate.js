@@ -35,7 +35,8 @@ module.exports = {
 				errorUpload = notify.ERROR_AVATAR_MAX;
 			}
 			errors.push({ param: "avatar", msg: errorUpload });
-		} else if (errorUpload == undefined){
+        }
+        else if (errorUpload == undefined){
 			if (req.file == undefined && checkStatus == "add") {
 				errors.push({ param: "avatar", msg: notify.ERROR_AVATAR });
 			}

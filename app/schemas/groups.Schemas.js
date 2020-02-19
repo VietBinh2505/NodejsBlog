@@ -42,7 +42,7 @@ GroupSchema.statics = {
       }else{
          objStt = {"status": currStatus, "username": new RegExp(keyword, "i")};
       }
-      return this.find(objStt).select("username status ordering created modified group_acp").sort(sort).skip(skip).limit(limit).exec();
+      return this.find(objStt).select("username status ordering created modified group_acp avatar").sort(sort).skip(skip).limit(limit).exec();
    },
    showInfoGroupsEdit(id){
       return this.find({"_id": id}).exec();
@@ -92,10 +92,15 @@ GroupSchema.statics = {
       return this.find({}, {"_id": 1, "username": 1}).exec();
    },
    /*------------------------------------------------------ */
-   listRoom(){
-      return this.find({status: "active"})
-      .sort({ordering: "desc"})
-      .select("username").exec();
+   listRoom(idRoom = null, option = null){
+      let find = {status: "active"};
+      let sort = {ordering: "desc"};
+      let select = "username avatar";
+      if(idRoom){
+         find = {status: "active", _id: idRoom};
+         select = "username avatar";
+      }
+      return this.find(find).sort(sort).select(select).exec();
    },
 };
 module.exports = mongoose.model(databaseConfig.col_groups, GroupSchema);

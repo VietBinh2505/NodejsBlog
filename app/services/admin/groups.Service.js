@@ -43,6 +43,7 @@ const showInfoGroupsEdit = (id) =>{
 };
 const saveGroups = (itemId, item, option = null) =>{
    let items = null;
+   //console.log(item);
    return new Promise(async(resolve, reject)=>{
       if(option == "edit"){
          item.modified = {
