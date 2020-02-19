@@ -117,10 +117,10 @@ const deleteMulti = async(req, res) =>{
 	let length = idItem.length;
 	let group = {
 		name: "Đã xóa",
-	};
+	}; 
 	try {
 		await groupsService.deleteGroups(idItem, "multi");
-		await userService.saveItem(idItem, group.name, "multi");
+		await userService.saveUser(idItem, group.name, "multi");
 		req.flash("success", util.format(notify.DELETE_MULTI_SUCCESS, length));
 	} catch (error) {
 		console.log(error);

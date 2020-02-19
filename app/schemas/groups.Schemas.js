@@ -9,6 +9,7 @@ var GroupSchema = new Schema({
    ordering: Number,
    group_acp: String,
    content: String,
+   avatar: String,
    created: {
       name: String,
       user_id: Number,
@@ -90,6 +91,11 @@ GroupSchema.statics = {
    showAllGropItem(){
       return this.find({}, {"_id": 1, "username": 1}).exec();
    },
-
+   /*------------------------------------------------------ */
+   listRoom(){
+      return this.find({status: "active"})
+      .sort({ordering: "desc"})
+      .select("username").exec();
+   },
 };
 module.exports = mongoose.model(databaseConfig.col_groups, GroupSchema);

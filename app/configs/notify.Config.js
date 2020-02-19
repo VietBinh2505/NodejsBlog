@@ -23,4 +23,5 @@ module.exports = {
     ERROR_LOGIN: "Thông tin đăng nhập không đúng",
     ERROR_ACC_NULL: "Tài khoản không tồn tại",
     LOGOUT_SUCCESS: "Đăng xuất thành công",
+    MESSAGE_ERROR: "Hãy nhập tin nhắn trước khi gửi",
 };
