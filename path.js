@@ -25,7 +25,7 @@ module.exports = {
 
     folder_helpers      : "helpers",
     folder_socket       : "socket",
-    folder_schemas      : "schemas",
+    folder_schemas      : "models",
     folder_validates    : "validates",
     folder_mdware       : "middleWare",
     folder_public       : "public",

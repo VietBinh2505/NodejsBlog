@@ -28,7 +28,6 @@ const boxDirectChat = (io) => {
 			});
 		});
 		socket.on("disconnect", () => {
-			//console.log("baibai");
 		});
 	});
 };

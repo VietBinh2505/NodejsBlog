@@ -1,149 +1,98 @@
 $(function () {
-    
+   let socket              = io.connect("http://localhost:2505");
+   let elmInputMessage     = $("input#message");
+   let elmInputUsername    = $('input[name="username"]');
+   let elmInputAvatar 	   = $('input[name="avatar"]');
+   let elmFormChat         = $("form#form-chat");
+   let elmlistMessage      = $("div#area-list-message");
+   let templateChat 		   = $("#template-message");
+   let templateNotifyError = $("#server_return_newMessage_error");
+   let templateTyping      = $("#template-user-typing");  
+   let elmTotalUsers		   = $("span#total-user");
+   let elmListUser 		   = $("div#list-users");
+   let templateUserOnline  = $("#template-user-online");
 
-    let $elmInputMessage 	= $('input#message');
-    let $elmInputUsername	= $('input[name="username"]');
-    let $elmInputRelationship	    = $('input[name="relationship"]');
-    let $elmInputAvatar	    = $('input[name="avatar"]');
-    let $elmInputUserID	    = $('input[name="user"]');
-    let $elmTotalUserInvite = $("span.total-user-invite");
-    let prefixSocket        = $('input[name="prefixSocket"]').val();
-    let $elmFormChat 		= $('form#form-chat');
-    let $elmListMessage 	= $('div#area-list-message');
-    let $tmplMessageChat    = $('#template-chat-message');
-    let $tmplNotifyError    = $('#template-notify-error');
-    let $tmplUserInvite     = $('#template-user-invite');
-    let $tmplUserTyping     = $('#template-user-typing');
-    let $elmTotalUser	    = $('span#total-user');
-    
-    let $elmListUsers	    = $('div#list-users');
-    
-    
-    let socket              = io.connect('http://localhost:6969');
-    let timeoutObj;
-    let emojioneAreas = $elmInputMessage.emojioneArea({
-        search: false
-    });
+   let timeoutOBJ;
+   let emojioneAreas       = elmInputMessage.emojioneArea();
 
-    socket.on("connect", () => {
-        socket.emit(`${prefixSocket}USER_CONNECT`, paramsUserConnectServer($elmInputUsername, $elmInputAvatar));
-    });
+   socket.on("connect", () => {
+      socket.emit("user_connect", {
+         username: elmInputUsername.val(),
+         avatar: elmInputAvatar.val(),
+      });
+   });
+   socket.on("server_send_all_user_online", (data) => {
+      let template = templateUserOnline.html();
+      Mustache.parse(template);
+      let xhtml = "";
+      data.forEach(user => {
+         if(user.username !== elmInputUsername.val()){
+            xhtml+= Mustache.render(template, {user});
+         }
+      });
+      elmListUser.html(xhtml);
+      elmTotalUsers.html(data.length - 1);
+   });
+   socket.on("server_return_newMessage", (data) => {
+      let userAvatar = "upload/users/" + data.avatar;
+      let typeShow = "";
+      let classUsername = "pull-left";
+      let classCreated = "pull-right";
 
-    socket.on(`${prefixSocket}RETURN_ALL_MESSAGE`, (data) => {
-        showListMessage(data, $elmInputUsername, $tmplMessageChat, $elmListMessage);
-    });
-
-    socket.on(`${prefixSocket}RETURN_ERROR`, (data) => {
-        showError(data, $tmplNotifyError, $elmFormChat);
-    });
-
-    socket.on(`${prefixSocket}SEND_USER_TYPING`, (data) => {
-        showTyping(data, $tmplUserTyping, $elmFormChat);
-    });
-
-    socket.on(`${prefixSocket}SEND_ALL_LIST_USER`, (data) => {
-        showListUserOnline(data, $elmInputUsername, $elmInputRelationship, $elmListUsers, $elmTotalUser);
-    });
-
-    $elmFormChat.submit(function(){
-        socket.emit(`${prefixSocket}CLIENT_SEND_ALL_MESSAGE`, paramsUserSendAllMessage($elmInputMessage, $elmInputUsername, $elmInputAvatar));
-        $elmInputMessage.val('');
-        emojioneAreas.data("emojioneArea").setText('');
-        $("div#area-notify").remove();
-        return false;
-    });
-
-    function cancelTyping() {
-        socket.emit(`${prefixSocket}CLIENT_SEND_TYPING`, paramsUserTyping($elmInputUsername, false));
-    }
-    
-    $elmInputMessage.data("emojioneArea").on("keyup paste emojibtn.click", function() {
-        if (this.getText().length > 3) {
-            clearTimeout(timeoutObj);
-            timeoutObj = setTimeout(cancelTyping, 2000);
-            socket.emit(`${prefixSocket}CLIENT_SEND_TYPING`, paramsUserTyping($elmInputUsername, true));
-        }
-    });
-
-    socket.on(`${prefixSocket}SEND_NEW_REQUEST_ADD_FRIEND`, (data) => {
-        let totalUserInvite     = parseInt($elmTotalUserInvite.html());
-
-        let template = $tmplUserInvite.html();
-        Mustache.parse(template); 
-
-        if(totalUserInvite == 0) {
-            $(`<li><ul class="menu"><li>` 
-                + Mustache.render(template, { data }) 
-                + `</li></ul></li><li class="footer"><a href="#">View all</a></li>`).insertAfter($("li#list-user-invite")
-            );
-        }else {
-            $(Mustache.render(template, { data })).insertBefore($('div.user-invite').first());
-        }
-
-        $elmTotalUserInvite.html(totalUserInvite + 1);
-        showNotify(`${data.fromUsername} vừa gửi lời mời kết bạn đến bạn !`);
-       
-    });
-  
-    $(document).on("click", "button.control-add-friend" , function(event) {
-        let toSocketID  = $(this).data("socketid");
-        let toUsername  = $(this).data("username");
-        let toAvatar    = $(this).data("avatar");
-        let $elmThis    = $(this);
-        let $elmParent  = $(this).parent();
-
-        $.ajax({
-            method: "POST",
-            url: "/api/add-friend",
-            dataType: "json",
-            data: paramsUserSendRequestAddFriend($elmInputUsername, $elmInputAvatar, toUsername, toAvatar)
-        }).done(function( data ) {
-
-            if(data.status==="fail"){
-                showNotify('Bạn đã gửi lời mời kết bạn, vui lòng chờ xác nhận!')
-            }else{
-                $elmThis.remove();
-                $elmParent.append(`<button type="button" class="btn btn-block btn-info btn-w btn-sm">Sent</button>`);
-                socket.emit(`${prefixSocket}CLIENT_SEND_ADD_FRIEND`, paramsClientSendAddFriend($elmInputUsername, $elmInputAvatar, toSocketID));
-            }
-        });
-    });
-
-    $(document).on("click", "button.control-add-friend-deny" , function(event) {
-        let senderName = $(this).data("sendername");
-        $.ajax({
-            method: "POST",
-            url: "/api/add-friend-deny",
-            dataType: "json",
-            data: {
-                senderName: senderName,
-            }
-        }).done(function( data ) {
-            let totalUserInvite     = parseInt($elmTotalUserInvite.html());
-            $elmTotalUserInvite.html(totalUserInvite - 1);
-
-            $(`div.user-invite[data-name="${data.senderName}"]`).fadeOut();
-        });
-        return false;
-    });
-
-    $(document).on("click", "button.control-add-friend-accept" , function(event) {
-        let senderName      = $(this).data("sendername");
-        let senderAvatar    = $(this).data("senderavatar");
-        $.ajax({
-            method: "POST",
-            url: "/api/add-friend-accept",
-            dataType: "json",
-            data: {
-                senderName: senderName,
-                senderAvatar: senderAvatar
-            }
-        }).done(function( data ) {
-            let totalUserInvite     = parseInt($elmTotalUserInvite.html());
-            $elmTotalUserInvite.html(totalUserInvite - 1);
-
-            $(`div.user-invite[data-name="${data.senderName}"]`).fadeOut();
-        });
-        return false;
-    });
+      if(elmInputUsername.val() == data.username ){
+         typeShow        = "right";
+         classUsername   = "pull-right";
+         classCreated    = "pull-left";
+      }
+      let template = templateChat.html();
+      Mustache.parse(template);
+      elmlistMessage.append(Mustache.render(template, {
+         typeShow,
+         classUsername,
+         classCreated,
+         userAvatar,
+         data,
+      }));
+   });
+   socket.on("server_send_typing", (data)=>{
+      if(data.showTyping){
+         let template = templateTyping.html();
+         Mustache.parse(template);
+         $(Mustache.render(template, {user: data.username})).insertBefore(elmFormChat);
+      }else{
+         $("p.show-typing").remove();
+      }
+   });
+   socket.on("server_return_newMessage_error", (data) => {
+      let template = templateNotifyError.html();
+      Mustache.parse(template);
+      $(Mustache.render(template, {data})).insertBefore(elmFormChat);
+   });
+   elmFormChat.submit(function () {
+      socket.emit("client_send_all_message", {
+         content: elmInputMessage.val(),
+         username: elmInputUsername.val(),
+         avatar: elmInputAvatar.val(),
+      });
+      elmInputMessage.val("");
+      emojioneAreas.data("emojioneArea").setText("");
+      $("div#area-notify").remove();
+      return false;
+   });
+   let cancelTyping = () =>{
+      socket.emit("client_send_typing", {
+         username: elmInputUsername.val(),
+         showTyping: false,
+      })
+   };
+   elmInputMessage.data("emojioneArea").on("keyup paste emojibtn.click", function(){
+      if (this.getText().length > 0) {
+         clearTimeout(timeoutOBJ);
+         timeoutOBJ = setTimeout(cancelTyping, 1000);
+         socket.emit("client_send_typing", {
+            username: elmInputUsername.val(),
+            showTyping: true,
+         });
+      }
+   });
 });
