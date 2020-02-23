@@ -29,6 +29,7 @@ global.__path_services 	= __path_app + pathConfig.folder_services + "/";
 global.__path_sv_BE 		= __path_services + pathConfig.folder_sv_BE + "/";
 global.__path_sv_FE 		= __path_services + pathConfig.folder_sv_FE + "/";
 global.__path_sv_Chat 	= __path_services + pathConfig.folder_sv_Chat + "/";
+global.__path_sv_ChatRoom 	= __path_services + pathConfig.folder_sv_ChatRoom + "/";
 
 global.__path_validates 	= __path_app + pathConfig.folder_validates + "/";
 global.__path_uploads 		= __base + pathConfig.folder_public + "/upload";

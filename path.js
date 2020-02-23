@@ -12,6 +12,7 @@ module.exports = {
     folder_sv_BE        : "admin",
     folder_sv_FE        : "blog",
     folder_sv_Chat      : "chat",
+    folder_sv_ChatRoom  : "chatRoom",
 
     folder_views        : "views",
     folder_views_admin  : "admin",

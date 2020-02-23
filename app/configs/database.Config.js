@@ -6,4 +6,5 @@ module.exports = {
    col_category: "categ",
    col_arti: "article",
    col_chat: "chat",
+   col_chat_room: "chatRoom",
 };
