@@ -1,7 +1,7 @@
 const {itemMessage, roomService} = require(__path_sv_Chat + "index.service");
 const folderView 	= __path_views_chat + "pages/home/";
 const layoutChat 	= __path_views_chat + "main";
-
+const prefixSocket = "server_";
 const HomeChat = async(req, res) => {
 	try {
 		let message = await itemMessage.listMessage(null, null);
@@ -10,6 +10,7 @@ const HomeChat = async(req, res) => {
 			layout: layoutChat,
 			message,
 			listRooms,
+			prefixSocket,
 		});
 	} catch (error) {
 		console.log(error);

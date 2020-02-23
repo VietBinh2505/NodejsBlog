@@ -1,22 +1,21 @@
 <% include ./../../helpers/show-message-chat %>
 <div class="box box-primary direct-chat direct-chat-primary">
-    <div class="box-header with-border">
-        <h3 class="box-title">Direct Chat</h3>
-    </div>
-    <div class="box-body" >
-        <div class="direct-chat-messages" id="area-list-message">
-            
-        </div>
-    </div>
-    
-    <div class="box-footer">
-        <form action="#" method="POST" id="form-chat">
-            <div class="input-group">
-                <input type="text" name="message" placeholder="Type Message ..." id="message" class="form-control emojionearea-editor">
-                <span class="input-group-btn">
-                    <button type="submit" class="btn btn-primary btn-flat">Send</button>
-                </span>
-            </div>
-        </form>
-    </div>
+	<div class="box-header with-border">
+		<h3 class="box-title">Direct Chat</h3>
+	</div>
+	<div class="box-body">
+		<div class="direct-chat-messages" id="area-list-message">
+			<%- showMessageChat(listMessage, userData) %>
+		</div>
+	</div>
+	<div class="box-footer">
+		<form action="/" method="post" id="form-chat">
+			<div class="input-group">
+				<input type="text" name="message" id="message" placeholder="Nhập tin nhắn ..." class="form-control emojionearea-editor">
+				<span class="input-group-btn">
+					<button type="submit" class="btn btn-primary btn-flat">Send</button>
+				</span>
+			</div>
+		</form>
+	</div>
 </div>
