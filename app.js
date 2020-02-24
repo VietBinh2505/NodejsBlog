@@ -39,6 +39,7 @@ global.__path_ctl 		= __path_app + pathConfig.folder_ctl + "/";
 global.__path_ctl_BE 	= __path_ctl + pathConfig.folder_ctl_BE + "/";
 global.__path_ctl_FE 	= __path_ctl + pathConfig.folder_ctl_FE + "/";
 global.__path_ctl_Chat 	= __path_ctl + pathConfig.folder_ctl_Chat + "/";
+global.__path_ctl_ChatApi 	= __path_ctl + pathConfig.folder_ctl_ChatApi + "/";
 
 global.__path_views_admin 	= __path_views + pathConfig.folder_views_admin + "/";
 global.__path_views_blog 	= __path_views + pathConfig.folder_views_blog + "/";

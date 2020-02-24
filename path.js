@@ -7,6 +7,7 @@ module.exports = {
     folder_ctl_BE       : "admin",
     folder_ctl_FE       : "blog",
     folder_ctl_Chat     : "chat",
+    folder_ctl_ChatApi   : "chatApi",
 
     folder_services     : "services",
     folder_sv_BE        : "admin",

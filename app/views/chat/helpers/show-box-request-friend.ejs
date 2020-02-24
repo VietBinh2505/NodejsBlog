@@ -1,12 +1,11 @@
 <% 
     showBoxRequestFriend = (totalRequest, requestList) => { 
-        
-        xhtmlBoxRequestFriend = `<li class="header"  id="list-user-invite">You have <span class="total-user-invite">${totalRequest}</span> invitations</li>`;
+        xhtmlBoxRequestFriend = `<li class="header"  id="list-user-invite">Bạn có <span class="total-user-invite">${totalRequest}</span> lời mời</li>`;
         if(totalRequest > 0) {
             xhtmlBoxRequestFriend = `<li><ul class="menu"><li>`;
             for(let i = 0; i < totalRequest; i++){ 
                 let request     = requestList[i];
-                let userAvatar  = 'uploads/users/' + request.avatar;
+                let userAvatar  = 'upload/users/' + request.avatar;
                 let username    = request.username;
                 xhtmlBoxRequestFriend += `<div class="user-invite" data-name="${username}">
                         <div  class="col-md-7 col-sm-7 col-xs-7 user-avatar">
@@ -14,8 +13,8 @@
                             <h5>${username}</h5>
                         </div>
                         <div class="col-md-5 col-sm-5 col-xs-5 btn-action-invite">
-                            <button data-sendername="${username}" data-senderavatar="${request.avatar}" type="button" class="btn btn-block btn-primary control-add-friend-accept">Accept</button>
-                            <button data-sendername="${username}" type="button" class="btn btn-block btn-default control-add-friend-deny">Deny</button>
+                            <button data-sendername="${username}" data-senderavatar="${request.avatar}" type="button" class="btn btn-block btn-primary control-add-friend-accept">Đồng ý</button>
+                            <button data-sendername="${username}" type="button" class="btn btn-block btn-default control-add-friend-deny">Xóa</button>
                         </div>
                     </div>`;
             } 

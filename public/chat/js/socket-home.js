@@ -50,4 +50,19 @@ $(function () {
          socket.emit(`${prefixSocket}client_send_typing`, paramsUserTyping(elmInputUsername, true));
       }
    });
+   $(document).on("click", "button.control-add-friend", function(event){
+      $.ajax({
+         method: "post",
+         dataType: "json",
+         url: "api/addFriend",
+         data:{
+            fromUsername: elmInputUsername.val(),
+            toUsername: $(this).data("username"),
+            toAvatar: $(this).data("avatar"),
+            frormAvatar: elmInputAvatar.val(),
+         }
+      }).done(function(data){
+         console.log(data);
+      });
+   });
 });

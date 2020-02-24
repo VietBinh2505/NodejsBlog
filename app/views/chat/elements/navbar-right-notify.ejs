@@ -1,56 +1,15 @@
+<% include ./../helpers/show-box-request-friend %>
+<%
+	if(typeof userData.totalreq == "undefined"){
+		userData.totalreq = 0;
+	}
+%>
 <li class="dropdown notifications-menu">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		<i class="fa fa-fw fa-user-plus"></i>
-		<span class="label label-warning">5</span>
+		<span class="label label-warning"><%= userData.totalreq %></span>
 	</a>
 	<ul class="dropdown-menu">
-		<li class="header">You have 4 invitations</li>
-		<li>
-			<ul class="menu">
-				<li>
-					<div class="user-invite">
-						<div class="col-md-7 user-avatar">
-							<img class="contacts-list-img" src="chat/img/user1-128x128.jpg" alt="User Image">
-							<h5>Alexander Pierce</h5>
-						</div>
-						<div class="col-md-5 btn-action-invite">
-							<button type="button" class="btn btn-block btn-primary">Accept</button>
-							<button type="button" class="btn btn-block btn-default">Deny</button>
-						</div>
-					</div>
-					<div class="user-invite">
-						<div class="col-md-7 user-avatar">
-							<img class="contacts-list-img" src="chat/img/user5-128x128.jpg" alt="User Image">
-							<h5>Crystle Bethke</h5>
-						</div>
-						<div class="col-md-5 btn-action-invite">
-							<button type="button" class="btn btn-block btn-primary">Accept</button>
-							<button type="button" class="btn btn-block btn-default">Deny</button>
-						</div>
-					</div>
-					<div class="user-invite">
-						<div class="col-md-7 user-avatar">
-							<img class="contacts-list-img" src="chat/img/user3-128x128.jpg" alt="User Image">
-							<h5>Sarah Bullock</h5>
-						</div>
-						<div class="col-md-5 btn-action-invite">
-							<button type="button" class="btn btn-block btn-primary">Accept</button>
-							<button type="button" class="btn btn-block btn-default">Deny</button>
-						</div>
-					</div>
-					<div class="user-invite">
-						<div class="col-md-7 user-avatar">
-							<img class="contacts-list-img" src="chat/img/user4-128x128.jpg" alt="User Image">
-							<h5>Tennille Lown</h5>
-						</div>
-						<div class="col-md-5 btn-action-invite">
-							<button type="button" class="btn btn-block btn-primary">Accept</button>
-							<button type="button" class="btn btn-block btn-default">Deny</button>
-						</div>
-					</div>
-				</li>
-			</ul>
-		</li>
-		<li class="footer"><a href="#">View all</a></li>
+		<%- showBoxRequestFriend(userData.totalreq, userData.reqFrom) %>
 	</ul>
 </li>

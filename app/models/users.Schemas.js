@@ -11,6 +11,23 @@ var UsersSchema = new Schema({
    password: String,
    content: String,
    avatar: String,
+   reqTo: [ // gửi cho ai
+      {
+         username: String,
+         avatar: String
+      }
+   ],
+   reqFrom: [ // ai gửi cho mình
+      {
+         username: String,
+         avatar: String,
+      }
+   ],
+   friendList: [ // ai gửi cho mình
+      {username: String,}
+   ],
+   totalreq: Number,
+   totalreq: Number,
    group: {
       id: String,
       name: String,
@@ -27,6 +44,47 @@ var UsersSchema = new Schema({
    }
 });
 UsersSchema.statics = {
+   saveUser(item, option = null){
+      if(option == "add"){ //add
+         return this.create(item);
+      }else if(option == "edit"){ //edit
+         return this.findOneAndUpdate({"_id": item.id}, item).exec();
+      }else if(option == "edit_u"){
+         return this.findOneAndUpdate({"group.id": item.id}, {"group.name": item.username}).exec();
+      }else if(option == "deleGr"){
+         return this.findOneAndUpdate({"group.id": item.id}, {"group.name": item}).exec();
+      }
+      if(option == "req-add-friend"){
+         return this.updateOne({
+               "username": item.fromUsername, // điều kiện
+               "reqTo.username": {$ne: item.toUsername}, // $ne: ko nằm trong
+               "friendList.username": {$ne: item.fromUsername}, // chưa kết bạn.
+            },{
+               $push:{
+                  reqTo: {
+                     username: item.toUsername,
+                     avatar: item.toAvatar,
+                  } // thêm vào reqto tên người mình gửi lời mời
+               },
+            }
+         );
+      }else if(option == "recerved-add-friend"){
+         return this.updateOne({
+            "username": item.toUsername, // điều kiện
+            "reqFrom.username": {$ne: item.fromUsername}, // $ne: ko nằm trong
+            "friendList.username": {$ne: item.fromUsername}, // chưa kết bạn.
+            },{$push:{
+                  reqFrom: {
+                     username: item.fromUsername,
+                     avatar: item.fromAvatar,
+                  } // thêm vào reqFrom tên người mình gửi lời mời
+                  
+            },$inc: {
+               totalreq: +1
+            }
+         });
+      }
+   },
    countTotal(currStatus, keyword){
       let objStt = {};
       if(currStatus === "all"){
@@ -54,17 +112,6 @@ UsersSchema.statics = {
    },
    showInfoItemEdit(id){
       return this.find({"_id": id}).exec();
-   },
-   saveUser(itemId, item, option = null){
-      if(option == "add"){ //add
-         return this.create(item);
-      }else if(option == "edit"){ //edit
-         return this.findOneAndUpdate({"_id": itemId}, item).exec();
-      }else if(option == "edit_u"){
-         return this.findOneAndUpdate({"group.id": itemId}, {"group.name": item.username}).exec();
-      }else if(option == "deleGr"){
-         return this.findOneAndUpdate({"group.id": itemId}, {"group.name": item}).exec();
-      }
    },
    deleteUser(itemId, option = null){
       if(option == "one"){

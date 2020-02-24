@@ -13,7 +13,7 @@ const countTotal = (params) =>{
       }else{
          return reject();
       }
-   }); 
+   });
 };
 const showArticleService = (params) =>{
    let skip = ((params.pagination.currentPage - 1) * params.pagination.totalItemsPerPage); //lấy được số phần tử bỏ qua

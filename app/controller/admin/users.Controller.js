@@ -83,6 +83,7 @@ const saveUser = async (req, res) => {
 		let itemsGr = await groupsService.showAllGropItem();
 		itemsGr.unshift({ "_id": "novalue", "username": "Choose Group" }); //thêm phần tử vào vị trí đầu tiên trong mảng
 		let itemNew = {
+			id: item.id,
 			username: req.body.username,
 			ordering: req.body.ordering,
 			status: req.body.status,
@@ -93,7 +94,6 @@ const saveUser = async (req, res) => {
 			id: item.group,
 			name: item.group_name,
 		};
-		console.log(req.file.filename);
 		try {
 			if (errors.length > 0) {
 				let pageTitle = (checkStatus == "edit") ? pageTitleEdit : pageTitleAdd;
@@ -114,7 +114,7 @@ const saveUser = async (req, res) => {
 						FileHelper.removefile("public/upload/users/", item.image_old);
 					} 
 				}
-				await userService.saveUser(item.id, itemNew, checkStatus);
+				await userService.saveUser(itemNew, checkStatus);
 				req.flash("success", messNotify);
 			}
 		} catch (error) {
