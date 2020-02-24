@@ -43,27 +43,32 @@ const showInfoItemEdit = (id) =>{
       }
    });
 };
-const saveUser = (itemId, item, option = null) =>{
+const saveUser = (item, option = null) =>{
    let items = null;
    return new Promise(async(resolve, reject)=>{
       if(option == "edit"){
-         item.modified = {
+         item.modified = { 
             user_id: 1,
             name: "admin",
             time: Date.now(),
          };
-         items = await userSchema.saveUser(itemId, item, "edit");
+         items = await userSchema.saveUser(item, "edit");
       }else if(option == "add"){
          item.created = {
             name: "admin",
-            user_id: 1,
+            user_id: 1, 
             time: Date.now(),
          };
-         items = await userSchema.saveUser(itemId, item, "add");
+         items = await userSchema.saveUser(item, "add");
       }else if(option == "edit_u"){
-         items = await userSchema.saveUser(itemId, item, "edit_u");
+         items = await userSchema.saveUser(item, "edit_u");
       }else if(option == "deleGr"){
-         items = await userSchema.saveUser(itemId, item, "deleGr");
+         items = await userSchema.saveUser(item, "deleGr");
+      }
+      if(option == "req-add-friend"){
+         items = await userSchema.saveUser(item, "req-add-friend");
+      }else if(option == "recerved-add-friend"){
+         items = await userSchema.saveUser(item, "recerved-add-friend");
       }
       if(items){
          return resolve(items); 

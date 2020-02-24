@@ -26,8 +26,9 @@
             <img class="contacts-list-img" src="upload/users/{{user.avatar}}" alt="{{user.username}}">
             <h5>{{user.username}} </h5>
         </div>
-        <div class="col-md-4 col-sm-4 col-xs-4"><button type="button"
-            class="btn btn-block btn-primary btn-w btn-sm">Kết bạn</button>
+        <div class="col-md-4 col-sm-4 col-xs-4"><button data-username="{{user.username}}"
+             data-avatar="{{user.avatar}}" type="button"
+            class="btn btn-block btn-primary btn-w btn-sm control-add-friend">Kết bạn</button>
         </div>
     </div>
 </script>

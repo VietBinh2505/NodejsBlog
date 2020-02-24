@@ -6,6 +6,7 @@ module.exports = (io) =>{
    router.use("/auth", require("./auth.Route")); 
    router.use("/", AuthMDW.checkLoginchat,AuthMDW.getUserInfo,require("./home.Route")(io));
    router.use("/room", require("./room.Route")); 
+   router.use("/api/", require("./Api.Route")); 
    return router;
 };
 

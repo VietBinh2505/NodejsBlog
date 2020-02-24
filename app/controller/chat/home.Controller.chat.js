@@ -1,4 +1,5 @@
 const {itemMessage, roomService} = require(__path_sv_Chat + "index.service");
+const { userService } = require(__path_sv_BE + "index.Service");
 const folderView 	= __path_views_chat + "pages/home/";
 const layoutChat 	= __path_views_chat + "main";
 const prefixSocket = "server_";
