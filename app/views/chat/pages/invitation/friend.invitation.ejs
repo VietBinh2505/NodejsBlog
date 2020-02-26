@@ -1,0 +1,15 @@
+
+
+<% include ./../../helpers/show-box-list-invitation %>
+<%
+    if (typeof userData.friendList.length === 'undefined') userData.friendList.length = 0;
+%>
+<div class="box box-primary one-box" id="notify-receive">
+    <div class="box-header with-border">
+        <h3 class="box-title">Friend List</h3>
+        <span class="badge bg-light-blue count" ><%= userData.friendList.length %></span>
+    </div>
+    <div class="box-body">
+        <%- showBoxListInvitation(userData.friendList.length, userData.friendList, "friend") %>
+    </div>
+</div>

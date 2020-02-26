@@ -22,6 +22,12 @@ const boxDirectChat = (io) => {
 				})
 			}
 		});
+		socket.on(`${prefixSocket}client_send_add_friend`, (data) => {
+			io.to(data.toSocketID).emit(`${prefixSocket}send_new_req_add_friend`, {
+				fromUsername: data.fromUsername,
+  				fromAvatar: data.fromAvatar,
+			});			
+		});
 		socket.on(`${prefixSocket}client_send_typing`, (data) => {
 			socket.broadcast.emit(`${prefixSocket}send_typing`, {
 				username: data.username,

@@ -96,36 +96,35 @@ function paramsUserSendAllMessageFromRoom(elmInputMessage, elmInputUsername, elm
 }
 
 
-// function paramsUserSendRequestAddFriend($elmInputUsername, $elmInputAvatar, toUsername, toAvatar){
-//     return {
-//         fromUsername: $elmInputUsername.val(),
-//         fromAvatar  : $elmInputAvatar.val(),
-//         toUsername  : toUsername,
-//         toAvatar    : toAvatar
-//     }
-// }
+function paramsUserSendRequestAddFriend(elmInputUsername, elmInputAvatar, toUsername, toAvatar) {
+	return {
+		fromUsername: elmInputUsername.val(),
+		fromAvatar: elmInputAvatar.val(),
+		toUsername: toUsername,
+		toAvatar: toAvatar
+	}
+}
 
-// function paramsClientSendAddFriend($elmInputUsername, $elmInputAvatar, toSocketID){
+function paramsClientSendAddFriend(elmInputUsername, elmInputAvatar, socketID) {
+	return {
+		fromUsername: elmInputUsername.val(),
+		fromAvatar: elmInputAvatar.val(), 
+		toSocketID: socketID
+	}
+}
 
-//     return {
-//         fromUsername: $elmInputUsername.val(),
-//         fromAvatar  : $elmInputAvatar.val(),
-//         toSocketID  : toSocketID
-//     }
-// }
-
-// function showNotify(content) {
-//     $.notify({
-//         message: content
-//     },{
-//         type: 'success',
-//         allow_dismiss: true,
-//         placement: {
-//             from: "bottom",
-//             align: "right"
-//         }
-//     });
-// }
+function showNotify(content) {
+	$.notify({
+		message: content,
+	}, {
+		allow_dismiss: true,
+		type: "info",
+		placement: {
+			from: "bottom",
+			align: "left",
+		},
+	});
+}
 
 // function showListUserOnline(data, $elmInputUsername, $elmInputRelationship,  $elmListUsers, $elmTotalUser){
 //     let parseInfo=JSON.parse($elmInputRelationship.val());
