@@ -33,8 +33,6 @@ function showError(data, templateNotifyError, elmFormChat) {
 };
 
 function showTyping(data, templateTyping, elmFormChat) {
-	console.log("1111");
-	console.log(elmFormChat.val());
 	if (data.showTyping) {
 		let template = templateTyping.html();
 		Mustache.parse(template);
@@ -44,19 +42,43 @@ function showTyping(data, templateTyping, elmFormChat) {
 	}
 };
 
-function showAllUserOnline(data, templateUserOnline, elmInputUsername, elmListUser, elmTotalUsers) {
-	let template = templateUserOnline.html();
-	Mustache.parse(template);
+function showAllUserOnline(data, elmInputRelationship, elmInputUsername, elmListUser, elmTotalUsers) {
+	let parseInfo = JSON.parse(elmInputRelationship.val());
 	let xhtml = "";
 	data.forEach(user => {
 		if (user.username !== elmInputUsername.val()) {
-			xhtml += Mustache.render(template, { user });
+			let type = getRelationship(parseInfo, user.username);
+			let templateId = "#template-user-online";
+			let tmplUserOnline = $(templateId);
+			if (type !== null) {
+				templateId += '-' + type;
+				tmplUserOnline = $(templateId);
+			}
+			let template = tmplUserOnline.html();
+			Mustache.parse(template);
+			if(template=== undefined){
+				template = "";
+			}
+			xhtml += Mustache.render(template, {user});
 		}
 	});
 	elmListUser.html(xhtml);
 	elmTotalUsers.html(data.length - 1);
 };
 
+function getRelationship(objRelationship, value) {
+	let keys = Object.keys(objRelationship);
+	for (let i = 0; i < keys.length; i++) {
+		let key = keys[i];
+		for (let j = 0; j < objRelationship[key].length; j++) {
+			let item = objRelationship[key][j];
+			if (item.username === value) {
+				return key;
+			}
+		}
+	}
+	return null;
+}
 function paramsUserSendAllMessage(elmInputMessage, elmInputUsername, elmInputAvatar) {
 	return {
 		content: elmInputMessage.val(),
@@ -108,7 +130,7 @@ function paramsUserSendRequestAddFriend(elmInputUsername, elmInputAvatar, toUser
 function paramsClientSendAddFriend(elmInputUsername, elmInputAvatar, socketID) {
 	return {
 		fromUsername: elmInputUsername.val(),
-		fromAvatar: elmInputAvatar.val(), 
+		fromAvatar: elmInputAvatar.val(),
 		toSocketID: socketID
 	}
 }
@@ -124,45 +146,8 @@ function showNotify(content) {
 			align: "left",
 		},
 	});
-}
+};
 
-// function showListUserOnline(data, $elmInputUsername, $elmInputRelationship,  $elmListUsers, $elmTotalUser){
-//     let parseInfo=JSON.parse($elmInputRelationship.val());
-//     let xhtml    = '';
-//     for (let i = 0; i < data.length; i++) {
-//         let user = data[i];
-//         if($elmInputUsername.val() === user.username) continue;
-//         let type = getRelationship(parseInfo, user.username);
-
-//         let templateId      = '#template-user-online';
-//         let $tmplUserOnline = $(templateId);
-
-//         if( type !== null){
-//             templateId += '-' + type;
-//             $tmplUserOnline = $(templateId);
-//         }
-
-//         let template = $tmplUserOnline.html();
-//         Mustache.parse(template);
-//         xhtml += Mustache.render(template, { user });
-//     }
-//     $elmListUsers.html(xhtml);
-//     $elmTotalUser.html(data.length - 1);
-// }
-
-// function getRelationship(objRelationship, value){
-//     let keys=Object.keys(objRelationship);
-//     for (let i=0; i< keys.length;i++) {
-//         let key=keys[i];
-//         for (let j = 0; j < objRelationship[key].length; j++) {
-//             let item=objRelationship[key][j];
-//             if (item.username === value) {
-//                 return key;
-//             }
-//         }
-//     }
-//     return null;
-// }
 
 // $(function () {
 //     var pathname = window.location.pathname

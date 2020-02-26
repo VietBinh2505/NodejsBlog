@@ -7,8 +7,14 @@ const addFriend = async(req, res) => {
    item.toAvatar = req.body.toAvatar;
    item.fromAvatar = req.body.fromAvatar;
    try {
-      await userService.saveUser(item, "req-add-friend");
-      await userService.saveUser(item, "recerved-add-friend");
+      let check = await userService.checkCondition(item, "check-add-friend");
+      if(check === null){
+         item.status = "success";
+         await userService.saveUser(item, "req-add-friend");
+         await userService.saveUser(item, "recerved-add-friend");
+      }else{
+         item.status = "fail";
+      }
    } catch (error) {
       console.log(error);
       console.log("loi tai addfriend");

@@ -5,7 +5,7 @@
   "scripts": {
     "start1": "babel-node ./bin/www",
     "start": "nodemon ./bin/www --exec babel-node"
-  },
+  }, 
   "dependencies": {
     "connect-flash": "^0.1.1",
     "connect-mongo": "^3.2.0",

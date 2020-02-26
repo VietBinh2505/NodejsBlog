@@ -10,7 +10,7 @@ import passport from "passport";
 import pathConfig from "./path";
 import flash from "connect-flash";
 import socket_io from "socket.io";
-
+ 
 // Define Path
 global.__base 				= __dirname + "/";
 global.__path_app 		= __base + pathConfig.folder_app + "/";

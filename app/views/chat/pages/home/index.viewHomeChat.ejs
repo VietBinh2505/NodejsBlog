@@ -1,3 +1,10 @@
+<%
+	let info_relation = {
+		"reqTo": userData.reqTo,
+		"reqFrom": userData.reqFrom,
+		"friendList": userData.friendList,
+	};
+%>
 <div class="wrapper">
 	<div class="content-wrapper">
 		<div class="container">
@@ -15,6 +22,7 @@
 	<input type="hidden" name="username" value="<%= userData.username %>">
 	<input type="hidden" name="avatar" value="<%= userData.avatar %>">
 	<input type="hidden" name="prefixSocket" value="<%= prefixSocket %>">
+	<input type="hidden" name="relationship" value="<%= JSON.stringify(info_relation)%>">
 </div>
 
 <script src="chat/js/socket-home.js"></script>
