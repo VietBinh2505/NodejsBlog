@@ -8,6 +8,6 @@ module.exports = {
 	DB_Host: "127.0.0.1",
 	DB_Post: 27017,
 	DB_Name: "NodejsZendVN",
-	env: "dev", //production dev
+	env: "production", //production dev
 	NameAdmin: "admin",
 };

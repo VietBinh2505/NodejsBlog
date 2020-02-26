@@ -1,19 +1,19 @@
 $(function () {
-   let socket = io.connect("http://localhost:2505");
-   let elmInputMessage = $("input#message");
-   let elmInputUsername = $('input[name="username"]');
-   let elmInputAvatar = $('input[name="avatar"]');
-   let prefixSocket = $('input[name="prefixSocket"]').val();
-   let elmFormChat = $("form#form-chat");
-   let elmlistMessage = $("div#area-list-message");
-   let templateChat = $("#template-message");
-   let templateNotifyError = $("#server_return_newMessage_error");
-   let templateTyping = $("#template-user-typing");
-   let elmTotalUsers = $("span#total-user");
-   let elmListUser = $("div#list-users");
-   let templateUserOnline = $("#template-user-online");
-   let templateUserInvite = $("#template-user-invite");
-   let elmTotalUserInvite = $("span.total-user-invite");
+   let socket                 = io.connect("http://localhost:2505");
+   let elmInputMessage        = $("input#message");
+   let elmInputUsername       = $('input[name="username"]');
+   let elmInputRelationship   = $('input[name="relationship"]');
+   let elmInputAvatar         = $('input[name="avatar"]');
+   let prefixSocket           = $('input[name="prefixSocket"]').val();
+   let elmFormChat            = $("form#form-chat");
+   let elmlistMessage         = $("div#area-list-message");
+   let templateChat           = $("#template-message");
+   let templateNotifyError    = $("#server_return_newMessage_error");
+   let templateTyping         = $("#template-user-typing");
+   let elmTotalUsers          = $("span#total-user");
+   let elmListUser            = $("div#list-users");
+   let templateUserInvite     = $("#template-user-invite");
+   let elmTotalUserInvite     = $("span.total-user-invite");
 
    let timeoutOBJ;
    let emojioneAreas = elmInputMessage.emojioneArea({
@@ -24,7 +24,7 @@ $(function () {
       socket.emit(`${prefixSocket}user_connect`, paramsUserConnectServer(elmInputUsername, elmInputAvatar));
    });
    socket.on(`${prefixSocket}send_all_user_online`, (data) => {
-      showAllUserOnline(data, templateUserOnline, elmInputUsername, elmListUser, elmTotalUsers);
+      showAllUserOnline(data, elmInputRelationship, elmInputUsername, elmListUser, elmTotalUsers);
    });
    socket.on(`${prefixSocket}return_newMessage`, (data) => {
       showListMessage(data, elmInputUsername, elmlistMessage, templateChat);
@@ -71,13 +71,22 @@ $(function () {
       let socketID = $(this).data("socketid");
       let toUsername = $(this).data("username");
       let toAvatar = $(this).data("avatar");
+      let elmThis = $(this);
+      let elmParent = $(this).parent();
       $.ajax({
          method: "post",
          dataType: "json",
          url: "api/addFriend",
+         dataType: "json",
          data: paramsUserSendRequestAddFriend(elmInputUsername, elmInputAvatar, toUsername, toAvatar)
       }).done(function (data) {
-         socket.emit(`${prefixSocket}client_send_add_friend`, paramsClientSendAddFriend(elmInputUsername, elmInputAvatar, socketID));
+         if(data.status === "fail"){
+            showNotify("Bạn đã gửi lời mời kết bạn, vui lòng chờ xác nhận");
+         }else{
+            elmThis.remove();
+            elmParent.append(` <button type="button" class="btn btn-block btn-info btn-w btn-sm">Sent</button>`);
+            socket.emit(`${prefixSocket}client_send_add_friend`, paramsClientSendAddFriend(elmInputUsername, elmInputAvatar, socketID));
+         }
       });
       return false;
    });

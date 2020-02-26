@@ -119,6 +119,15 @@ const deleteUser = (itemId, option = null) =>{
       }
    });
 };
+const checkCondition = (item, option) =>{
+   return new Promise(async(resolve, reject)=>{
+      let check = "";
+      if(option == "check-add-friend"){
+         check = await userSchema.checkCondition(item, "check-add-friend");
+      }
+      return resolve(check);
+   });
+};
 const changeStatus = (idItem, currStatus, option = null) =>{
    let status = (currStatus === "active") ? "inactive" : "active"; // thay dổi 1
    
@@ -186,4 +195,5 @@ export default {
    changeOrdering,
    countDocument,
    checkUserLogin,
+   checkCondition,
 };

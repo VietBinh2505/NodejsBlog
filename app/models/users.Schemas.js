@@ -110,7 +110,6 @@ UsersSchema.statics = {
          });
       }
       if(option == "add-Friend-Accept-Received"){
-         console.log(110, item.senderAvatar);
          return this.updateOne({
             "username": item.receivedName, //điều kiện
             "friendList.username": {$ne: item.senderName},
@@ -128,7 +127,6 @@ UsersSchema.statics = {
          });
       }
       if(option == "add-Friend-Accept-Sender"){
-         console.log(128, item.receivedAvatar);
          return this.updateOne({
             "username": item.senderName, //điều kiện
             "friendList.username": {$ne: item.receivedName},
@@ -206,5 +204,14 @@ UsersSchema.statics = {
       return this.findOne({"nameLogin": nameLogin})
       .select("password username ordering avatar nameLogin").exec();
    },
+   checkCondition(item, option){
+      if(option == "check-add-friend"){
+         return this.findOne({
+            username: item.fromUsername,
+            "reqTo.username": {$eq: item.toUsername} 
+         }).exec();
+      }
+      
+   }
 };
 module.exports = mongoose.model(databaseConfig.col_user, UsersSchema);

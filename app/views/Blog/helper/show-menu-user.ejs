@@ -5,7 +5,7 @@
     let linkad = systemConfig.prefixAdmin + `/dashboard`;
     let xhtmlmenu = '';
     if(Object.keys(userinfo).length > 0){
-        xhtmlmenu = `<li><a href="${linklogout}"> Đăng Xuất </a></li>`;
+        xhtmlmenu = `<li><a href="${linklogout}"> Đăng Xuất</a></li>`;
         if(userinfo.username == NameAdmin){
             xhtmlmenu += `<li><a href="${linkad}"> Vùng Quản Trị </a></li>`;
         }
