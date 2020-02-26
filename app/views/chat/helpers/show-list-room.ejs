@@ -4,16 +4,16 @@
         let lengthObj = roomInfo.length;
         for (let i = 0; i < lengthObj; i++) {
             let room        = roomInfo[i];
-            let thumbnail   = 'uploads/rooms/' + room.thumbnail;
+            let thumbnail   = 'upload/groups/' + room.avatar;
             let linkRoom    = systemConfig.prefixChat + `/room/` + room.id;
 
             xhtmlRoom += `<div class="col-md-4">
                             <div class="box box-widget widget-user-2">
                                 <div class="widget-user-header bg-light-blue">
                                     <div class="widget-user-image">
-                                        <img class="img-circle" src="${thumbnail}" alt="${room.name}">
+                                        <img class="img-circle" src="${thumbnail}" alt="${room.username}">
                                     </div>
-                                    <h3 class="widget-user-username">${room.name}</h3>
+                                    <h3 class="widget-user-username">${room.username}</h3>
                                 </div>
                                 <div class="box-footer no-padding">
                                     <ul class="nav nav-stacked">

@@ -11,20 +11,23 @@ var UsersSchema = new Schema({
    password: String,
    content: String,
    avatar: String,
-   reqTo: [ // gửi cho ai
+   reqTo: [ //gửi cho ai
       {
          username: String,
          avatar: String
       }
    ],
-   reqFrom: [ // ai gửi cho mình
+   reqFrom: [ //ai gửi cho mình
       {
          username: String,
          avatar: String,
       }
    ],
-   friendList: [ // ai gửi cho mình
-      {username: String,}
+   friendList: [ //ai gửi cho mình
+      {
+         username: String,
+         avatar: String,
+      }
    ],
    totalreq: Number,
    totalreq: Number,
@@ -56,32 +59,91 @@ UsersSchema.statics = {
       }
       if(option == "req-add-friend"){
          return this.updateOne({
-               "username": item.fromUsername, // điều kiện
-               "reqTo.username": {$ne: item.toUsername}, // $ne: ko nằm trong
-               "friendList.username": {$ne: item.fromUsername}, // chưa kết bạn.
+               "username": item.fromUsername, //điều kiện
+               "reqTo.username": {$ne: item.toUsername}, //$ne: ko nằm trong
+               "friendList.username": {$ne: item.toUsername}, //chưa kết bạn.
             },{
                $push:{
                   reqTo: {
                      username: item.toUsername,
                      avatar: item.toAvatar,
-                  } // thêm vào reqto tên người mình gửi lời mời
+                  } //thêm vào reqto tên người mình gửi lời mời
                },
             }
          );
-      }else if(option == "recerved-add-friend"){
+      }
+      if(option == "recerved-add-friend"){
          return this.updateOne({
-            "username": item.toUsername, // điều kiện
-            "reqFrom.username": {$ne: item.fromUsername}, // $ne: ko nằm trong
-            "friendList.username": {$ne: item.fromUsername}, // chưa kết bạn.
+            "username": item.toUsername, //điều kiện
+            "reqFrom.username": {$ne: item.fromUsername}, //$ne: ko nằm trong
+            "friendList.username": {$ne: item.fromUsername}, //chưa kết bạn.
             },{$push:{
                   reqFrom: {
                      username: item.fromUsername,
                      avatar: item.fromAvatar,
-                  } // thêm vào reqFrom tên người mình gửi lời mời
-                  
+                  } //thêm vào reqFrom tên người mình gửi lời mời
             },$inc: {
                totalreq: +1
             }
+         });
+      }
+      if(option == "add-Friend-Deny-Received"){
+         return this.updateOne({
+            "username": item.receivedName, //điều kiện
+            },{$pull:{
+                  reqFrom: {
+                     username: item.senderName,
+                  } //xoa ở reqFrom tên người mình gửi lời mời
+            },$inc: {
+               totalreq: -1
+            }
+         });
+      }
+      if(option == "add-Friend-Deny-Sender"){
+         return this.updateOne({
+            "username": item.senderName, //điều kiện
+            },{$pull:{
+                  reqTo: {
+                     username: item.receivedName,
+                  } //xoa ở reqFrom tên người mình gửi lời mời
+            }
+         });
+      }
+      if(option == "add-Friend-Accept-Received"){
+         console.log(110, item.senderAvatar);
+         return this.updateOne({
+            "username": item.receivedName, //điều kiện
+            "friendList.username": {$ne: item.senderName},
+            },{
+               $push:{
+                  friendList: {
+                     username: item.senderName,
+                     avatar: item.senderAvatar,
+                  } //thêm vào reqFrom tên người mình gửi lời mời
+               },
+               $pull:{
+                  reqFrom: {username: item.senderName} //xoa ở reqFrom tên người mình gửi lời mời
+               },
+               $inc: {totalreq: -1}
+         });
+      }
+      if(option == "add-Friend-Accept-Sender"){
+         console.log(128, item.receivedAvatar);
+         return this.updateOne({
+            "username": item.senderName, //điều kiện
+            "friendList.username": {$ne: item.receivedName},
+            },{
+               $pull:{
+                  reqTo: {
+                     username: item.receivedName,
+                  } //xoa ở reqFrom tên người mình gửi lời mời
+               },
+               $push:{
+                  friendList: {
+                     username: item.receivedName,
+                     avatar: item.receivedAvatar,
+                  } //thêm vào reqFrom tên người mình gửi lời mời
+               }
          });
       }
    },

@@ -1,22 +1,20 @@
-
 <%
     showBoxListInvitation = (totalRequest, requestList, type) => {
         xhtml = ``;
         if(totalRequest > 0) {
             xhtmlButton = ``;
             if(type == "receive") {
-                xhtmlButton = `<button type="button" class="btn btn-block btn-primary">Accept</button>
-                            <button type="button" class="btn btn-block btn-defaultt" >Deny</button>`;
+                xhtmlButton = `<button type="button" class="btn btn-block btn-primary control-add-friend-accept">Đồng ý</button>
+                            <button type="button" class="btn btn-block btn-defaultt control-add-friend-deny" >Xóa</button>`;
             }else if(type == "send") {
-                xhtmlButton = `<button type="button" class="btn btn-block btn-primary">Clear</button>`;
-            }else if(type == "friend") {
-                xhtmlButton = `<button type="button" class="btn btn-block btn-primary">Remove</button>`;
+                xhtmlButton = `<button type="button" class="btn btn-block btn-primary">Huỷ yêu cầu</button>`;
+            }else if(type == "friend") { 
+                xhtmlButton = `<button type="button" class="btn btn-block btn-primary">Xóa bạn bè</button>`;
             };;
-
 
             for(let i = 0; i < totalRequest; i++){ 
                 let request     = requestList[i];
-                let userAvatar  = 'uploads/users/' + request.avatar;
+                let userAvatar  = 'upload/users/' + request.avatar;
                 let username    = request.username;
                 xhtml += `<div class="user-invite" >
                         <div  class="col-md-7 col-sm-7 col-xs-7 user-avatar">
@@ -27,9 +25,8 @@
                     </div>`;
             }
         }else {
-             xhtml = `<p>You have 0 invitations</p>`;
+             xhtml = `<p>Bạn có 0 lời mời hoặc bạn bè nào.</p>`;
         }
-        
         return xhtml;
     } 
 %>

@@ -1,12 +1,12 @@
 <% 
     showBoxRequestFriend = (totalRequest, requestList) => { 
-        xhtmlBoxRequestFriend = `<li class="header"  id="list-user-invite">Bạn có <span class="total-user-invite">${totalRequest}</span> lời mời</li>`;
+        xhtmlBoxRequestFriend = `<li class="header" id="list-user-invite">Bạn có <span class="total-user-invite">${totalRequest}</span> lời mời</li>`;
         if(totalRequest > 0) {
             xhtmlBoxRequestFriend = `<li><ul class="menu"><li>`;
             for(let i = 0; i < totalRequest; i++){ 
                 let request     = requestList[i];
                 let userAvatar  = 'upload/users/' + request.avatar;
-                let username    = request.username;
+					 let username    = request.username; 
                 xhtmlBoxRequestFriend += `<div class="user-invite" data-name="${username}">
                         <div  class="col-md-7 col-sm-7 col-xs-7 user-avatar">
                             <img class="contacts-list-img" src="${userAvatar}" alt="${username}">

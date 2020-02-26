@@ -1,0 +1,15 @@
+
+
+<% include ./../../helpers/show-box-list-invitation %>
+<%
+    if (typeof userData.reqTo.length === 'undefined') userData.reqTo.length = 0;
+%>
+<div class="box box-primary one-box" id="notify-receive">
+    <div class="box-header with-border">
+        <h3 class="box-title">Danh sách lời mời gửi đến</h3>
+        <span class="badge bg-light-blue count" ><%= userData.reqTo.length %></span>
+    </div>
+    <div class="box-body">
+        <%- showBoxListInvitation(userData.reqTo.length, userData.reqTo, "send") %>
+    </div>
+</div>

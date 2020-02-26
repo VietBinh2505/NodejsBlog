@@ -70,6 +70,16 @@ const saveUser = (item, option = null) =>{
       }else if(option == "recerved-add-friend"){
          items = await userSchema.saveUser(item, "recerved-add-friend");
       }
+      if(option == "add-Friend-Deny-Received"){
+         items = await userSchema.saveUser(item, "add-Friend-Deny-Received");
+      }else if(option == "add-Friend-Deny-Sender"){
+         items = await userSchema.saveUser(item, "add-Friend-Deny-Sender");
+      }
+      if(option == "add-Friend-Accept-Received"){
+         items = await userSchema.saveUser(item, "add-Friend-Accept-Received");
+      }else if(option == "add-Friend-Accept-Sender"){
+         items = await userSchema.saveUser(item, "add-Friend-Accept-Sender");
+      }
       if(items){
          return resolve(items); 
       }else{
@@ -165,6 +175,7 @@ const checkUserLogin = (username) =>{
       return resolve(user);
    });
 };
+
 export default {
    countTotal,
    showUsersService,

@@ -27,7 +27,7 @@
             <h5>{{user.username}} </h5>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4"><button data-username="{{user.username}}"
-             data-avatar="{{user.avatar}}" type="button"
+            data-avatar="{{user.avatar}}" data-socketid="{{user.id}}" type="button"
             class="btn btn-block btn-primary btn-w btn-sm control-add-friend">Kết bạn</button>
         </div>
     </div>
@@ -52,8 +52,8 @@
             <h5>{{user.username}}</h5>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4">
-            <button type="button" class="btn btn-block btn-primary control-add-friend-accept" style="padding: 4px 6px;">Accept</button>
-            <button type="button"  class="btn btn-block btn-default control-add-friend-deny" style="padding: 4px 6px;">Deny</button>
+            <button type="button" class="btn btn-block btn-primary control-add-friend-accept" style="padding: 4px 6px;">Chấp nhận</button>
+            <button type="button"  class="btn btn-block btn-default control-add-friend-deny" style="padding: 4px 6px;">Xóa</button>
         </div>
     </div>
 </script>
@@ -73,12 +73,12 @@
 <script id="template-user-invite" type="x-tmpl-mustache">
     <div class="user-invite" data-name="{{data.fromUsername}}">
         <div  class="col-md-7 col-sm-7 col-xs-7 user-avatar">
-            <img class="contacts-list-img" src="uploads/users/{{data.fromAvatar}}" alt="{{data.fromUsername}}">
+            <img class="contacts-list-img" src="upload/users/{{data.fromAvatar}}" alt="{{data.fromUsername}}">
             <h5>{{data.fromUsername}}</h5>
         </div>
         <div class="col-md-5 col-sm-5 col-xs-5 btn-action-invite">
-            <button data-sendername="{{data.fromUsername}}" data-senderavatar="{{data.fromAvatar}}" type="button" class="btn btn-block btn-primary control-add-friend-accept">Accept</button>
-            <button data-sendername="{{data.fromUsername}}" type="button" class="btn btn-block btn-default control-add-friend-deny">Deny</button>
+            <button data-sendername="{{data.fromUsername}}" data-senderavatar="{{data.fromAvatar}}" type="button" class="btn btn-block btn-primary control-add-friend-accept">Đồng ý</button>
+            <button data-sendername="{{data.fromUsername}}" type="button" class="btn btn-block btn-default control-add-friend-deny">Xóa</button>
         </div>
     </div>
 </script>

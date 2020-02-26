@@ -4,18 +4,18 @@
 
     if( Object.keys(userData).length > 0) {
         if(userData.username == "admin"){
-            xhtmlLinkAdmin = `<li><a href="${linkAdmin}">Admin Control Panel</a></li>`;
-        }
+            xhtmlLinkAdmin = `<li><a href="${linkAdmin}">Vùng quản trị</a></li>`;
+        } 
     }
 %>
 
 <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
     <ul class="nav navbar-nav">
-        <li ><a href="<%= systemConfig.prefixChat %>/list-room">Rooms</a></li>
-        <li ><a href="<%= systemConfig.prefixChat %>/invitation/receive">Invitations</a></li>
-        <li ><a href="<%= systemConfig.prefixChat %>/invitation/send">Invitations send</a></li>
-        <li ><a href="<%= systemConfig.prefixChat %>/friends">Friends</a></li>
-        <li ><a href="<%= systemConfig.prefixBlog %>/blog">View Blog</a></li>
+        <li ><a href="<%= systemConfig.prefixChat %>/list-room/room">Danh sách phòng</a></li> 
+        <li ><a href="<%= systemConfig.prefixChat %>/invitation/receive">Lời mời gửi đến</a></li>
+        <li ><a href="<%= systemConfig.prefixChat %>/invitation/send">Lời mời gửi đi</a></li>
+        <li ><a href="<%= systemConfig.prefixChat %>/friends/friend">Danh sách bạn bè</a></li>
+        <li ><a href="<%= systemConfig.prefixBlog %>/blog">Giao diện Blog</a></li>
         <%- xhtmlLinkAdmin %>
     </ul>
 </div>
